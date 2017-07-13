@@ -1,0 +1,3 @@
+shiste
+Time	DTG	TG	flux	Temperature
+/	s	/	%/min	/	%	/	µV	/	°C

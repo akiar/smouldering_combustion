@@ -1,0 +1,110 @@
+00002          IB
+00061          IE1
+00121          IE2
+00500          IE3
+00500          IE
+00002          JB
+00062          JE1
+00062          JE2
+00062          JE3
+00062          JE
+00002          KB
+00002          KE1
+00002          KE2
+00002          KE3
+00002          KE
++5.60000E-03   GRDX1 (m)  dimension of 1st part domain in 'x' direction
++5.60000E-03   GRDX2 (m)  dimension of 2nd part domain in 'x' direction
++0.05600E-00   GRDX3 (m)  dimension of 3rd part domain in 'x' direction
++0.06720E-00   GRDX  (m)  dimension of domain in 'x' direction
++1.12000E-03   GRDY1 (m)  dimension of 1st part domain in 'y' direction
++0.00000E-02   GRDY2 (m)  dimension of 2nd part domain in 'y' direction
++0.00000E-02   GRDY3 (m)  dimension of 3rd part domain in 'y' direction
++1.12000E-03   GRDY  (m)  dimension of domain in 'y' direction
++9.40000E-05   GRDZ1 (m)  dimension of 1st part domain in 'z' direction
++0.00000E+00   GRDZ2 (m)  dimension of 2nd part domain in 'z' direction
++0.00000E+00   GRDZ3 (m)  dimension of 3rd part domain in 'z' direction
++9.40000E-05   GRDZ  (m)  dimension of domain in 'z' direction
++1.60000E-00   IRATX1  ratio of first to last c.v. in part 1 (x)
++1.00000E+00   IRATX2  ratio of first to last c.v. in part 2 (x)
++0.45000E+00   IRATX3  ratio of first to last c.v. in part 3 (x)
++1.00000E+00   IRATX4  ratio of first to last c.v. in part 4 (x)
++1.00000E-00   IRATY1  ratio of first to last c.v. in part 1 (y)
++1.00000E+00   IRATY2  ratio of first to last c.v. in part 2 (y)
++1.00000E+00   IRATY3  ratio of first to last c.v. in part 3 (y)
++1.00000E+00   IRATY4  ratio of first to last c.v. in part 4 (y)
++1.00000E+00   IRATZ1  ratio of first to last c.v. in part 1 (z)
++1.00000E+00   IRATZ2  ratio of first to last c.v. in part 2 (z)
++1.00000E+00   IRATZ3  ratio of first to last c.v. in part 3 (z)
++1.00000E+00   IRATZ4  ratio of first to last c.v. in part 4 (z)
++1.00000E+03   RHO (kg/m^3)
++2.63000E-02   COND (W/m K)
++1.00700E+03   CP (J/kg K)
++1.12000E-03   MU (visc) (N s/m)
++0.00000E+00   BETA (K^-1) Expansion coefficient
++2.88500E+02   T0 (C)
++1.00000E-00   U0 (m/s) 
++1.00000E+00   V0 (m/s) 
++1.00000E+00   W0 (m/s) 
++1.00000E+00   P0 (Pa)
++1.00000E-00   UIN (m/s) inlet velocity at x=0 for inlet boundary conditions
++9.62500E-00   DTMX (K) heater to inlet temp. difference, if applicable
+00000          IRSTRT = 0 SET TO CONSTANTS, = 1 READ FROM restart.dat
++0.00000E+00   ITIME (s) Initial real time
++1.00000E-04   DTIME (s) Time step
+00001          PFTIME Frequency of printed output
+00200          KNTTM  Number of time steps- or outer iterations
+00005          KNTUVP Max inner iterations, (set < 10 for no res.)
++1.00000E-06   CRIT   Stopping criterion for inner loop
++1.00000E-03   TCRIT  Stopping criterion for time loop
+00000          LVLGEO =1 OUTPUT GEOMETRY, = 0 NO GEOMETRY OUTPUT
+00000          LVLCOF=0 NONE,1 FINAL,2 BEFORE ELIM.,3 COEFF., 4 ALL
+00000          LVLMGD 0 NONE, 1 END, 2 ITER., 3 COARSE GRID, 4 COEFF.
+00001          ADVSCM  =1 I-UDS, =2 I-CDS, =3 I-TVD-MUSCL
+00000          ISOTHM  =0 isothermal, =1 solve energy eqn + mass fraction.
+00001          POROUS  =0 no porous region, =1 constant pptys, =2 carbon foam
+00000          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE
++7.00000E-01   EPS Mean porosity of porous region
++3.80000E-03   PD Pore diameter of porous region (m)
++0.55000E-03   LD Ligament diameter of porous region (1 only) (m)
++1.12000E-03   VISCB Brinkman viscosity in porous region (kg/m s)
++2.43970E-01   FORCH Forchheimer coefficient (1) or constant (2)
++1.25540E-08   PERM Darcy permeability (1) (m^2) or constant (2)
++2.37000E-02   CONDFE Conductivity of fluid in porous region (1 only) (W/m K)
++6.46000E+00   CONDSX Conductivity of solid matrix in x (1 only) (W/m K)
++6.46000E+00   CONDSY Conductivity of solid matrix in y (1 only) (W/m K)
++6.46000E+00   CONDSZ Conductivity of solid matrix in z (1 only) (W/m K)
++9.03000E+02   CSP Specific heat capacity of solid in porous region (J/kg K)
++2.70200E+03   RHOSP Density of solid in porous region (kg/m^3)
++9.17700E+02   ASF Surface area to volume ratio (1 only) (m^2/m^3)
++0.00000E+00   DEPSDZ Porosity gradient in z (2 only) (m^-1)
++2.37000E+02   KS Raw material conductivity of solid matrix (2 only) (W/m K)
+00062          IPB First index in i of first porous region
+00121          IPE Last index in i of first porous region
+00002          JPB First index in j of first porous region
+00062          JPE Last index in j of first porous region
+00002          KPB First index in k of first porous region
+00002          KPE Last index in k of first porous region
+00062          IPB2 First index in i of second porous region
+00121          IPE2 Last index in i of second porous region
+00002          JPB2 First index in j of second porous region
+00062          JPE2 Last index in j of second porous region
+00002          KPB2 First index in k of second porous region
+00002          KPE2 Last index in k of second porous region
+00000          SOLID  =0 no solid region, =1 solid region
++2.37000E+02   CONDS Thermal conductivity of solid (W/m K)
++9.03000E+02   CS Specific heat capacity of solid (J/kg K)
++2.70180E+03   RHOS Density of solid (kg/m^3)
+00000          ISB First index in i of first solid region
+00000          ISE Last index in i of first solid region
+00000          JSB First index in j of first solid region
+00000          JSE Last index in j of first solid region
+00000          KSB First index in k of first solid region
+00000          KSE Last index in k of first solid region
+00000          ISB2 First index in i of second solid region
+00000          ISE2 Last index in i of second solid region
+00000          JSB2 First index in j of second solid region
+00000          JSE2 Last index in j of second solid region
+00000          KSB2 First index in k of second solid region
+00000          KSE2 Last index in k of second solid region
+VENK2          FNAPP text to be appended to file names
