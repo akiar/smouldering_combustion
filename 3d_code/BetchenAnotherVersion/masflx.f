@@ -1,5 +1,5 @@
-*     This file contains 2 subroutines: COEFCN and MASFLX
 *
+*     This file contains 2 subroutines: COEFCN and MASFLX
 ************************************************************************
 *
       SUBROUTINE COEFCN(ACUW,ACUE,ACVS,ACVN,ACWB,ACWT,BC,
@@ -86,7 +86,6 @@
       RETURN
       END
 *
-*
 ************************************************************************
 *
       SUBROUTINE MASFLX(ME,MN,MT, UHE,VHN,WHT,ACUW,ACUE,ACVS,ACVN,
@@ -94,7 +93,7 @@
 *
 *     Subroutine to calculate the mass flow for the 
 *     normal advection fluxes through the faces of
-*     each control volume. 
+*     each control volume.
 *
 *     ME(ID,JD,KD) normal mass flux for east face; output
 *     MN(ID,JD,KD) normal mass flux for north face; output

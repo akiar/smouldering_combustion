@@ -19,7 +19,7 @@
 *     GAMAX(ID,JD,KD) diffusivity, multiplied by density or
 *                      thermal inertia per volume, in x; input
 *     GAMAY(ID,JD,KD) diffusivity, multiplied by density or
-*                      thermal inertia per volume, in y; input                      
+*                      thermal inertia per volume, in y; input
 *     GAMAZ(ID,JD,KD) diffusivity, multiplied by density or
 *                      thermal inertia per volume, in z; input
 *     AREP(JD,KD) CV area of face at e point; input
@@ -54,8 +54,8 @@
       INTEGER EQTYPE,I,J,K
 *
       CALL NULLM(DE, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)
-      CALL NULLM(DN, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)            
-      CALL NULLM(DT, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)       
+      CALL NULLM(DN, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)
+      CALL NULLM(DT, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)
 *
 *  Diffusion coefficients for momentum equation
 *
@@ -66,7 +66,7 @@
        DO 10 I=IB,IE
         DO 5 K=KB,KE
          J=JB-1
-         DN(I,J,K)= GAMAY(I,J,K)*ARNP(I,K)/DJNP(J)       
+         DN(I,J,K)= GAMAY(I,J,K)*ARNP(I,K)/DJNP(J)
   5     CONTINUE
  10    CONTINUE
        DO 20 J=JB,JE
@@ -80,7 +80,7 @@
          K=KB-1
          DT(I,J,K)= GAMAZ(I,J,K)*ARTP(I,J)/DKTP(K)
  25     CONTINUE
- 30    CONTINUE 
+ 30    CONTINUE
 *
 *  Interior faces
 *
@@ -88,21 +88,21 @@
         DO 50 J=JB,JE
          DO 40 I=IB,IE
           IF(CVTYPE(I,J,K,1).EQ.3) THEN
-*         
+*
 *          Solid CVs
-* 
+*
            IF(CVTYPE(I,J,K,3).EQ.0 .OR. CVTYPE(I,J,K,3).EQ.2) THEN
             DE(I,J,K)=GAMAX(I+1,J,K)*AREP(J,K)/DISE(I+1)
            ENDIF
-*          
+*
            IF(CVTYPE(I,J,K,5).EQ.0 .OR. CVTYPE(I,J,K,5).EQ.2) THEN           
             DN(I,J,K)=GAMAY(I,J+1,K)*ARNP(I,K)/DISN(J+1)
            ENDIF
-*          
+*
            IF(CVTYPE(I,J,K,7).EQ.0 .OR. CVTYPE(I,J,K,7).EQ.2) THEN           
             DT(I,J,K)=GAMAZ(I,J,K+1)*ARTP(I,J)/DIST(K+1)
-           ENDIF           
-*           
+           ENDIF
+*
           ELSE
 *
 *          Clear fluid and porous CVs

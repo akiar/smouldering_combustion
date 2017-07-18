@@ -136,10 +136,10 @@
         "filename":".\\what.f",
         "enabled":"1"
       }],
-    "Name":"+Untitled (target.exe)",
+    "Name":"+BetchenAnotherVersion (target.exe)",
     "Folders":[]
   },
-  "Name":"Untitled (target.exe)",
+  "Name":"BetchenAnotherVersion (target.exe)",
   "Options":{
     "Compiler Options":{
       "Link Flags":"",
@@ -167,6 +167,7 @@
       "External Console":"false",
       "Keep Console":"true",
       "Build Before Launch":"true",
+      "Executable":"",
       "Working Directory":""
     },
     "Build Options":{
@@ -176,7 +177,8 @@
     "Type":0,
     "Build Dependencies":1,
     "Linker Options":{
-      "Static Linking Mode":7
+      "Static Linking Mode":7,
+      "Link LAPACK":0
     },
     "Target":"target.exe",
     "Architecture":1,

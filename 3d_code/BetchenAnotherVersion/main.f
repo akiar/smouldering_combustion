@@ -276,8 +276,8 @@
          TFOLD(I,J,K)= TF(I,J,K)
          TSOLD(I,J,K)= TS(I,J,K)
          POLD(I,J,K)=  P(I,J,K)
-	 UOLD(I,J,K)=  U(I,J,K)
-	 VOLD(I,J,K)=  V(I,J,K)
+	     UOLD(I,J,K)=  U(I,J,K)
+	     VOLD(I,J,K)=  V(I,J,K)
          WOLD(I,J,K)=  W(I,J,K)
  10     CONTINUE
  11    CONTINUE
@@ -520,7 +520,7 @@
      C        AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,WORK3,WORK4,
      C        IB,IE,JB,JE,KB,KE,N,ID,JD,KD)
 *
-*--Update pressure gradient fieldand face velocities for 
+*--Update pressure gradient field and face velocities for 
 *  the mass fluxes
 *
       DO 1600 L=1,ITER
@@ -553,13 +553,13 @@
  1600 CONTINUE   
 *
        PRINT *, 'inside inner loop'
+*
 *----------------------------------
 *  End inner, linearization loop
 *----------------------------------
 *
  1700 CONTINUE
 *
-        
 *  Print solution for present time step
 *
  1800 CONTINUE 

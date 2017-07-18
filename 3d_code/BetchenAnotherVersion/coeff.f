@@ -20,7 +20,7 @@
 *     B(N,ID,JD,KD)    accumulated fixed source term; output
 *     ME(ID,JD,KD) mass flux for the east face;  input
 *     MN(ID,JD,KD) mass flux for the north face; input
-*     ME(ID,JD,KD) mass flux for the top face;  input
+*     MT(ID,JD,KD) mass flux for the top face;  input
 *     DE(ID,JD,KD) diffusion coefficient for east face; input
 *     DN(ID,JD,KD) diffusion coefficient for north face; input
 *     DT(ID,JD,KD) diffusion coefficient for top face; input
@@ -88,7 +88,7 @@
      C                   +ABS(MT(I,J,K-1)*ALFAT(I,J,K-1)))
          AT(IV,IV,I,J,K)=DFACT(I,J,K,7)*DT(I,J,K)
      C                   -0.5*CFACT(I,J,K,7)*(MT(I,J,K)
-     C                   -ABS(MT(I,J,K)*ALFAT(I,J,K)))     
+     C                   -ABS(MT(I,J,K)*ALFAT(I,J,K)))
 *
 *        Calculate active coefficient of P volume.
 *

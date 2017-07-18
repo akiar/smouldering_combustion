@@ -96,7 +96,7 @@
 *--Add components for east face of control-volume
 *
        IF(CVTYPE(I,J,K,3).EQ.1 .OR. CVTYPE(I,J,K,3).EQ.3) THEN
-	AE(1,2,I,J,K)= AE(1,2,I,J,K)+ACUE(I,J,K)
+	    AE(1,2,I,J,K)= AE(1,2,I,J,K)+ACUE(I,J,K)
        ELSEIF(CVTYPE(I,J,K,1).NE.CVTYPE(I,J,K,3)) THEN
         AP(1,2,I,J,K)= AP(1,2,I,J,K)
      C         -ACUE(I,J,K)*0.5*AP(2,2,I,J,K)/AEAST(I,J,K)
@@ -119,9 +119,9 @@
        ELSE
         FACEPS = (DISE(I+1)*PRSTY(I,J,K)
      C           +DISE(I)*PRSTY(I+1,J,K))/DIEP(I)
-	AP(1,1,I,J,K)= AP(1,1,I,J,K)
+	    AP(1,1,I,J,K)= AP(1,1,I,J,K)
      C         -ACUE(I,J,K)*FACEPS*DHUE(I,J,K)/DIEP(I)
-	AE(1,1,I,J,K)= AE(1,1,I,J,K)
+	    AE(1,1,I,J,K)= AE(1,1,I,J,K)
      C         -ACUE(I,J,K)*FACEPS*DHUE(I,J,K)/DIEP(I)
         AP(1,2,I,J,K)= AP(1,2,I,J,K)
      C                 -ACUE(I,J,K)*DISE(I+1)/DIEP(I)
@@ -135,7 +135,7 @@
 *--Add components for south face of control-volume
 *
        IF(CVTYPE(I,J,K,4).EQ.1 .OR. CVTYPE(I,J,K,4).EQ.3) THEN
-	AS(1,3,I,J,K)= AS(1,3,I,J,K)+ACVS(I,J,K)
+        AS(1,3,I,J,K)= AS(1,3,I,J,K)+ACVS(I,J,K)
        ELSEIF(CVTYPE(I,J,K,1).NE.CVTYPE(I,J,K,4)) THEN
         AP(1,3,I,J,K)= AP(1,3,I,J,K)
      C         -ACVS(I,J,K)*0.5*AP(3,3,I,J,K)/ANORTH(I,J-1,K)
@@ -158,9 +158,9 @@
        ELSE
         FACEPS = (DISN(J-1)*PRSTY(I,J,K)
      C           +DISN(J)*PRSTY(I,J-1,K))/DJNP(J-1)
-	AP(1,1,I,J,K)= AP(1,1,I,J,K)
+	    AP(1,1,I,J,K)= AP(1,1,I,J,K)
      C         +ACVS(I,J,K)*FACEPS*DHVN(I,J-1,K)/DJNP(J-1)
-	AS(1,1,I,J,K)= AS(1,1,I,J,K)
+	    AS(1,1,I,J,K)= AS(1,1,I,J,K)
      C         +ACVS(I,J,K)*FACEPS*DHVN(I,J-1,K)/DJNP(J-1)
         AP(1,3,I,J,K)= AP(1,3,I,J,K)
      C                 -ACVS(I,J,K)*DISN(J-1)/DJNP(J-1)
@@ -174,7 +174,7 @@
 *--Add components for north face of control-volume
 *
        IF(CVTYPE(I,J,K,5).EQ.1 .OR. CVTYPE(I,J,K,5).EQ.3) THEN
-	AN(1,3,I,J,K)= AN(1,3,I,J,K)+ACVN(I,J,K)
+	    AN(1,3,I,J,K)= AN(1,3,I,J,K)+ACVN(I,J,K)
        ELSEIF(CVTYPE(I,J,K,1).NE.CVTYPE(I,J,K,5)) THEN 
         AP(1,3,I,J,K)= AP(1,3,I,J,K)
      C         -ACVN(I,J,K)*0.5*AP(3,3,I,J,K)/ANORTH(I,J,K)
@@ -197,9 +197,9 @@
        ELSE
         FACEPS = (DISN(J+1)*PRSTY(I,J,K)
      C           +DISN(J)*PRSTY(I,J+1,K))/DJNP(J)
-	AP(1,1,I,J,K)= AP(1,1,I,J,K)
+	    AP(1,1,I,J,K)= AP(1,1,I,J,K)
      C         -ACVN(I,J,K)*FACEPS*DHVN(I,J,K)/DJNP(J)
-	AN(1,1,I,J,K)= AN(1,1,I,J,K)
+	    AN(1,1,I,J,K)= AN(1,1,I,J,K)
      C         -ACVN(I,J,K)*FACEPS*DHVN(I,J,K)/DJNP(J)
         AP(1,3,I,J,K)= AP(1,3,I,J,K)
      C                 -ACVN(I,J,K)*DISN(J+1)/DJNP(J)

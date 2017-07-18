@@ -5,8 +5,8 @@
      C                HSF,SPECSA,VOLP,DEF,DNF,DTF,DES,DNS,DTS,
      C                CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB) 
 *
-*  Routine to insert additional need terms into LTNE energy equations
-*  related to coupling between fluid and solid energy equations.
+*     Routine to insert additional need terms into LTNE energy equations
+*     related to coupling between fluid and solid energy equations.
 *
 *     AT*  active coefficients for energy equations
 *     BT  accumulated fixed source term for energy equations
@@ -44,7 +44,7 @@
 *        Add surface heat exchange terms for porous volumes
 *        
           ATP(1,2,I,J,K) = -1.0*HSF(I,J,K)*SPECSA(I,J,K)*VOLP(I,J,K)
-          ATP(2,1,I,J,K) = -1.0*HSF(I,J,K)*SPECSA(I,J,K)*VOLP(I,J,K)         
+          ATP(2,1,I,J,K) = -1.0*HSF(I,J,K)*SPECSA(I,J,K)*VOLP(I,J,K)
 *
 *        Move diffusion terms at interface adjacent porous 
 *        volumes to correct locations in coefficient matrices

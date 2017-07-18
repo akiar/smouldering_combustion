@@ -9,7 +9,7 @@
 *
 *     Subroutine to calculate the diffusion coefficients for  
 *     the special momentum equation required to compute the 
-*     advecting velocity.See thesis for details of implementation.
+*     advecting velocity. See thesis for details of implementation.
 *
 ***********************************************************************
 *
@@ -62,7 +62,7 @@
          ENDIF
   45    CONTINUE
   50   CONTINUE
-  55  CONTINUE  
+  55  CONTINUE
 *
       RETURN
       END

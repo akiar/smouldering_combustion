@@ -14,7 +14,7 @@
 *     Notes: 1) This routine is restricted to grids with a Cartesian
 *            index layout. The outline should be filled in for each
 *            boundary.
-* 
+*
 *            2) A boundary condition must be set for pressure in 
 *            all flow domains.  In enclosures, a position inside the
 *            domain must be selected.
@@ -553,16 +553,16 @@
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
 *
 *     Subroutine to put the boundary condition information for each
-*     P at each boundary node into the finite difference coefficients.
+*     P at each boundary nodae into the finite difference coefficients.
 *
 *     Notes: 1) This routine is restricted to grids with a Cartesian
 *            index layout. The outline should be filled in for each
 *            boundary.
-* 
+*
 *            2) A boundary condition must be set for pressure in 
 *            all flow domains.  In enclosures, a position inside the
 *            domain must be selected.
-*
+* 
 ************************************************************************
 *
       IMPLICIT NONE
@@ -610,9 +610,8 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = DIEP(I)*(P(IB,J,K)-P(IB+1,J,K))/DIEP(IB)
+         BU(L,I,J,K) = 0.0 !DIEP(I)*(P(IB,J,K)-P(IB+1,J,K))/DIEP(IB) !Beavers: DP/DX=0.0
         ENDIF
-
 *
 *     East face boundary conditions
 *
@@ -640,7 +639,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
+         BU(L,I,J,K) = 0.0    !Beavers: 0.0
         ENDIF        
   5    CONTINUE
  10   CONTINUE
@@ -674,7 +673,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = DJNP(J)*(P(I,JB,K)-P(I,JB+1,K))/DJNP(JB)
+         BU(L,I,J,K) = 0.0 !DJNP(J)*(P(I,JB,K)-P(I,JB+1,K))/DJNP(JB) !Beavers DP/DX=0.0
         ENDIF
 *
 *     North face boundary conditions
@@ -703,7 +702,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)
+         BU(L,I,J,K) = 0.0 !DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)   !Beavers: DP/DX=0.0
         ENDIF
 *
  15    CONTINUE
@@ -896,7 +895,7 @@
 *         ZSTAR = ABS(ZP(K)-H)/H
 *         YSTAR = YP(J)/H
 *         BU(L,I,J,K) = UINF*(1.0-(A+B)/(A*(COSH(D*(ZSTAR+C)))**2))
-          BU(L,I,J,K) = (6*UCAP*YP(J)/H)*(1-(YP(J)/H))
+          BU(L,I,J,K) = 6.3167*10**(-5) !(6*UCAP*YP(J)/H)*(1-(YP(J)/H))   !Beavers: 6.3167*10**(-5)
 *         BU(L,I,J,K) = 0.563
 *         BU(L,I,J,K) = 0.508
 *          BU(L,I,J,K)=UIN
@@ -927,7 +926,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF
@@ -1055,7 +1054,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 1.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF        
@@ -1109,7 +1108,7 @@
       L = 3
       IBM1 = IB - 1
       JBM1 = JB - 1
-      KBM1 = KB - 1      
+      KBM1 = KB - 1
       IEP1 = IE + 1
       JEP1 = JE + 1
       KEP1 = KE + 1      
@@ -1141,7 +1140,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF
@@ -1204,7 +1203,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF
@@ -1233,7 +1232,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF        
@@ -1268,7 +1267,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 1.0         
+         AUT(L,L,I,J,K) = 1.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF

@@ -8,9 +8,9 @@
      C    U,UHE,V,VHN,W,WHT,PHI,CFACT,DFACT,PRSTY,
      C    EQTYPE,CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
 *
-*     Subroutine to calculate the deferred correction when using the 
+*     Subroutine to calculate the deferred correction when using the
 *     CDS, interface corrected CDS, or interface corrected TVD-MUSCL
-*     to augment the implicit Peclet weighted UDS scheme.Even for UDS
+*     to augment the implicit Peclet weighted UDS scheme. Even for UDS
 *     scheme, interface corrections are employed.
 *
 *     Subroutine to calculate deferred correction terms.
@@ -62,11 +62,11 @@
          IF(CVTYPE(I,J,K,1).NE.3 .AND. CVTYPE(I,J,K,3).NE.3
      C     .AND. CVTYPE(I,J,K,1).NE.CVTYPE(I,J,K,3)) THEN
 *         
-*         Account for difference in form between energy equation 
+*         Account for difference in form between energy equation
 *         correction and momentum equation correction as per thesis;
-*         EQTYPE = 0 corresponds to energy equation. Weightings come 
+*         EQTYPE = 0 corresponds to energy equation. Weightings come
 *         from harmonic mean diffusion coefficients.
-*                    
+*
           IF(EQTYPE.EQ.0 .AND. CVTYPE(I,J,K,1).EQ.0) THEN
            CSUBE = DISE(I)*DE(I,J,K)/(PRSTY(I+1,J,K)*GAMA(I,J,K)
      C             *AREP(J,K))
@@ -170,6 +170,7 @@
 *==========================================
 *  ADVSCM=2, CDS
 *==========================================
+*
       IF(ADVSCM.EQ.2) THEN
 *       
         DO 40 I=IB,IEM1
@@ -182,12 +183,12 @@
      C                    *CFACT(I,J,K,3)*PHI(I+1,J,K)
      C                    +(DISE(I+1)/DIEP(I)
      C                    -0.5*(1.0+ALFAE(I,J,K)))
-     C                    *CFACT(I,J,K,1)*PHI(I,J,K))           
+     C                    *CFACT(I,J,K,1)*PHI(I,J,K))
            ENDIF
    34     CONTINUE
    35    CONTINUE
-   40   CONTINUE          
-*           
+   40   CONTINUE
+*
         DO 50 I=IB,IE
          DO 45 J=JB,JEM1
           DO 44 K=KB,KE
@@ -198,11 +199,11 @@
      C                    *CFACT(I,J,K,5)*PHI(I,J+1,K)
      C                    +(DISN(J+1)/DJNP(J)
      C                    -0.5*(1.0+ALFAN(I,J,K)))
-     C                    *CFACT(I,J,K,1)*PHI(I,J,K))           
+     C                    *CFACT(I,J,K,1)*PHI(I,J,K))
            ENDIF
    44     CONTINUE
    45    CONTINUE
-   50   CONTINUE   
+   50   CONTINUE
 *
         DO 60 I=IB,IE
          DO 55 J=JB,JE
@@ -223,11 +224,12 @@
 *================================================
 *  ADVSCM=3, TVD-MUSCL
 *================================================
+*
       ELSEIF(ADVSCM.EQ.3) THEN
 *
         DO 70 I=IB,IEM1
          DO 65 J=JB,JE
-          DO 64 K=KB,KE         
+          DO 64 K=KB,KE
            IF(CVTYPE(I,J,K,1).NE.3 
      C       .AND. CVTYPE(I,J,K,1).EQ.CVTYPE(I,J,K,3)) THEN
             IF(ME(I,J,K).LT.0.0) THEN
@@ -252,11 +254,11 @@
            ENDIF
    64     CONTINUE
    65    CONTINUE
-   70   CONTINUE          
+   70   CONTINUE
 *           
         DO 80 I=IB,IE
          DO 75 J=JB,JEM1
-          DO 74 K=KB,KE         
+          DO 74 K=KB,KE
            IF(CVTYPE(I,J,K,1).NE.3 
      C       .AND. CVTYPE(I,J,K,1).EQ.CVTYPE(I,J,K,5)) THEN
             IF(MN(I,J,K).LT.0.0) THEN
@@ -281,7 +283,7 @@
            ENDIF
    74     CONTINUE
    75    CONTINUE
-   80   CONTINUE          
+   80   CONTINUE
 *
         DO 90 I=IB,IE
          DO 85 J=JB,JE
@@ -310,8 +312,7 @@
            ENDIF
    84     CONTINUE
    85    CONTINUE
-   90   CONTINUE          
-*
+   90   CONTINUE
 *
 *================================================
 *  ADVSCM=4, QUICK SCHEME
@@ -658,7 +659,7 @@
   166     CONTINUE
   167    CONTINUE
   168   CONTINUE             
-      ENDIF    
+      ENDIF
 * 
       RETURN
       END

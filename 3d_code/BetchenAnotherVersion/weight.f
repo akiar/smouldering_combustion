@@ -31,7 +31,6 @@
 *            a subroutine PRFL. This routine will make calls to
 *            PRFL for each e and n point.
 *
-*
 ***********************************************************************
 *
       IMPLICIT NONE
@@ -45,8 +44,8 @@
 *
       CALL NULLM(ALFAE, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)
       CALL NULLM(ALFAN, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)
-      CALL NULLM(ALFAT, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)      
-*      
+      CALL NULLM(ALFAT, IB-1,IE+1,JB-1,JE+1,KB-1,KE+1,ID,JD,KD)
+*
       JEM1=JE-1
       IEM1=IE-1
 *
@@ -88,11 +87,10 @@
  50     CONTINUE
         ALFAT(I,J,KE)=1.0
  55    CONTINUE
- 60   CONTINUE 
+ 60   CONTINUE
 *
       RETURN
       END
-*
 *     
 ***********************************************************************
 *

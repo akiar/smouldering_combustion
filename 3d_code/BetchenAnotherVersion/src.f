@@ -6,8 +6,8 @@
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
 *
 *     Subroutine to calculate the net source of T in each interior
-*     control volume for the entire volume.Fluid-phase.
-*     Net Source = Q + R*T 
+*     control volume for the entire volume. Fluid-phase.
+*     Net Source = Q + R*T
 *
 *     Q(ID,JD,KD) fixed source coefficient; output
 *     R(ID,JD,KD) linearized source coefficient; output
@@ -29,10 +29,10 @@
 *                
          QT(I,J,K) = -1.0*DCCE(I,J,K)+DCCE(I-1,J,K)
      C               -DCCN(I,J,K)+DCCN(I,J-1,K)
-     C               -DCCT(I,J,K)+DCCT(I,J,K-1)     
+     C               -DCCT(I,J,K)+DCCT(I,J,K-1)
 *
 *        Interfacial exchange
-*             
+*
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
            RT(I,J,K) = -1.0*HSF(I,J,K)*SPECSA(I,J,K)*VOLP(I,J,K)
          ELSE
