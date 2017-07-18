@@ -11,7 +11,7 @@
 *  as follows:
 *
 *        CVTYPE(I,J,K,L) = 0: CV L contains clear fluid
-*        CVTYPE(I,J,K,L) = 1: CVL on boundary
+*        CVTYPE(I,J,K,L) = 1: CV L on boundary
 *        CVTYPE(I,J,K,L) = 2: CV L contains porous medium
 *        CVTYPE(I,J,K,L) = 3: CV L contains solid
 *  

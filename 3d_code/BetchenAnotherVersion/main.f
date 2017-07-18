@@ -184,14 +184,14 @@
 *
       DO 9 I=1,6
         ARSD(I)=   0.0
-	RSDOLD(I)= 1.0E+10
-	NORM(I)=   1.0E+10
+        RSDOLD(I)= 1.0E+10
+	    NORM(I)=   1.0E+10
    9  CONTINUE
 *
 *--Create needed property arrays. Note for POROUS = 1
 *  LD is used in DEQ array
 *
-      IF(POROUS.EQ.2) THEN
+      IF(POROUS.EQ.2) THEN !CARBON FOAM PROPERTY
        CALL CFPPTY(PRSTY,SLDTY,DEQ,CFORCH,KPERM,MUEFF,
      C             KEFF0,KEFFX,KEFFY,KEFFZ,SPECSA, 
      C             EPS,PD,DEPSDZ,VISC,VISCB,

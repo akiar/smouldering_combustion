@@ -10,7 +10,7 @@
      C            Z_KB,Z_KE,IB,IE1,IE2,IE3,IE,JB,JE1,JE2,JE3,JE,
      C            KB,KE1,KE2,KE3,KE,ID,JD,KD)
 *
-*     Subroutine to calculate the corner locations of asimple 
+*     Subroutine to calculate the corner locations of a simple 
 *     orthogonal grid. The grid is formed from a pin-jointed
 *     structure with non-uniform properties.
 *
