@@ -3,7 +3,7 @@
 *
 ************************************************************************
 *
-      SUBROUTINE BNDCT(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,TF,TS,
+      SUBROUTINE BNDCT(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,TF,TS,
      C                 XP,YP,ZP,DIEP,DJNP,DKTP,AREP,ARNP,ARTP,
      C                 DEF,DNF,DTF,DES,DNS,DTS,DTMX,
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB)
