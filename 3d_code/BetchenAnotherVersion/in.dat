@@ -4,7 +4,7 @@
 00081          IE3
 00081          IE
 00002          JB
-00021          JE1
+00011          JE1
 00021          JE2
 00021          JE3
 00021          JE
@@ -51,14 +51,14 @@
 +9.62500E+00   DTMX (K) heater to inlet temp. difference, if applicable
 00000          IRSTRT = 0 SET TO CONSTANTS, = 1 READ FROM restart.dat
 +0.00000E+00   ITIME (s) Initial real time
-+1.00000E-04   DTIME (s) Time step
++1.00000E+10   DTIME (s) Time step
 00001          PFTIME Frequency of printed output
-00200          KNTTM  Number of time steps- or outer iterations
-00005          KNTUVP Max inner iterations, (set < 10 for no res.)
+00001          KNTTM  Number of time steps- or outer iterations
+00100          KNTUVP Max inner iterations, (set < 10 for no res.)
 +1.00000E-06   CRIT   Stopping criterion for inner loop
 +1.00000E-03   TCRIT  Stopping criterion for time loop
 00000          LVLGEO =1 OUTPUT GEOMETRY, = 0 NO GEOMETRY OUTPUT
-00000          LVLCOF=0 NONE,1 FINAL,2 BEFORE ELIM.,3 COEFF., 4 ALL
+00001          LVLCOF=0 NONE,1 FINAL,2 BEFORE ELIM.,3 COEFF., 4 ALL
 00000          LVLMGD 0 NONE, 1 END, 2 ITER., 3 COARSE GRID, 4 COEFF.
 00001          ADVSCM  =1 I-UDS, =2 I-CDS, =3 I-TVD-MUSCL
 00000          ISOTHM  =0 isothermal, =1 solve energy eqn + mass fraction.

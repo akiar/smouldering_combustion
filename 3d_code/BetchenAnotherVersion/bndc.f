@@ -996,7 +996,6 @@
 *
  15    CONTINUE
  20   CONTINUE
-
 *
       DO 30 I=IB,IE
        DO 25 J=JB,JE
