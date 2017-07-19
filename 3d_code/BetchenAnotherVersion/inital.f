@@ -365,7 +365,7 @@
 *         
            IF(CVTYPE(I,J,K,1).EQ.2) THEN
             LTNE = 100*ABS(TF(I,J,K)-TS(I,J,K))/DTMX
-           ELSEIF(CVTYPE(I,J,K,1).EQ.1 .AND. (CVTYPE(I,J,K,2).EQ.2
+           ELSEIF(CVTYPE(I,J,K,1).EQ.1 .AND. (CVTYPE(I,J,K,2).EQ.2 
      C      .OR. CVTYPE(I,J,K,3).EQ.2 .OR. CVTYPE(I,J,K,4).EQ.2
      C      .OR. CVTYPE(I,J,K,5).EQ.2 .OR. CVTYPE(I,J,K,6).EQ.2
      C      .OR. CVTYPE(I,J,K,7).EQ.2)) THEN

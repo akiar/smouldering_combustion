@@ -3,7 +3,7 @@
 *
 ************************************************************************
 *
-      SUBROUTINE BNDCT(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,TF,TS,
+      SUBROUTINE BNDCT(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,TF,TS,
      C                 XP,YP,ZP,DIEP,DJNP,DKTP,AREP,ARNP,ARTP,
      C                 DEF,DNF,DTF,DES,DNS,DTS,DTMX,
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB)
@@ -14,7 +14,7 @@
 *     Notes: 1) This routine is restricted to grids with a Cartesian
 *            index layout. The outline should be filled in for each
 *            boundary.
-*
+* 
 *            2) A boundary condition must be set for pressure in 
 *            all flow domains.  In enclosures, a position inside the
 *            domain must be selected.
@@ -553,16 +553,16 @@
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
 *
 *     Subroutine to put the boundary condition information for each
-*     P at each boundary nodae into the finite difference coefficients.
+*     P at each boundary node into the finite difference coefficients.
 *
 *     Notes: 1) This routine is restricted to grids with a Cartesian
 *            index layout. The outline should be filled in for each
 *            boundary.
-*
+* 
 *            2) A boundary condition must be set for pressure in 
 *            all flow domains.  In enclosures, a position inside the
 *            domain must be selected.
-* 
+*
 ************************************************************************
 *
       IMPLICIT NONE
@@ -576,10 +576,10 @@
       L = 1
       IBM1 = IB - 1
       JBM1 = JB - 1
-      KBM1 = KB - 1      
+      KBM1 = KB - 1
       IEP1 = IE + 1
       JEP1 = JE + 1
-      KEP1 = KE + 1      
+      KEP1 = KE + 1
 *
       DO 10 J=JB,JE
        DO 5 K=KB,KE
@@ -610,8 +610,9 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0 !DIEP(I)*(P(IB,J,K)-P(IB+1,J,K))/DIEP(IB) !Beavers: DP/DX=0.0
+         BU(L,I,J,K) = DIEP(I)*(P(IB,J,K)-P(IB+1,J,K))/DIEP(IB)
         ENDIF
+
 *
 *     East face boundary conditions
 *
@@ -639,7 +640,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0    !Beavers: 0.0
+         BU(L,I,J,K) = 0.0
         ENDIF        
   5    CONTINUE
  10   CONTINUE
@@ -673,7 +674,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0 !DJNP(J)*(P(I,JB,K)-P(I,JB+1,K))/DJNP(JB) !Beavers DP/DX=0.0
+         BU(L,I,J,K) = DJNP(J)*(P(I,JB,K)-P(I,JB+1,K))/DJNP(JB)
         ENDIF
 *
 *     North face boundary conditions
@@ -702,7 +703,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0 !DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)   !Beavers: DP/DX=0.0
+         BU(L,I,J,K) = DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)
         ENDIF
 *
  15    CONTINUE
@@ -839,10 +840,8 @@
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
 *
 *      UINF = UIN
-*      H=0.02
-       H=0.00112
-*      UCAP=0.000056
-       UCAP=1.0
+       H=0.01
+       UCAP=0.000056
 *      H = GRDZ/2.0
 *      DA = PERM/(EPS*H**2)
 *      LAMBDA = (EPS**0.5)*FORCH*UINF*H*RHO/VISC
@@ -895,10 +894,10 @@
 *         ZSTAR = ABS(ZP(K)-H)/H
 *         YSTAR = YP(J)/H
 *         BU(L,I,J,K) = UINF*(1.0-(A+B)/(A*(COSH(D*(ZSTAR+C)))**2))
-          BU(L,I,J,K) = 6.3167*10**(-5) !(6*UCAP*YP(J)/H)*(1-(YP(J)/H))   !Beavers: 6.3167*10**(-5)
+*          BU(L,I,J,K) = (6*UCAP*YP(J)/H)*(1-YP(J)/H)
 *         BU(L,I,J,K) = 0.563
 *         BU(L,I,J,K) = 0.508
-*          BU(L,I,J,K)=UIN
+          BU(L,I,J,K)= 6*UIN/H*YP(J)*(1-YP(J)/H)
 *         BU(L,I,J,K) = UIN
         ENDIF
 *
@@ -926,7 +925,250 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+        ENDIF
+  5    CONTINUE
+ 10   CONTINUE
+*
+      DO 20 I=IB,IE
+       DO 15 K=KB,KE
+*
+*     South face boundary conditions
+*
+        J = JBM1
+*
+*       Solid CV adjacent to boundary
+*        
+        IF(CVTYPE(I,J,K,5).EQ.3) THEN
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+*
+*       Non-solid CV adjacent to boundary
+*        
+        ELSE
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+        ENDIF
+*
+*     North face boundary conditions
+*
+        J = JEP1
+*
+*       Solid CV adjacent to boundary
+*        
+        IF(CVTYPE(I,J,K,4).EQ.3) THEN
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+*
+*       Non-solid CV adjacent to boundary
+*        
+        ELSE
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+        ENDIF        
+*
+ 15    CONTINUE
+ 20   CONTINUE
+
+*
+      DO 30 I=IB,IE
+       DO 25 J=JB,JE
+*
+*     Bottom face boundary conditions
+*
+        K = KBM1
+*
+*       Solid CV adjacent to boundary
+*        
+        IF(CVTYPE(I,J,K,7).EQ.3) THEN
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+*
+*       Non-solid CV adjacent to boundary
+*        
+        ELSE
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 1.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+        ENDIF
+*
+*     Top face boundary conditions
+*
+        K = KEP1
+*
+*       Solid CV adjacent to boundary
+*        
+        IF(CVTYPE(I,J,K,6).EQ.3) THEN
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+*
+*       Non-solid CV adjacent to boundary
+*        
+        ELSE
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 1.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+        ENDIF        
+*
+ 25    CONTINUE
+ 30   CONTINUE 
+*
+*     Conditions in solid CVs
+*
+      DO 45 I=IB,IE
+       DO 40 J=JB,JE
+        DO 35 K=KB,KE
+         IF(CVTYPE(I,J,K,1).EQ.3) THEN
+          AUW(L,L,I,J,K) = 0.0
+          AUE(L,L,I,J,K) = 0.0
+          AUS(L,L,I,J,K) = 0.0
+          AUN(L,L,I,J,K) = 0.0
+          AUB(L,L,I,J,K) = 0.0
+          AUT(L,L,I,J,K) = 0.0         
+          AUP(L,L,I,J,K) = 1.0
+          BU(L,I,J,K) = 0.0
+         ENDIF
+ 35     CONTINUE
+ 40    CONTINUE
+ 45   CONTINUE
+*
+      RETURN
+      END
+*
+************************************************************************
+*
+      SUBROUTINE BNDCV(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+*
+*     Subroutine to put the boundary condition information for V
+*     at each boundary node into the finite difference coefficients.
+*
+*     Notes: 1) This routine is restricted to grids with a Cartesian
+*            index layout. The outline should be filled in for each
+*            boundary.
+*
+************************************************************************
+*
+      IMPLICIT NONE
+      REAL*8 AUP(N,N,ID,JD,KD),AUW(N,N,ID,JD,KD),AUE(N,N,ID,JD,KD)
+      REAL*8 AUS(N,N,ID,JD,KD),AUN(N,N,ID,JD,KD),AUB(N,N,ID,JD,KD)
+      REAL*8 AUT(N,N,ID,JD,KD),BU(N,ID,JD,KD)
+      INTEGER IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
+      INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
+*
+      L = 3
+      IBM1 = IB - 1
+      JBM1 = JB - 1
+      KBM1 = KB - 1      
+      IEP1 = IE + 1
+      JEP1 = JE + 1
+      KEP1 = KE + 1      
+*
+      DO 10 J=JB,JE
+       DO 5 K=KB,KE
+*
+*     West face boundary conditions
+*
+        I = IBM1
+*
+*       Solid CV adjacent to boundary
+*        
+        IF(CVTYPE(I,J,K,3).EQ.3) THEN
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+*
+*       Non-solid CV adjacent to boundary
+*        
+        ELSE
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+        ENDIF
+*
+*     East face boundary conditions
+*
+        I = IEP1
+*
+*       Solid CV adjacent to boundary
+*        
+        IF(CVTYPE(I,J,K,2).EQ.3) THEN
+         AUW(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
+         AUP(L,L,I,J,K) = 1.0
+         BU(L,I,J,K) = 0.0
+*
+*       Non-solid CV adjacent to boundary
+*        
+        ELSE
+         AUW(L,L,I,J,K) = 1.0
+         AUE(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 0.0
+         AUB(L,L,I,J,K) = 0.0
+         AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF
@@ -1025,248 +1267,6 @@
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 1.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-        ENDIF
-*
-*     Top face boundary conditions
-*
-        K = KEP1
-*
-*       Solid CV adjacent to boundary
-*        
-        IF(CVTYPE(I,J,K,6).EQ.3) THEN
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-*
-*       Non-solid CV adjacent to boundary
-*        
-        ELSE
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 1.0
-         AUT(L,L,I,J,K) = 0.0
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-        ENDIF        
-*
- 25    CONTINUE
- 30   CONTINUE 
-*
-*     Conditions in solid CVs
-*
-      DO 45 I=IB,IE
-       DO 40 J=JB,JE
-        DO 35 K=KB,KE
-         IF(CVTYPE(I,J,K,1).EQ.3) THEN
-          AUW(L,L,I,J,K) = 0.0
-          AUE(L,L,I,J,K) = 0.0
-          AUS(L,L,I,J,K) = 0.0
-          AUN(L,L,I,J,K) = 0.0
-          AUB(L,L,I,J,K) = 0.0
-          AUT(L,L,I,J,K) = 0.0         
-          AUP(L,L,I,J,K) = 1.0
-          BU(L,I,J,K) = 0.0
-         ENDIF
- 35     CONTINUE
- 40    CONTINUE
- 45   CONTINUE
-*
-      RETURN
-      END
-*
-************************************************************************
-*
-      SUBROUTINE BNDCV(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
-*
-*     Subroutine to put the boundary condition information for V
-*     at each boundary node into the finite difference coefficients.
-*
-*     Notes: 1) This routine is restricted to grids with a Cartesian
-*            index layout. The outline should be filled in for each
-*            boundary.
-*
-************************************************************************
-*
-      IMPLICIT NONE
-      REAL*8 AUP(N,N,ID,JD,KD),AUW(N,N,ID,JD,KD),AUE(N,N,ID,JD,KD)
-      REAL*8 AUS(N,N,ID,JD,KD),AUN(N,N,ID,JD,KD),AUB(N,N,ID,JD,KD)
-      REAL*8 AUT(N,N,ID,JD,KD),BU(N,ID,JD,KD)
-      INTEGER IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
-      INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
-*
-      L = 3
-      IBM1 = IB - 1
-      JBM1 = JB - 1
-      KBM1 = KB - 1
-      IEP1 = IE + 1
-      JEP1 = JE + 1
-      KEP1 = KE + 1      
-*
-      DO 10 J=JB,JE
-       DO 5 K=KB,KE
-*
-*     West face boundary conditions
-*
-        I = IBM1
-*
-*       Solid CV adjacent to boundary
-*        
-        IF(CVTYPE(I,J,K,3).EQ.3) THEN
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-*
-*       Non-solid CV adjacent to boundary
-*        
-        ELSE
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-        ENDIF
-*
-*     East face boundary conditions
-*
-        I = IEP1
-*
-*       Solid CV adjacent to boundary
-*        
-        IF(CVTYPE(I,J,K,2).EQ.3) THEN
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-*
-*       Non-solid CV adjacent to boundary
-*        
-        ELSE
-         AUW(L,L,I,J,K) = 1.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-        ENDIF
-  5    CONTINUE
- 10   CONTINUE
-*
-      DO 20 I=IB,IE
-       DO 15 K=KB,KE
-*
-*     South face boundary conditions
-*
-        J = JBM1
-*
-*       Solid CV adjacent to boundary
-*        
-        IF(CVTYPE(I,J,K,5).EQ.3) THEN
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-*
-*       Non-solid CV adjacent to boundary
-*        
-        ELSE
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-        ENDIF
-*
-*     North face boundary conditions
-*
-        J = JEP1
-*
-*       Solid CV adjacent to boundary
-*        
-        IF(CVTYPE(I,J,K,4).EQ.3) THEN
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-*
-*       Non-solid CV adjacent to boundary
-*        
-        ELSE
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-        ENDIF        
-*
- 15    CONTINUE
- 20   CONTINUE
-*
-      DO 30 I=IB,IE
-       DO 25 J=JB,JE
-*
-*     Bottom face boundary conditions
-*
-        K = KBM1
-*
-*       Solid CV adjacent to boundary
-*        
-        IF(CVTYPE(I,J,K,7).EQ.3) THEN
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
-*
-*       Non-solid CV adjacent to boundary
-*        
-        ELSE
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 1.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF

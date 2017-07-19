@@ -76,9 +76,6 @@
         "filename":".\\main.f",
         "enabled":"1"
       },{
-        "filename":".\\main.f~",
-        "enabled":"1"
-      },{
         "filename":".\\makgrd.f",
         "enabled":"1"
       },{
@@ -136,10 +133,10 @@
         "filename":".\\what.f",
         "enabled":"1"
       }],
-    "Name":"+BetchenAnotherVersion (target.exe)",
+    "Name":"+Untitled (target.exe)",
     "Folders":[]
   },
-  "Name":"BetchenAnotherVersion (target.exe)",
+  "Name":"Untitled (target.exe)",
   "Options":{
     "Compiler Options":{
       "Link Flags":"",
@@ -167,7 +164,6 @@
       "External Console":"false",
       "Keep Console":"true",
       "Build Before Launch":"true",
-      "Executable":"",
       "Working Directory":""
     },
     "Build Options":{

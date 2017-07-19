@@ -18,7 +18,7 @@
       IMPLICIT NONE
       INTEGER ID,JD,KD,N,NT,NNB,ITER,A,B,C
       REAL*8 GEE,PI,BLEND,UREF,DBL1,DBL0,RLX
-      PARAMETER(ID=502,JD=64,KD=4)
+      PARAMETER(ID=303,JD=43,KD=17)
       PARAMETER(N=4)
       PARAMETER(NT=2)
       PARAMETER(NNB=6)
@@ -171,7 +171,7 @@
      C            ISB2,ISE2,JSB2,JSE2,KSB2,KSE2,
      C            CVTYPE,IB,IE1,IE2,IE3,IE,JB,JE1,JE2,JE3,JE,
      C            KB,KE1,KE2,KE3,KE,ID,JD,KD,NNB)
-*      PRINT *, XP(21),YP(11),ZP(11)
+      PRINT *, XP(21),YP(11),ZP(11)
 *
 *--Initialize field variables
 *
@@ -184,14 +184,14 @@
 *
       DO 9 I=1,6
         ARSD(I)=   0.0
-        RSDOLD(I)= 1.0E+10
-	    NORM(I)=   1.0E+10
+	RSDOLD(I)= 1.0E+10
+	NORM(I)=   1.0E+10
    9  CONTINUE
 *
 *--Create needed property arrays. Note for POROUS = 1
 *  LD is used in DEQ array
 *
-      IF(POROUS.EQ.2) THEN !CARBON FOAM PROPERTY
+      IF(POROUS.EQ.2) THEN
        CALL CFPPTY(PRSTY,SLDTY,DEQ,CFORCH,KPERM,MUEFF,
      C             KEFF0,KEFFX,KEFFY,KEFFZ,SPECSA, 
      C             EPS,PD,DEPSDZ,VISC,VISCB,
@@ -276,8 +276,8 @@
          TFOLD(I,J,K)= TF(I,J,K)
          TSOLD(I,J,K)= TS(I,J,K)
          POLD(I,J,K)=  P(I,J,K)
-	     UOLD(I,J,K)=  U(I,J,K)
-	     VOLD(I,J,K)=  V(I,J,K)
+	 UOLD(I,J,K)=  U(I,J,K)
+	 VOLD(I,J,K)=  V(I,J,K)
          WOLD(I,J,K)=  W(I,J,K)
  10     CONTINUE
  11    CONTINUE
@@ -490,9 +490,9 @@
 	 IF(MAXRSD.LT.CRIT) THEN
           WRITE(ITERMO,7216) KNTOUT
 	  GOTO 1800
-*	 ELSEIF(MAXRSD.GT.1.0E+04) THEN
-*          WRITE(ITERMO,7215) KNTOUT
-*	  GOTO 9999
+	 ELSEIF(MAXRSD.GT.1.0E+04) THEN
+          WRITE(ITERMO,7215) KNTOUT
+	  GOTO 9999
 	 ENDIF
         ENDIF
 *
@@ -520,7 +520,7 @@
      C        AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,WORK3,WORK4,
      C        IB,IE,JB,JE,KB,KE,N,ID,JD,KD)
 *
-*--Update pressure gradient field and face velocities for 
+*--Update pressure gradient fieldand face velocities for 
 *  the mass fluxes
 *
       DO 1600 L=1,ITER
@@ -553,13 +553,13 @@
  1600 CONTINUE   
 *
        PRINT *, 'inside inner loop'
-*
 *----------------------------------
 *  End inner, linearization loop
 *----------------------------------
 *
  1700 CONTINUE
 *
+        
 *  Print solution for present time step
 *
  1800 CONTINUE 
@@ -621,13 +621,12 @@
 *
  1840      OPEN(UNIT=34,FILE='CVELO.dat')
 *        DO 56 K=1,4
-        B=32
-        C=2
-        DO 64 A=2,500      
+        B=11          !BJ: 81
+        C=3
+        DO 64 A=1,62  !BJ: 21      
 *        DO 65 B=2,32
 *        DO 67 C=2,32
-        WRITE (34,327)  XP(A),YP(B),ZP(C),P(A,B,C)/(RHO*UIN**2)
-     C  ,U(A,B,C)/UIN
+        WRITE (34,327)  XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)   !BJ: B A C B,A,C B,A,C
 *       WRITE (34,327) A,B,C,Y(A,B,C),AYP(A,B,C),Y(A+1,B,C),AYE(A,B,C)
 *     C  ,Y(A-1,B,C),AYW(A,B,C),Y(A,B+1,C),AYN(A,B,C)
 *     C  ,Y(A,B-1,C),AYS(A,B,C),Y(A,B,C+1),AYT(A,B,C),Y(A,B,C-1)
@@ -655,7 +654,6 @@
 *     C          DTF,DTS,DNF,DNS,DEF,DES,DTMX,
 *     C          FNAPP,IRSO,IB,IE,JB,JE,KB,KE,ID,JD,KD,
 *     C          CVTYPE,KNTOUT,1,IPB,IPE,NNB)
-*
 *
 *-----------------------------------------------------------------------
 *  Format statements
