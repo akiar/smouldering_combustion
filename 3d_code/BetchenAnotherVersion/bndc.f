@@ -769,7 +769,7 @@
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
 *         BU(L,I,J,K) = DKTP(KE)*(P(I,J,KE)-P(I,J,KE-1))/DKTP(KE-1)
-          BU(L,I,J,K) = 0.0
+         BU(L,I,J,K) = 0.0
         ENDIF
 *
  25    CONTINUE
@@ -819,7 +819,7 @@
 *
       SUBROUTINE BNDCU(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
      C                 XP,YP,ZP,GRDZ,FORCH,PERM,EPS,VISC,RHO,UIN,
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,U)
 *
 *     Subroutine to put the boundary condition information for U
 *     at each boundary node into the finite difference coefficients.
@@ -838,9 +838,10 @@
       REAL*8 UINF,H,DA,LAMBDA,A,B,C,D,ZSTAR,CPRIME,CARG,X0,TOL,UCAP
       INTEGER IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
+      REAL*8 U(ID,JD,KD)
 *
 *      UINF = UIN
-       H=0.01
+       H=0.02
        UCAP=0.000056
 *      H = GRDZ/2.0
 *      DA = PERM/(EPS*H**2)
@@ -860,7 +861,7 @@
       KBM1 = KB - 1      
       IEP1 = IE + 1
       JEP1 = JE + 1
-      KEP1 = KE + 1      
+      KEP1 = KE + 1    
 *
       DO 10 J=JB,JE
        DO 5 K=KB,KE
@@ -877,7 +878,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
 *
@@ -898,6 +899,7 @@
 *         BU(L,I,J,K) = 0.563
 *         BU(L,I,J,K) = 0.508
           BU(L,I,J,K)= 6*UIN/H*YP(J)*(1-YP(J)/H)
+*          PRINT *, BU(L,I,J,K)
 *         BU(L,I,J,K) = UIN
         ENDIF
 *

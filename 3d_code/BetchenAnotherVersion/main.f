@@ -439,7 +439,7 @@
 *
         CALL BNDCU(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
      C             XP,YP,ZP,GRDZ,FORCH,PERM,EPS,VISC,RHO,UIN,
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,U)
         CALL BNDCV(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
      C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
         CALL BNDCW(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
@@ -619,25 +619,14 @@
 *--Write all field variables to an unformatted output file, rso.bin,
 *  and to tec.dat for direct input to TECplot.
 *
- 1840      OPEN(UNIT=34,FILE='CVELO.dat')
-*        DO 56 K=1,4
+ 1840 OPEN(UNIT=34,FILE='CVELO.dat')
+        WRITE (34,*) '# XP YP ZP P U'
         B=11          !BJ: 81
-        C=3
+        C=6
         DO 64 A=1,62  !BJ: 21      
-*        DO 65 B=2,32
-*        DO 67 C=2,32
-        WRITE (34,327)  XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)   !BJ: B A C B,A,C B,A,C
-*       WRITE (34,327) A,B,C,Y(A,B,C),AYP(A,B,C),Y(A+1,B,C),AYE(A,B,C)
-*     C  ,Y(A-1,B,C),AYW(A,B,C),Y(A,B+1,C),AYN(A,B,C)
-*     C  ,Y(A,B-1,C),AYS(A,B,C),Y(A,B,C+1),AYT(A,B,C),Y(A,B,C-1)
-*     C  ,AYB(A,B,C),QY(A,B,C),RY(A,B,C),BY(A,B,C)
-*       A,B,C,FMSF(A,B,C) 
-*  67  CONTINUE
-*  65  CONTINUE 
-  64  CONTINUE
-*  56  CONTINUE 
-  327  FORMAT(5(2X,1PE12.5))      
-*  327  FORMAT(I3,I3,I3,17(2X,1PE12.5))
+          WRITE (34,327)  XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)   !BJ: B A C B,A,C B,A,C
+  64    CONTINUE
+  327  FORMAT(5(2X,1PE12.5))
         CALL FLUSH(34)
       CLOSE(UNIT=34)   
        CALL SGENC(SGENT,SGEN,SGENF,SGENS,RATIOT,RATIOS,RATIO,
