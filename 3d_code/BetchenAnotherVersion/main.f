@@ -276,8 +276,8 @@
          TFOLD(I,J,K)= TF(I,J,K)
          TSOLD(I,J,K)= TS(I,J,K)
          POLD(I,J,K)=  P(I,J,K)
-	 UOLD(I,J,K)=  U(I,J,K)
-	 VOLD(I,J,K)=  V(I,J,K)
+	     UOLD(I,J,K)=  U(I,J,K)
+	     VOLD(I,J,K)=  V(I,J,K)
          WOLD(I,J,K)=  W(I,J,K)
  10     CONTINUE
  11    CONTINUE
@@ -467,7 +467,8 @@
 *         
         CALL BNDCP(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,
      C             P,DIEP,DJNP,DKTP,
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,
+     C             RHO,UIN)
 *
 *--Compute and report normalized residuals for energy, mass and momentum
 *
@@ -621,10 +622,10 @@
 *
  1840 OPEN(UNIT=34,FILE='CVELO.dat')
         WRITE (34,*) '# XP YP ZP P U'
-        B=11          !BJ: 81
+        B=11          !BJ: 81/101
         C=6
-        DO 64 A=1,62  !BJ: 21      
-          WRITE (34,327)  XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)   !BJ: B A C B,A,C B,A,C
+        DO 64 A=1,62  !BJ: 22/42     
+          WRITE (34,327)  XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)   !BJ: B A C B,A,C B,A,C PP: A B C A,B,C A,B,C
   64    CONTINUE
   327  FORMAT(5(2X,1PE12.5))
         CALL FLUSH(34)

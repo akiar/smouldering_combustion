@@ -133,10 +133,10 @@
         "filename":".\\what.f",
         "enabled":"1"
       }],
-    "Name":"+Untitled (target.exe)",
+    "Name":"+BetchenAnotherVersion (target.exe)",
     "Folders":[]
   },
-  "Name":"Untitled (target.exe)",
+  "Name":"BetchenAnotherVersion (target.exe)",
   "Options":{
     "Compiler Options":{
       "Link Flags":"",
@@ -164,6 +164,7 @@
       "External Console":"false",
       "Keep Console":"true",
       "Build Before Launch":"true",
+      "Executable":"",
       "Working Directory":""
     },
     "Build Options":{

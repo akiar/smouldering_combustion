@@ -25,13 +25,13 @@
 +2.00000E-02   GRDZ2 (m)  dimension of 2nd part domain in 'z' direction
 +2.00000E-02   GRDZ3 (m)  dimension of 3rd part domain in 'z' direction
 +2.00000E-02   GRDZ  (m)  dimension of domain in 'z' direction
-+1.30000E+00   IRATX1  ratio of first to last c.v. in part 1 (x)
-+0.70000E-00   IRATX2  ratio of first to last c.v. in part 2 (x)
-+0.70000E-00   IRATX3  ratio of first to last c.v. in part 3 (x)
-+1.00000E-00   IRATX4  ratio of first to last c.v. in part 4 (x)
++0.80000E-00   IRATX1  ratio of first to last c.v. in part 1 (x)
++0.50000E+00   IRATX2  ratio of first to last c.v. in part 2 (x)
++1.00000E+00   IRATX3  ratio of first to last c.v. in part 3 (x)
++1.00000E+00   IRATX4  ratio of first to last c.v. in part 4 (x)
 +1.50000E-00   IRATY1  ratio of first to last c.v. in part 1 (y)
-+1.00000E-00   IRATY2  ratio of first to last c.v. in part 2 (y)
-+1.00000E-00   IRATY3  ratio of first to last c.v. in part 3 (y)
++1.00000E+00   IRATY2  ratio of first to last c.v. in part 2 (y)
++1.00000E+00   IRATY3  ratio of first to last c.v. in part 3 (y)
 +1.00000E+00   IRATY4  ratio of first to last c.v. in part 4 (y)
 +1.00000E+00   IRATZ1  ratio of first to last c.v. in part 1 (z)
 +1.00000E+00   IRATZ2  ratio of first to last c.v. in part 2 (z)
@@ -48,19 +48,19 @@
 +0.00000E+00   W0 (m/s) 
 +0.00000E+00   P0 (Pa)  
 +5.60000E-05   UIN (m/s) inlet velocity at x=0 for inlet boundary conditions
-+9.62500E+00   DTMX (K) heater to inlet temp. difference, if applicable
++9.62500E-00   DTMX (K) heater to inlet temp. difference, if applicable
 00000          IRSTRT = 0 SET TO CONSTANTS, = 1 READ FROM restart.dat
 +0.00000E+00   ITIME (s) Initial real time
-+1.00000E+09   DTIME (s) Time step
++1.00000E+10   DTIME (s) Time step
 00001          PFTIME Frequency of printed output
 00001          KNTTM  Number of time steps- or outer iterations
-00050          KNTUVP Max inner iterations, (set < 10 for no res.)
+00400          KNTUVP Max inner iterations, (set < 10 for no res.)
 +1.00000E-06   CRIT   Stopping criterion for inner loop
 +1.00000E-03   TCRIT  Stopping criterion for time loop
 00000          LVLGEO =1 OUTPUT GEOMETRY, = 0 NO GEOMETRY OUTPUT
 00000          LVLCOF=0 NONE,1 FINAL,2 BEFORE ELIM.,3 COEFF., 4 ALL
 00000          LVLMGD 0 NONE, 1 END, 2 ITER., 3 COARSE GRID, 4 COEFF.
-00003          ADVSCM  =1 I-UDS, =2 I-CDS, =3 I-TVD-MUSCL
+00001          ADVSCM  =1 I-UDS, =2 I-CDS, =3 I-TVD-MUSCL
 00000          ISOTHM  =0 isothermal, =1 solve energy eqn + mass fraction.
 00001          POROUS  =0 no porous region, =1 constant pptys, =2 carbon foam
 00000          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE
@@ -69,7 +69,7 @@
 +0.55000E-03   LD Ligament diameter of porous region (1 only) (m)
 +1.12000E-03   VISCB Brinkman viscosity in porous region (kg/m s)
 +2.44000E-01   FORCH Forchheimer coefficient (1) or constant (2)
-+4.00000E-07   PERM Darcy permeability (1) (m^2) or constant (2)
++4.00000E-06   PERM Darcy permeability (1) (m^2) or constant (2)
 +2.37000E-02   CONDFE Conductivity of fluid in porous region (1 only) (W/m K)
 +6.46000E+00   CONDSX Conductivity of solid matrix in x (1 only) (W/m K)
 +6.46000E+00   CONDSY Conductivity of solid matrix in y (1 only) (W/m K)
@@ -84,7 +84,7 @@
 00002          JPB First index in j of first porous region
 00022          JPE Last index in j of first porous region
 00002          KPB First index in k of first porous region
-00011          KPE Last index in k of first porous region
+00012          KPE Last index in k of first porous region
 00022          IPB2 First index in i of second porous region
 00041          IPE2 Last index in i of second porous region
 00002          JPB2 First index in j of second porous region

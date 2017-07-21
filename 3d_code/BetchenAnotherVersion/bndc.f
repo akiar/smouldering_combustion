@@ -3,7 +3,7 @@
 *
 ************************************************************************
 *
-      SUBROUTINE BNDCT(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,TF,TS,
+      SUBROUTINE BNDCT(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,TF,TS,
      C                 XP,YP,ZP,DIEP,DJNP,DKTP,AREP,ARNP,ARTP,
      C                 DEF,DNF,DTF,DES,DNS,DTS,DTMX,
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB)
@@ -550,7 +550,8 @@
 *
       SUBROUTINE BNDCP(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,
      C                 P,DIEP,DJNP,DKTP,
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,
+     C                 RHO,UIN)
 *
 *     Subroutine to put the boundary condition information for each
 *     P at each boundary node into the finite difference coefficients.
@@ -572,6 +573,7 @@
       REAL*8 P(ID,JD,KD),DIEP(ID),DJNP(JD),DKTP(KD)
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,N,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,M,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
+      REAL RHO,UIN
 *
       L = 1
       IBM1 = IB - 1
@@ -604,13 +606,13 @@
 *        
         ELSE
          AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 1.0
+         AUE(L,L,I,J,K) = 1.0     !BJ, PP : 1
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = DIEP(I)*(P(IB,J,K)-P(IB+1,J,K))/DIEP(IB)
+         BU(L,I,J,K) = DIEP(I)*(P(IB,J,K)-P(IB+1,J,K))/DIEP(IB) ! 0.5*RHO*UIN**2 ! !PP last case: dyanmic pressure
         ENDIF
 
 *
@@ -773,7 +775,7 @@
         ENDIF
 *
  25    CONTINUE
- 30   CONTINUE 
+ 30   CONTINUE
 *
 *     Conditions in solid CVs
 *
@@ -841,7 +843,7 @@
       REAL*8 U(ID,JD,KD)
 *
 *      UINF = UIN
-       H=0.02
+       H=0.02     !PP: 0.02 BJ: 0.01
        UCAP=0.000056
 *      H = GRDZ/2.0
 *      DA = PERM/(EPS*H**2)
@@ -886,7 +888,7 @@
 *        
         ELSE
          AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0 !Change to 0.0 if not PP3 
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
@@ -898,7 +900,7 @@
 *          BU(L,I,J,K) = (6*UCAP*YP(J)/H)*(1-YP(J)/H)
 *         BU(L,I,J,K) = 0.563
 *         BU(L,I,J,K) = 0.508
-          BU(L,I,J,K)= 6*UIN/H*YP(J)*(1-YP(J)/H)
+          BU(L,I,J,K)= 6*UIN/H*YP(J)*(1-YP(J)/H) !PP BJ: UIN
 *          PRINT *, BU(L,I,J,K)
 *         BU(L,I,J,K) = UIN
         ENDIF
@@ -1137,7 +1139,7 @@
 *        
         ELSE
          AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0 !Change to 0.0 if not PP3 
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
@@ -1367,7 +1369,7 @@
 *        
         IF(CVTYPE(I,J,K,3).EQ.3) THEN
          AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0 !Change to 0.0 if not PP3 
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0

@@ -19,19 +19,19 @@
 +8.00000E-02   GRDX  (m)  dimension of domain in 'x' direction
 +1.00000E-02   GRDY1 (m)  dimension of 1st part domain in 'y' direction
 +1.00000E-02   GRDY2 (m)  dimension of 2nd part domain in 'y' direction
-+0.00000E+00   GRDY3 (m)  dimension of 3rd part domain in 'y' direction
++0.00000E-02   GRDY3 (m)  dimension of 3rd part domain in 'y' direction
 +2.00000E-02   GRDY  (m)  dimension of domain in 'y' direction
 +3.00000E-03   GRDZ1 (m)  dimension of 1st part domain in 'z' direction
-+0.00000E+00   GRDZ2 (m)  dimension of 2nd part domain in 'z' direction
-+0.00000E+00   GRDZ3 (m)  dimension of 3rd part domain in 'z' direction
++0.00000E-02   GRDZ2 (m)  dimension of 2nd part domain in 'z' direction
++0.00000E-02   GRDZ3 (m)  dimension of 3rd part domain in 'z' direction
 +3.00000E-03   GRDZ  (m)  dimension of domain in 'z' direction
-+1.00000E-00   IRATX1  ratio of first to last c.v. in part 1 (x)
++1.00000E+00   IRATX1  ratio of first to last c.v. in part 1 (x)
 +1.00000E+00   IRATX2  ratio of first to last c.v. in part 2 (x)
 +1.00000E+00   IRATX3  ratio of first to last c.v. in part 3 (x)
-+1.00000E+00   IRATX4  ratio of first to last c.v. in part 4 (x)
-+1.00000E-00   IRATY1  ratio of first to last c.v. in part 1 (y)
-+1.00000E+00   IRATY2  ratio of first to last c.v. in part 2 (y)
-+1.00000E+00   IRATY3  ratio of first to last c.v. in part 3 (y)
++1.00000E-00   IRATX4  ratio of first to last c.v. in part 4 (x)
++1.00000E+00   IRATY1  ratio of first to last c.v. in part 1 (y)
++1.00000E-00   IRATY2  ratio of first to last c.v. in part 2 (y)
++1.00000E-00   IRATY3  ratio of first to last c.v. in part 3 (y)
 +1.00000E+00   IRATY4  ratio of first to last c.v. in part 4 (y)
 +1.00000E+00   IRATZ1  ratio of first to last c.v. in part 1 (z)
 +1.00000E+00   IRATZ2  ratio of first to last c.v. in part 2 (z)
@@ -48,13 +48,13 @@
 +0.00000E+00   W0 (m/s) 
 +0.00000E+00   P0 (Pa)  
 +6.31670E-05   UIN (m/s) inlet velocity at x=0 for inlet boundary conditions
-+9.62500E-00   DTMX (K) heater to inlet temp. difference, if applicable
++9.62500E+00   DTMX (K) heater to inlet temp. difference, if applicable
 00000          IRSTRT = 0 SET TO CONSTANTS, = 1 READ FROM restart.dat
 +0.00000E+00   ITIME (s) Initial real time
 +1.00000E+09   DTIME (s) Time step
 00001          PFTIME Frequency of printed output
 00001          KNTTM  Number of time steps- or outer iterations
-00400          KNTUVP Max inner iterations, (set < 10 for no res.)
+00050          KNTUVP Max inner iterations, (set < 10 for no res.)
 +1.00000E-06   CRIT   Stopping criterion for inner loop
 +1.00000E-03   TCRIT  Stopping criterion for time loop
 00000          LVLGEO =1 OUTPUT GEOMETRY, = 0 NO GEOMETRY OUTPUT
