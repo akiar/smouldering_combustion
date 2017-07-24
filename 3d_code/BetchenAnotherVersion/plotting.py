@@ -7,12 +7,12 @@ from matplotlib import pyplot as plt
 
 '''Global variables'''
 directory_path = 'C:\\Users\\Alex\\Documents\\GitHub\\smouldering_combustion\\3d_code\\BetchenAnotherVersion\\'
-U_infinity = 5.6e-5 #5.6e-5 6.3167
-H = 0.02    #0.02 0.01
-rho = 1000.0
 
 '''Main plotting function'''
 def porous(file_name, scheme):
+    U_infinity = 5.6e-5 #5.6e-5 6.3167
+    H = 0.02    #0.02 0.01
+    rho = 1000.0
     data = Table.read(directory_path+file_name,
                       format='ascii.commented_header', guess=False)
 
@@ -56,14 +56,17 @@ def porous(file_name, scheme):
     return
 
 def beavers(file_name, scheme):
+    H = 0.01    #0.02 0.01
+    rho = 1000.0
     data = Table.read(directory_path+file_name,
                       format='ascii.commented_header', guess=False)
-
     # Declare variables
     u_velocity = data['U']
+    U_infinity = np.average(u_velocity) #5.6e-5  !should be average velocity
     yp = data['YP']
     print '-------------------------------'
     print 'Left Boundary U: ', u_velocity[0]/U_infinity
+    print 'Average U: ', U_infinity
     print '-------------------------------'
 
     '''Beavers Johnson Flow'''
