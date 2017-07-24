@@ -624,7 +624,7 @@
         WRITE (34,*) '# XP YP ZP P U'
         B=11          !BJ: 81/101 PP: 11
         C=6           !BJ: 3 PP: 6
-        DO 64 A=1,62  !BJ: 22/42 PP:62 
+        DO 64 A=1,82  !BJ: 22/42 PP:122 
           WRITE (34,327)  XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)   !BJ: XP(B),YP(A),ZP(C),P(B,A,C),U(B,A,C) PP: XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)
   64    CONTINUE
   327  FORMAT(5(2X,1PE12.5))

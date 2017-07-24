@@ -843,7 +843,7 @@
       REAL*8 U(ID,JD,KD)
 *
 *      UINF = UIN
-       H=0.02     !PP: 0.02 BJ: 0.01
+       H=0.01     !PP: 0.02 BJ: 0.01
        UCAP=0.000056
 *      H = GRDZ/2.0
 *      DA = PERM/(EPS*H**2)

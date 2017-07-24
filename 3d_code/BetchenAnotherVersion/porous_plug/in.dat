@@ -13,10 +13,10 @@
 00012          KE2
 00012          KE3
 00012          KE
-+6.00000E-02   GRDX1 (m)  dimension of 1st part domain in 'x' direction
-+4.00000E-02   GRDX2 (m)  dimension of 2nd part domain in 'x' direction
-+6.00000E-02   GRDX3 (m)  dimension of 3rd part domain in 'x' direction
-+16.0000E-02   GRDX  (m)  dimension of domain in 'x' direction
++1.00000E-01   GRDX1 (m)  dimension of 1st part domain in 'x' direction
++1.00000E-01   GRDX2 (m)  dimension of 2nd part domain in 'x' direction
++1.00000E-00   GRDX3 (m)  dimension of 3rd part domain in 'x' direction
++1.20000E-00   GRDX  (m)  dimension of domain in 'x' direction
 +2.00000E-02   GRDY1 (m)  dimension of 1st part domain in 'y' direction
 +2.00000E-02   GRDY2 (m)  dimension of 2nd part domain in 'y' direction
 +2.00000E-02   GRDY3 (m)  dimension of 3rd part domain in 'y' direction
@@ -25,11 +25,11 @@
 +2.00000E-02   GRDZ2 (m)  dimension of 2nd part domain in 'z' direction
 +2.00000E-02   GRDZ3 (m)  dimension of 3rd part domain in 'z' direction
 +2.00000E-02   GRDZ  (m)  dimension of domain in 'z' direction
-+0.80000E-00   IRATX1  ratio of first to last c.v. in part 1 (x)
-+0.50000E+00   IRATX2  ratio of first to last c.v. in part 2 (x)
++1.00000E-00   IRATX1  ratio of first to last c.v. in part 1 (x)
++1.00000E+00   IRATX2  ratio of first to last c.v. in part 2 (x)
 +1.00000E+00   IRATX3  ratio of first to last c.v. in part 3 (x)
 +1.00000E+00   IRATX4  ratio of first to last c.v. in part 4 (x)
-+1.50000E-00   IRATY1  ratio of first to last c.v. in part 1 (y)
++1.00000E-00   IRATY1  ratio of first to last c.v. in part 1 (y)
 +1.00000E+00   IRATY2  ratio of first to last c.v. in part 2 (y)
 +1.00000E+00   IRATY3  ratio of first to last c.v. in part 3 (y)
 +1.00000E+00   IRATY4  ratio of first to last c.v. in part 4 (y)
@@ -43,11 +43,11 @@
 +1.12000E-03   MU (visc) (N s/m)
 +0.00000E+00   BETA (K^-1) Expansion coefficient
 +2.88500E+02   T0 (C)   
-+5.60000E-05   U0 (m/s) 
++1.00000E-00   U0 (m/s) 
 +0.00000E+00   V0 (m/s) 
 +0.00000E+00   W0 (m/s) 
 +0.00000E+00   P0 (Pa)  
-+5.60000E-05   UIN (m/s) inlet velocity at x=0 for inlet boundary conditions
++1.00000E-00   UIN (m/s) inlet velocity at x=0 for inlet boundary conditions
 +9.62500E-00   DTMX (K) heater to inlet temp. difference, if applicable
 00000          IRSTRT = 0 SET TO CONSTANTS, = 1 READ FROM restart.dat
 +0.00000E+00   ITIME (s) Initial real time
