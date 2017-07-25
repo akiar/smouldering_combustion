@@ -11,7 +11,7 @@ directory_path = 'C:\\Users\\Alex\\Documents\\GitHub\\smouldering_combustion\\3d
 '''Main plotting function'''
 def porous(file_name, scheme):
     U_infinity = 10 #5.6e-5 10
-    H = 0.01    #0.02 0.01
+    H = 0.02    #0.02 0.01
     rho = 10.0    #10
     data = Table.read(directory_path+file_name,
                       format='ascii.commented_header', guess=False)
@@ -31,11 +31,13 @@ def porous(file_name, scheme):
     figure_name = "velocity_plot_pp_{}.png".format(scheme)
     vel_plot = plt.figure(figsize=(10,10))
     ax = vel_plot.add_subplot(111)
-    ax.scatter(xp/H, u_velocity/U_infinity)
+    ax.plot(xp/H, u_velocity/U_infinity)
     ax.set_xlabel('x/H', fontweight='bold', fontsize=14)
     ax.set_ylabel('u/U', fontweight='bold', fontsize=14)
-#    plt.ylim(1.2,1.6)
-#    plt.xlim(0,8)
+    ax.xaxis.set_major_locator(plt.MultipleLocator(2.5))
+#    plt.ylim(1.0,1.6)
+    plt.xlim(0,15)
+    plt.grid()
     pylab.savefig(os.path.join(directory_path, figure_name))
     plt.show()
     plt.close()
@@ -44,11 +46,12 @@ def porous(file_name, scheme):
     figure_name = "pressure_plot_pp_{}.png".format(scheme)
     press_plot = plt.figure(figsize=(10,10))
     ax2 = press_plot.add_subplot(111)
-    ax2.scatter(xp/H, pressure/rho/U_infinity**2)
+    ax2.plot(xp/H, pressure/rho/U_infinity**2)
     ax2.set_xlabel('x/H', fontweight='bold', fontsize=14)
     ax2.set_ylabel('P/(rho*u^2)', fontweight='bold', fontsize=14)
 #    plt.ylim(0,350)
-#    plt.xlim(0,8)
+    plt.xlim(0,15)
+    plt.grid()
     pylab.savefig(os.path.join(directory_path, figure_name))
  #   plt.show()
  #   plt.close()

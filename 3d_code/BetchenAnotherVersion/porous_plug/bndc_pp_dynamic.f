@@ -642,7 +642,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.5*RHO*UIN**2 !PP DYNAMIC: 0.5*RHO*UIN**2 ELSE 0.0 
+         BU(L,I,J,K) = 0.0
         ENDIF        
   5    CONTINUE
  10   CONTINUE
