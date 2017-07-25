@@ -33,7 +33,7 @@
       REAL*8 DES(ID,JD,KD),DNS(ID,JD,KD),DTS(ID,JD,KD)      
       REAL*8 DTMX,QWALL,QTOT,XNODE,TIN
       PARAMETER(QWALL = 10.0)
-      PARAMETER (TIN = 300.0)
+      PARAMETER (TIN = 300.0)                                 !set inlet temperature
       INTEGER IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB
       INTEGER CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
@@ -263,8 +263,8 @@
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
 *----applying-heater-wall-temperature
-*         BT(L,I,J,K) = TIN+DTMX
-         BT(L,I,J,K) = TIN+(-160*XP(I)**2+38.7*XP(I)+8.32)
+*         BT(L,I,J,K) = TIN+DTMX      !No fitting
+         BT(L,I,J,K) = TIN+(-160*XP(I)**2+38.7*XP(I)+8.32)    !fitting
 *         BT(L,I,J,K) = 400.0
 *
          L = 2
@@ -573,7 +573,7 @@
       REAL*8 P(ID,JD,KD),DIEP(ID),DJNP(JD),DKTP(KD)
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,N,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,M,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
-      REAL RHO,UIN
+      REAL*8 RHO,UIN
 *
       L = 1
       IBM1 = IB - 1
@@ -642,7 +642,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
+         BU(L,I,J,K) = 0.0 !0.5*RHO*UIN**2 !PP DYNAMIC: 0.5*RHO*UIN**2 ELSE 0.0 
         ENDIF        
   5    CONTINUE
  10   CONTINUE
@@ -900,7 +900,7 @@
 *          BU(L,I,J,K) = (6*UCAP*YP(J)/H)*(1-YP(J)/H)
 *         BU(L,I,J,K) = 0.563
 *         BU(L,I,J,K) = 0.508
-          BU(L,I,J,K)= 6*UIN/H*YP(J)*(1-YP(J)/H) !PP BJ: UIN
+          BU(L,I,J,K)= UIN !6*UIN/H*YP(J)*(1-YP(J)/H) !PP BJ CM: UIN
 *          PRINT *, BU(L,I,J,K)
 *         BU(L,I,J,K) = UIN
         ENDIF
@@ -1028,7 +1028,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 1.0         
+         AUT(L,L,I,J,K) = 1.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF
@@ -1045,7 +1045,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
 *
@@ -1369,7 +1369,7 @@
 *        
         IF(CVTYPE(I,J,K,3).EQ.3) THEN
          AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0 !Change to 0.0 if not PP3 
+         AUE(L,L,I,J,K) = 0.0  
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
@@ -1381,7 +1381,7 @@
 *        
         ELSE
          AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
+         AUE(L,L,I,J,K) = 0.0 !Change to 0.0 if not PP3
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
@@ -1407,7 +1407,7 @@
          BU(L,I,J,K) = 0.0
 *
 *       Non-solid CV adjacent to boundary
-*        
+*
         ELSE
          AUW(L,L,I,J,K) = 1.0
          AUE(L,L,I,J,K) = 0.0
