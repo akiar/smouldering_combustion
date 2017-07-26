@@ -101,6 +101,7 @@ def con_quiv(file_name, scheme):
     yp = data['YP']
     plt.quiver(xp, yp, u_velocity, v_velocity, edgecolor='k',
                facecolor='None', linewidth=.5)
+    return
     
 
 
