@@ -87,3 +87,20 @@ def beavers(file_name, scheme):
 #    plt.xlim(0,2.6)
 
     return
+
+def con_quiv(file_name, scheme):
+    '''Generate contour and quiver plots for CM problem'''
+    L = 0.114   #Length 
+    H = 0.045   #Height
+    data = Table.read(directory_path+file_name,
+                      format='ascii.commented_header', guess=False)
+    temperature = data['T']
+    u_velocity = data['U']
+    v_velocity = data['V']
+    xp = data['XP']
+    yp = data['YP']
+    plt.quiver(xp, yp, u_velocity, v_velocity, edgecolor='k',
+               facecolor='None', linewidth=.5)
+    
+
+

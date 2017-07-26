@@ -18,7 +18,7 @@
       IMPLICIT NONE
       INTEGER ID,JD,KD,N,NT,NNB,ITER,A,B,C
       REAL*8 GEE,PI,BLEND,UREF,DBL1,DBL0,RLX
-      PARAMETER(ID=303,JD=43,KD=17)
+      PARAMETER(ID=82,JD=72,KD=22)
       PARAMETER(N=4)
       PARAMETER(NT=2)
       PARAMETER(NNB=6)
@@ -171,7 +171,7 @@
      C            ISB2,ISE2,JSB2,JSE2,KSB2,KSE2,
      C            CVTYPE,IB,IE1,IE2,IE3,IE,JB,JE1,JE2,JE3,JE,
      C            KB,KE1,KE2,KE3,KE,ID,JD,KD,NNB)
-      PRINT *, XP(21),YP(11),ZP(11)
+*      PRINT *, XP(21),YP(11),ZP(11)
 *
 *--Initialize field variables
 *
@@ -554,6 +554,7 @@
  1600 CONTINUE   
 *
        PRINT *, 'inside inner loop'
+*
 *----------------------------------
 *  End inner, linearization loop
 *----------------------------------
@@ -622,7 +623,7 @@
 *
  1840 OPEN(UNIT=34,FILE='CVELO.dat')
         WRITE (34,*) '# XP YP ZP P U'
-        B=11          !BJ: 81/101 PP: 11
+        B=2          !BJ: 81/101 PP: 11
         C=6           !BJ: 3 PP: 6
         DO 64 A=1,102  !BJ: 22/42 PP:102 
           WRITE (34,327)  XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)   !BJ: XP(B),YP(A),ZP(C),P(B,A,C),U(B,A,C) PP: XP(A),YP(B),ZP(C),P(A,B,C),U(A,B,C)

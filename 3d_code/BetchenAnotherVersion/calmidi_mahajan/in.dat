@@ -1,18 +1,18 @@
 00002          IB
-00121          IE1
-00121          IE2
-00121          IE3
-00121          IE
+00081          IE1
+00081          IE2
+00081          IE3
+00081          IE
 00002          JB
-00111          JE1
-00111          JE2
-00111          JE3
-00111          JE
+00071          JE1
+00071          JE2
+00071          JE3
+00071          JE
 00002          KB
-00011          KE1
-00011          KE2
-00011          KE3
-00011          KE
+00021          KE1
+00021          KE2
+00021          KE3
+00021          KE
 +0.11400E-00   GRDX1 (m)  dimension of 1st part domain in 'x' direction
 +0.00000E-00   GRDX2 (m)  dimension of 2nd part domain in 'x' direction
 +0.00000E-00   GRDX3 (m)  dimension of 3rd part domain in 'x' direction
@@ -41,7 +41,7 @@
 +2.63000E-02   COND (W/m K)
 +1.00700E+03   CP (J/kg K)
 +1.84600E-05   MU (visc) (N s/m)
-+0.00333E+00   BETA (K^-1) Expansion coefficient
++0.00000E+00   BETA (K^-1) Expansion coefficient
 +3.00000E+02   T0 (C)   
 +1.00000E-00   U0 (m/s) 
 +0.00000E+00   V0 (m/s) 
@@ -60,7 +60,7 @@
 00000          LVLGEO =1 OUTPUT GEOMETRY, = 0 NO GEOMETRY OUTPUT
 00000          LVLCOF=0 NONE,1 FINAL,2 BEFORE ELIM.,3 COEFF., 4 ALL
 00000          LVLMGD 0 NONE, 1 END, 2 ITER., 3 COARSE GRID, 4 COEFF.
-00001          ADVSCM  =1 I-UDS, =2 I-CDS, =3 I-TVD-MUSCL
+00002          ADVSCM  =1 I-UDS, =2 I-CDS, =3 I-TVD-MUSCL
 00001          ISOTHM  =0 isothermal, =1 solve energy eqn + mass fraction.
 00001          POROUS  =0 no porous region, =1 constant pptys, =2 carbon foam
 00000          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE
@@ -80,17 +80,17 @@
 +0.00000E+00   DEPSDZ Porosity gradient in z (2 only) (m^-1)
 +2.37000E+02   KS Raw material conductivity of solid matrix (2 only) (W/m K)
 00002          IPB First index in i of first porous region
-00121          IPE Last index in i of first porous region
+00081          IPE Last index in i of first porous region
 00002          JPB First index in j of first porous region
-00111          JPE Last index in j of first porous region
+00071          JPE Last index in j of first porous region
 00002          KPB First index in k of first porous region
-00011          KPE Last index in k of first porous region
+00021          KPE Last index in k of first porous region
 00002          IPB2 First index in i of second porous region
-00121          IPE2 Last index in i of second porous region
+00081          IPE2 Last index in i of second porous region
 00002          JPB2 First index in j of second porous region
-00111          JPE2 Last index in j of second porous region
+00071          JPE2 Last index in j of second porous region
 00002          KPB2 First index in k of second porous region
-00011          KPE2 Last index in k of second porous region
+00021          KPE2 Last index in k of second porous region
 00000          SOLID  =0 no solid region, =1 solid region
 +2.37000E+02   CONDS Thermal conductivity of solid (W/m K)
 +9.03000E+02   CS Specific heat capacity of solid (J/kg K)

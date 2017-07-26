@@ -49,7 +49,7 @@
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
 *
 *     Subroutine to calculate the net source of T in each interior
-*     control volume for the entire volume.Solid-phase.
+*     control volume for the entire volume.Solid-phase.
 *     Net Source = Q + R*T 
 *
 *     Q(ID,JD,KD) fixed source coefficient; output

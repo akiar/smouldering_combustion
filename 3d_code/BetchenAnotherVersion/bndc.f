@@ -740,8 +740,8 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 1.0         
          AUP(L,L,I,J,K) = 1.0
-*         BU(L,I,J,K) = DKTP(K)*(P(I,J,KB)-P(I,J,KB+1))/DKTP(KB)
-         BU(L,I,J,K) = 0.0
+         BU(L,I,J,K) = DKTP(K)*(P(I,J,KB)-P(I,J,KB+1))/DKTP(KB)
+*         BU(L,I,J,K) = 0.0
         ENDIF
 *
 *     Top face boundary conditions
@@ -770,8 +770,8 @@
          AUB(L,L,I,J,K) = 1.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-*         BU(L,I,J,K) = DKTP(KE)*(P(I,J,KE)-P(I,J,KE-1))/DKTP(KE-1)
-         BU(L,I,J,K) = 0.0
+         BU(L,I,J,K) = DKTP(KE)*(P(I,J,KE)-P(I,J,KE-1))/DKTP(KE-1)
+*         BU(L,I,J,K) = 0.0
         ENDIF
 *
  25    CONTINUE
