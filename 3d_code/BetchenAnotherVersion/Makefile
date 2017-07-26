@@ -168,6 +168,10 @@ CFLAGS=$(SPECIALFLAGS) $(OPTFLAGS) $(PRJ_CFLAGS)
 	@echo Compiling .\srcuvp.f
 	@$(FC) -c -o "build\srcuvp.o" $(FFLAGS) ".\srcuvp.f"
 
+"build\tecplt.o": ".\tecplt.f"
+	@echo Compiling .\tecplt.f
+	@$(FC) -c -o "build\tecplt.o" $(FFLAGS) ".\tecplt.f"
+
 "build\tres.o": ".\tres.f"
 	@echo Compiling .\tres.f
 	@$(FC) -c -o "build\tres.o" $(FFLAGS) ".\tres.f"
@@ -267,6 +271,8 @@ clean: .SYMBOLIC
 	@$(RM) "build\src.o"
 	@echo Deleting build\srcuvp.o and related files
 	@$(RM) "build\srcuvp.o"
+	@echo Deleting build\tecplt.o and related files
+	@$(RM) "build\tecplt.o"
 	@echo Deleting build\tres.o and related files
 	@$(RM) "build\tres.o"
 	@echo Deleting build\type.o and related files
@@ -284,9 +290,9 @@ clean: .SYMBOLIC
 	@echo Deleting target.exe
 	@$(RM) "target.exe"
 
-"target.exe":  "build\acosh.o" "build\adcont.o" "build\addisp.o" "build\assign.o" "build\bccalc.o" "build\bcelim.o" "build\bndc.o" "build\cargrd.o" "build\cfppty.o" "build\coeff.o" "build\conv.o" "build\crst.o" "build\dhat.o" "build\difphi.o" "build\dlap.o" "build\factr.o" "build\globmsfdlap.o" "build\gradp.o" "build\grdgeo.o" "build\hoconv.o" "build\inital.o" "build\input.o" "build\main.o" "build\makgrd.o" "build\masflx.o" "build\meana.o" "build\null.o" "build\pptys.o" "build\relax.o" "build\resid.o" "build\sgen.o" "build\solt.o" "build\soluvp.o" "build\src.o" "build\srcuvp.o" "build\tres.o" "build\type.o" "build\uhat.o" "build\uvptrs.o" "build\vhat.o" "build\weight.o" "build\what.o" "build\BetchenAnotherVersion.prj.target"
+"target.exe":  "build\acosh.o" "build\adcont.o" "build\addisp.o" "build\assign.o" "build\bccalc.o" "build\bcelim.o" "build\bndc.o" "build\cargrd.o" "build\cfppty.o" "build\coeff.o" "build\conv.o" "build\crst.o" "build\dhat.o" "build\difphi.o" "build\dlap.o" "build\factr.o" "build\globmsfdlap.o" "build\gradp.o" "build\grdgeo.o" "build\hoconv.o" "build\inital.o" "build\input.o" "build\main.o" "build\makgrd.o" "build\masflx.o" "build\meana.o" "build\null.o" "build\pptys.o" "build\relax.o" "build\resid.o" "build\sgen.o" "build\solt.o" "build\soluvp.o" "build\src.o" "build\srcuvp.o" "build\tecplt.o" "build\tres.o" "build\type.o" "build\uhat.o" "build\uvptrs.o" "build\vhat.o" "build\weight.o" "build\what.o" "build\BetchenAnotherVersion.prj.target"
 	@echo Generating target.exe
-	@$(FC) -o "target.exe" -static "build\acosh.o" "build\adcont.o" "build\addisp.o" "build\assign.o" "build\bccalc.o" "build\bcelim.o" "build\bndc.o" "build\cargrd.o" "build\cfppty.o" "build\coeff.o" "build\conv.o" "build\crst.o" "build\dhat.o" "build\difphi.o" "build\dlap.o" "build\factr.o" "build\globmsfdlap.o" "build\gradp.o" "build\grdgeo.o" "build\hoconv.o" "build\inital.o" "build\input.o" "build\main.o" "build\makgrd.o" "build\masflx.o" "build\meana.o" "build\null.o" "build\pptys.o" "build\relax.o" "build\resid.o" "build\sgen.o" "build\solt.o" "build\soluvp.o" "build\src.o" "build\srcuvp.o" "build\tres.o" "build\type.o" "build\uhat.o" "build\uvptrs.o" "build\vhat.o" "build\weight.o" "build\what.o" $(LDIR) $(PRJ_LFLAGS)
+	@$(FC) -o "target.exe" -static "build\acosh.o" "build\adcont.o" "build\addisp.o" "build\assign.o" "build\bccalc.o" "build\bcelim.o" "build\bndc.o" "build\cargrd.o" "build\cfppty.o" "build\coeff.o" "build\conv.o" "build\crst.o" "build\dhat.o" "build\difphi.o" "build\dlap.o" "build\factr.o" "build\globmsfdlap.o" "build\gradp.o" "build\grdgeo.o" "build\hoconv.o" "build\inital.o" "build\input.o" "build\main.o" "build\makgrd.o" "build\masflx.o" "build\meana.o" "build\null.o" "build\pptys.o" "build\relax.o" "build\resid.o" "build\sgen.o" "build\solt.o" "build\soluvp.o" "build\src.o" "build\srcuvp.o" "build\tecplt.o" "build\tres.o" "build\type.o" "build\uhat.o" "build\uvptrs.o" "build\vhat.o" "build\weight.o" "build\what.o" $(LDIR) $(PRJ_LFLAGS)
 
 all: "target.exe" .SYMBOLIC
 

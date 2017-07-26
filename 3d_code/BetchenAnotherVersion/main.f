@@ -619,7 +619,7 @@
  2000 CONTINUE
 *
 *--Write all field variables to an unformatted output file, rso.bin,
-*  and to tec.dat for direct input to TECplot.
+*  and to CVELO.dat for direct input to Python.
 *
  1840 OPEN(UNIT=34,FILE='CVELO.dat')
         WRITE (34,*) '# XP YP ZP P U'
@@ -631,6 +631,12 @@
   327  FORMAT(5(2X,1PE12.5))
         CALL FLUSH(34)
       CLOSE(UNIT=34)   
+*
+*     Print to a TECplot formatted file tec.dat
+*
+       CALL TECPLT(XP,YP,ZP,IB,IE,JB,JE,KB,KE,ID,JD,KD,
+     C                  U,V,W,P,TS,TF)
+*
        CALL SGENC(SGENT,SGEN,SGENF,SGENS,RATIOT,RATIOS,RATIO,
      C           U,V,W,TF,TS,
      C           DE,DN,DT,DEF,DNF,DTF,DES,DNS,DTS,

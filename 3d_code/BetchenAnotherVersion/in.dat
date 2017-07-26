@@ -54,7 +54,7 @@
 +1.00000E+09   DTIME (s) Time step
 00001          PFTIME Frequency of printed output
 00001          KNTTM  Number of time steps- or outer iterations
-00400          KNTUVP Max inner iterations, (set < 10 for no res.)
+00005          KNTUVP Max inner iterations, (set < 10 for no res.)
 +1.00000E-06   CRIT   Stopping criterion for inner loop
 +1.00000E-03   TCRIT  Stopping criterion for time loop
 00000          LVLGEO =1 OUTPUT GEOMETRY, = 0 NO GEOMETRY OUTPUT
