@@ -18,19 +18,19 @@
 *  Write output in TECplot format for postprocessing
 *
       WRITE(20,320)
-      WRITE(20,322) 0,0,1,(IE-IB+3),(JE-JB+3),(KE-KB+3)
+      WRITE(20,322) 0,0,1,(JE-JB+3),(IE-IB+3)!,(KE-KB+3)
+      K=10
       DO I=IB-1,IE+1
        DO J=JB-1,JE+1
-        DO K=KB-1,KE+1
-          WRITE(20,325) XP(I),YP(J),ZP(K),P(I,J,K),U(I,J,K),V(I,J,K),
-     C                  W(I,J,K),TS(I,J,K),TF(I,J,K)
-        END DO  
+        !DO K=KB-1,KE+1
+         WRITE(20,325) XP(I),YP(J),P(I,J,K),U(I,J,K),V(I,J,K), !,ZP(K)
+     C                 TS(I,J,K),TF(I,J,K)   !W(I,J,K),
+        !END DO  
        END DO
       END DO
- 320  FORMAT('VARIABLES="XP","YP","ZP","P","U","V","W","TS","TF"')
- 322  FORMAT('ZONE T="Zone ',I1,I1,I1,'"
-     C            I=',I6,' J=',I6,' K=',I6,' F=POINT')
- 325  FORMAT(9(1X,1PE10.3))
+ 320  FORMAT('VARIABLES="XP","YP","P","U","V","TS","TF"') !,"ZP","W"
+ 322  FORMAT('ZONE T="Zone ',I1,I1,I1,'"I=',I6,' J=',I6,' F=POINT') !' K=',I6,
+ 325  FORMAT(7(1X,1PE10.3))   !9
       
       RETURN
       END

@@ -134,6 +134,9 @@
       REAL*8 SGENT,SGEN(ID,JD,KD),SGENF(ID,JD,KD),SGENS(ID,JD,KD)
       REAL*8 RATIOT,RATIOS,RATIO(ID,JD,KD)
 *
+      REAL*8 HEATFLUX,NUSSELT,TAVG,TTOT,DTAVG,TIN
+      PARAMETER(TIN=300.0) 
+*
 *============================
 *  Initialization and input
 *============================
@@ -184,8 +187,8 @@
 *
       DO 9 I=1,6
         ARSD(I)=   0.0
-	RSDOLD(I)= 1.0E+10
-	NORM(I)=   1.0E+10
+	    RSDOLD(I)= 1.0E+10
+	    NORM(I)=   1.0E+10
    9  CONTINUE
 *
 *--Create needed property arrays. Note for POROUS = 1
@@ -632,10 +635,16 @@
         CALL FLUSH(34)
       CLOSE(UNIT=34)   
 *
+*     Calculate heat transfer characteristics
+*
+       CALL HTCHAR(HEATFLUX,NUSSELT,TAVG,DTAVG, ID,JD,KD,
+     C             IB,IE,JB,JE,KB,KE,
+     C             DN,TF,TS,TIN,CONDFE)
+*
 *     Print to a TECplot formatted file tec.dat
 *
        CALL TECPLT(XP,YP,ZP,IB,IE,JB,JE,KB,KE,ID,JD,KD,
-     C                  U,V,W,P,TS,TF)
+     C             U,V,W,P,TS,TF)
 *
        CALL SGENC(SGENT,SGEN,SGENF,SGENS,RATIOT,RATIOS,RATIO,
      C           U,V,W,TF,TS,
