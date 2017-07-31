@@ -103,13 +103,13 @@
         ELSE
          L = 1
          ATW(L,L,I,J,K) = 0.0
-         ATE(L,L,I,J,K) = 0.0
+         ATE(L,L,I,J,K) = 1.0
          ATS(L,L,I,J,K) = 0.0
          ATN(L,L,I,J,K) = 0.0
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
-         BT(L,I,J,K) = TIN
+         BT(L,I,J,K) = 0.0
 *
          L = 2
          ATW(L,L,I,J,K) = 0.0
@@ -264,7 +264,7 @@
          ATP(L,L,I,J,K) = 1.0
 *----applying-heater-wall-temperature
 *         BT(L,I,J,K) = TIN+DTMX      !No fitting
-         BT(L,I,J,K) = TIN+(-160*XP(I)**2+38.7*XP(I)+8.32)    !fitting
+         BT(L,I,J,K) = TIN
 *         BT(L,I,J,K) = 400.0
 *
          L = 2
@@ -277,7 +277,7 @@
          ATP(L,L,I,J,K) = 1.0
 *----applying-heater-wall-temperature         
 *         BT(L,I,J,K) = TIN+DTMX
-         BT(L,I,J,K) = TIN+(-160*XP(I)**2+38.7*XP(I)+8.32)
+         BT(L,I,J,K) = TIN
 *         BT(L,I,J,K) = 400.0
         ENDIF
 *
@@ -342,7 +342,7 @@
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
-         BT(L,I,J,K) = 0.0
+         BT(L,I,J,K) = 0.0    !robin condition, implement U overall coefficient
 *
          L = 2
          ATW(L,L,I,J,K) = 0.0
@@ -352,7 +352,7 @@
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
-         BT(L,I,J,K) = 0.0
+         BT(L,I,J,K) = 0.0    !robin condition, implement U overall coefficient
         ENDIF
  15    CONTINUE
  20   CONTINUE
@@ -406,7 +406,7 @@
          ATS(L,L,I,J,K) = 0.0
          ATN(L,L,I,J,K) = 0.0
          ATB(L,L,I,J,K) = 0.0
-         ATT(L,L,I,J,K) = 1.0         
+         ATT(L,L,I,J,K) = 1.0 
          ATP(L,L,I,J,K) = 1.0
          BT(L,I,J,K) = 0.0
 *
@@ -635,14 +635,14 @@
 *       Non-solid CV adjacent to boundary
 *        
         ELSE
-         AUW(L,L,I,J,K) = 0.0
+         AUW(L,L,I,J,K) = 1.0
          AUE(L,L,I,J,K) = 0.0
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0 !0.5*RHO*UIN**2 !PP DYNAMIC: 0.5*RHO*UIN**2 ELSE 0.0 
+         BU(L,I,J,K) = DIEP(IE)*(P(IE,J,K)-P(IE-1,J,K))/DIEP(IE-1) !0.5*RHO*UIN**2 !PP DYNAMIC: 0.5*RHO*UIN**2 ELSE 0.0 
         ENDIF        
   5    CONTINUE
  10   CONTINUE
@@ -700,12 +700,12 @@
         ELSE
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 1.0
+         AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)
+         BU(L,I,J,K) = 0.0 !DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)
         ENDIF
 *
  15    CONTINUE

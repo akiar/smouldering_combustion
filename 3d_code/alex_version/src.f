@@ -20,7 +20,12 @@
       REAL*8 HSF(ID,JD,KD),SPECSA(ID,JD,KD),VOLP(ID,JD,KD)
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
-*     
+      REAL*8 INTGEN
+*
+*     Set heater source
+*
+      INTGEN = 25000  ! Zanoni et al Table 6
+*
       DO 30 K=KB,KE
        DO 20 J=JB,JE
         DO 10 I=IB,IE
@@ -31,8 +36,14 @@
      C               -DCCN(I,J,K)+DCCN(I,J-1,K)
      C               -DCCT(I,J,K)+DCCT(I,J,K-1)
 *
-*        Interfacial exchange
+*        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
 *
+         IF (J == 12) THEN
+          QT(I,J,K) = QT(I,J,K) + INTGEN*VOLP(I,J,K)
+         END IF
+*
+*        Interfacial exchange
+* 
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
            RT(I,J,K) = -1.0*HSF(I,J,K)*SPECSA(I,J,K)*VOLP(I,J,K)
          ELSE
@@ -62,14 +73,25 @@
       REAL*8 HSF(ID,JD,KD),SPECSA(ID,JD,KD),VOLP(ID,JD,KD)
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
-*     
+      REAL*8 INTGEN
+*
+*     Set heater source
+*
+      INTGEN = 25000  ! Zanoni et al Table 6
+*
       DO 30 K=KB,KE
        DO 20 J=JB,JE
         DO 10 I=IB,IE
-         QT(I,J,K) = 0.0     
+         QT(I,J,K) = 0.0
+*
+*        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
+*
+         IF (J == 12) THEN
+          QT(I,J,K) = INTGEN*VOLP(I,J,K)
+         END IF
 *
 *        Interfacial exchange
-*                      
+*
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
            RT(I,J,K) = -1.0*HSF(I,J,K)*SPECSA(I,J,K)*VOLP(I,J,K)
          ELSE

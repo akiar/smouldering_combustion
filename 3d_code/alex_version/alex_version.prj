@@ -37,9 +37,6 @@
         "filename":".\\crst.f",
         "enabled":"1"
       },{
-        "filename":".\\CVELO.dat",
-        "enabled":"1"
-      },{
         "filename":".\\dhat.f",
         "enabled":"1"
       },{
@@ -139,10 +136,10 @@
         "filename":".\\what.f",
         "enabled":"1"
       }],
-    "Name":"+Untitled (target.exe)",
+    "Name":"+alex_version (target.exe)",
     "Folders":[]
   },
-  "Name":"Untitled (target.exe)",
+  "Name":"alex_version (target.exe)",
   "Options":{
     "Compiler Options":{
       "Link Flags":"",
