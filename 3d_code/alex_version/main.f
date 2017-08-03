@@ -135,11 +135,16 @@
       REAL*8 SGENT,SGEN(ID,JD,KD),SGENF(ID,JD,KD),SGENS(ID,JD,KD)
       REAL*8 RATIOT,RATIOS,RATIO(ID,JD,KD)
 *
-      REAL*8 HEATFLUX,NUSSELT,TAVG,TTOT,DTAVG,TIME
+*     New variables
+*
+      REAL*8 HEATERTIME,FANTIME  !Time steps for heater and fan on/off
 *
 *============================
 *  Initialization and input
 *============================
+*
+      HEATERTIME = 2400.0 !Heater off time 
+      FANTIME = 1800.0    !Fan on time
 *
 *--Read input parameters
 *
@@ -334,7 +339,8 @@
 
         CALL SRCTF(QTF,RTF, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
-     C             TTIME)
+     C             TTIME,
+     C             HEATERTIME)
         CALL COEFFM(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C              ME,MN,MT,DEF,DNF,DTF,QTF,RTF,TFOLD,TF,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
@@ -350,7 +356,8 @@
      C              0,CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL SRCTS(QTS,RTS, HSF,SPECSA,VOLP,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
-     C             TTIME)
+     C             TTIME,
+     C             HEATERTIME)
         CALL COEFFM(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C              ME,MN,MT,DES,DNS,DTS,QTS,RTS,TSOLD,TS,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
@@ -444,11 +451,14 @@
 *
         CALL BNDCU(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
      C             XP,YP,ZP,GRDZ,FORCH,PERM,EPS,VISC,RHO,UIN,
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,U)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,U,
+     C             TTIME,FANTIME)
         CALL BNDCV(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,UIN)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,
+     C             UIN,TTIME,FANTIME)
         CALL BNDCW(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,
+     C             TTIME,FANTIME)
 *
 *--Compute terms required to couple mass-momentum
 *
@@ -564,9 +574,11 @@
      C             TF,TS,TIN,
      C             CONDFE,CONDSX)
 *
-*     Print to a TECplot formatted file tec.dat
+*     Print to a TECplot formatted file tec.dat, python file py.txt
 *
        CALL TECPLT(XP,YP,ZP,IB,IE,JB,JE,KB,KE,ID,JD,KD,
+     C             U,V,W,P,TS,TF,KNTOUT)
+       CALL PYPLOT(XP,YP,ZP,IB,IE,JB,JE,KB,KE,ID,JD,KD,
      C             U,V,W,P,TS,TF,KNTOUT)
        PRINT *, 'inside inner loop'
 *

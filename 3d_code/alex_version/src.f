@@ -3,7 +3,8 @@
 *
 ************************************************************************
       SUBROUTINE SRCTF(QT,RT, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME,
+     C                 HEATERTIME)
 *
 *     Subroutine to calculate the net source of T in each interior
 *     control volume for the entire volume. Fluid-phase.
@@ -21,30 +22,29 @@
       REAL*8 TTIME
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
-      REAL*8 INTGEN
+      REAL*8 INTGEN,HEATERTIME
 *
-*     Set heater source
-*
-      INTGEN = 25000  ! Zanoni et al Table 6
-*
-      IF (TTIME<=5) THEN 
+      IF (TTIME<=HEATERTIME) THEN 
           PRINT *, "HEATING"
       END IF
       DO 30 K=KB,KE
        DO 20 J=JB,JE
         DO 10 I=IB,IE
 *
+*        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
+*
+         IF ((J == 14).AND.(TTIME<=HEATERTIME)) THEN
+          INTGEN = 25000.0    ! Zanoni et al Table 6
+         ELSE 
+          INTGEN = 0.0
+         END IF
+*
 *        Deferred corrections
-*                
+*
          QT(I,J,K) = -1.0*DCCE(I,J,K)+DCCE(I-1,J,K)
      C               -DCCN(I,J,K)+DCCN(I,J-1,K)
      C               -DCCT(I,J,K)+DCCT(I,J,K-1)
-*
-*        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
-*
-         IF ((J == 14).AND.(TTIME<=5)) THEN
-          QT(I,J,K) = QT(I,J,K) + INTGEN*VOLP(I,J,K)
-         END IF
+     C               +INTGEN*VOLP(I,J,K)
 *
 *        Interfacial exchange
 * 
@@ -61,7 +61,8 @@
 *
 ************************************************************************
       SUBROUTINE SRCTS(QT,RT, HSF,SPECSA,VOLP,
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME,
+     C                 HEATERTIME)
 *
 *     Subroutine to calculate the net source of T in each interior
 *     control volume for the entire volume.Solid-phase.
@@ -78,26 +79,21 @@
       REAL*8 TTIME
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
-      REAL*8 INTGEN
-*
-*     Set heater source
-*
-      INTGEN = 25000  ! Zanoni et al Table 6
-*
-      IF (TTIME<=5) THEN 
-          PRINT *, "HEATING"
-      END IF
+      REAL*8 INTGEN,HEATERTIME
 *
       DO 30 K=KB,KE
        DO 20 J=JB,JE
         DO 10 I=IB,IE
-         QT(I,J,K) = 0.0
 *
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
 *
-         IF ((J == 14).AND.(TTIME<=5)) THEN
-          QT(I,J,K) = INTGEN*VOLP(I,J,K)
+         IF ((J == 14).AND.(TTIME<=HEATERTIME)) THEN
+          INTGEN = 25000.0    ! Zanoni et al Table 6
+         ELSE 
+          INTGEN = 0.0
          END IF
+*
+         QT(I,J,K) = 0.0 + INTGEN*VOLP(I,J,K)
 *
 *        Interfacial exchange
 *

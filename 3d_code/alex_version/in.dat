@@ -42,8 +42,8 @@
 +1.00402E+03   CP (J/kg K)
 +1.69470E-05   MU (visc) (N s/m)
 +0.00000E+00   BETA (K^-1) Expansion coefficient
-+2.93000E+02   T0 (C)
-+0.06500E+00   U0 (m/s)
++0.00000E+02   T0 (C)
++0.00000E+00   U0 (m/s)
 +0.00000E+00   V0 (m/s)
 +0.00000E+00   W0 (m/s)
 +101.325E+02   P0 (Pa)
@@ -51,12 +51,12 @@
 +9.62500E+00   DTMX (K) heater to inlet temp. difference, if applicable
 00000          IRSTRT = 0 SET TO CONSTANTS, = 1 READ FROM restart.dat
 +0.00000E+00   ITIME (s) Initial real time
-+1.00000E+00   DTIME (s) Time step
++5.00000E+01   DTIME (s) Time step
 00001          PFTIME Frequency of printed output
-00015          KNTTM  Number of time steps- or outer iterations
+00060          KNTTM  Number of time steps- or outer iterations
 00001          KNTUVP Max inner iterations, (set < 10 for no res.)
 +1.00000E-06   CRIT   Stopping criterion for inner loop
-+1.00000E-03   TCRIT  Stopping criterion for time loop
++1.00000E-06   TCRIT  Stopping criterion for time loop
 00000          LVLGEO =1 OUTPUT GEOMETRY, = 0 NO GEOMETRY OUTPUT
 00000          LVLCOF=0 NONE,1 FINAL,2 BEFORE ELIM.,3 COEFF., 4 ALL
 00000          LVLMGD 0 NONE, 1 END, 2 ITER., 3 COARSE GRID, 4 COEFF.

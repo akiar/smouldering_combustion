@@ -259,26 +259,26 @@
          ATW(L,L,I,J,K) = 0.0
          ATE(L,L,I,J,K) = 0.0
          ATS(L,L,I,J,K) = 0.0
-         ATN(L,L,I,J,K) = 0.0
+         ATN(L,L,I,J,K) = 1.0 !0.0
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
 *
 *         BT(L,I,J,K) = TIN+DTMX      !No fitting
-         BT(L,I,J,K) = TIN !tin
+         BT(L,I,J,K) = 0.0 !TIN
 *         BT(L,I,J,K) = 400.0
 *
          L = 2
          ATW(L,L,I,J,K) = 0.0
          ATE(L,L,I,J,K) = 0.0
          ATS(L,L,I,J,K) = 0.0
-         ATN(L,L,I,J,K) = 0.0
+         ATN(L,L,I,J,K) = 1.0 !0.0
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
 *
 *         BT(L,I,J,K) = TIN+DTMX
-         BT(L,I,J,K) = TIN !Tin
+         BT(L,I,J,K) = 0.0 !TIN
 *         BT(L,I,J,K) = 400.0
         ENDIF
 *
@@ -338,23 +338,23 @@
          L = 1    !Fluid
          ATW(L,L,I,J,K) = 0.0
          ATE(L,L,I,J,K) = 0.0
-         ATS(L,L,I,J,K) = DNF(I,JE,K)
+         ATS(L,L,I,J,K) = 1.0 !DNF(I,JE,K)
          ATN(L,L,I,J,K) = 0.0
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
-         ATP(L,L,I,J,K) = 1.7+DNF(I,JE,K)   !U = 1.7
-         BT(L,I,J,K) = 1.7*TIN    !robin condition, implement U=1.7 overall coefficient
+         ATP(L,L,I,J,K) = 1.0!1.7+DNF(I,JE,K)   !U = 1.7
+         BT(L,I,J,K) = 0.0 !1.7*TIN    !robin condition, implement U=1.7 overall coefficient
 *
          L = 2    !Solid
          ATW(L,L,I,J,K) = 0.0
          ATE(L,L,I,J,K) = 0.0
-         ATS(L,L,I,J,K) = DNS(I,JE,K)
+         ATS(L,L,I,J,K) = 1.0 !DNS(I,JE,K)
          ATN(L,L,I,J,K) = 0.0
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0
 
-         ATP(L,L,I,J,K) = 1.7+DNS(I,JE,K) !U = 1.7
-         BT(L,I,J,K) = 1.7*TIN    !robin condition, implement U=1.7 overall coefficient
+         ATP(L,L,I,J,K) = 1.0 !1.7+DNS(I,JE,K) !U = 1.7
+         BT(L,I,J,K) = 0.0 !1.7*TIN    !robin condition, implement U=1.7 overall coefficient
         ENDIF
  15    CONTINUE
  20   CONTINUE
@@ -822,7 +822,8 @@
 *
       SUBROUTINE BNDCU(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
      C                 XP,YP,ZP,GRDZ,FORCH,PERM,EPS,VISC,RHO,UIN,
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,U)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,U,
+     C                 TTIME,FANTIME)
 *
 *     Subroutine to put the boundary condition information for U
 *     at each boundary node into the finite difference coefficients.
@@ -841,7 +842,7 @@
       REAL*8 UINF,H,DA,LAMBDA,A,B,C,D,ZSTAR,CPRIME,CARG,X0,TOL,UCAP
       INTEGER IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
-      REAL*8 U(ID,JD,KD)
+      REAL*8 U(ID,JD,KD),FANTIME,TTIME
 *
 *      UINF = UIN
        H=0.02     !PP: 0.02 BJ: 0.01
@@ -959,14 +960,25 @@
 *       Non-solid CV adjacent to boundary
 *        
         ELSE
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 1.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
+         IF (TTIME<=FANTIME) THEN
+          AUW(L,L,I,J,K) = 0.0
+          AUE(L,L,I,J,K) = 0.0
+          AUS(L,L,I,J,K) = 0.0
+          AUN(L,L,I,J,K) = 0.0
+          AUB(L,L,I,J,K) = 0.0
+          AUT(L,L,I,J,K) = 0.0         
+          AUP(L,L,I,J,K) = 1.0
+          BU(L,I,J,K) = 0.0
+         ELSE  
+          AUW(L,L,I,J,K) = 0.0
+          AUE(L,L,I,J,K) = 0.0
+          AUS(L,L,I,J,K) = 0.0
+          AUN(L,L,I,J,K) = 1.0
+          AUB(L,L,I,J,K) = 0.0
+          AUT(L,L,I,J,K) = 0.0         
+          AUP(L,L,I,J,K) = 1.0
+          BU(L,I,J,K) = 0.0
+         ENDIF 
         ENDIF
 *
 *     North face boundary conditions
@@ -990,7 +1002,7 @@
         ELSE
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 1.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
@@ -1092,7 +1104,7 @@
 *
       SUBROUTINE BNDCV(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,UIN,
-     C                 TTIME)
+     C                 TTIME,FANTIME)
 *
 *     Subroutine to put the boundary condition information for V
 *     at each boundary node into the finite difference coefficients.
@@ -1110,7 +1122,7 @@
       REAL*8 UIN
       INTEGER IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
-      REAL*8 TTIME
+      REAL*8 TTIME,FANTIME
 *
       L = 3
       IBM1 = IB - 1
@@ -1212,7 +1224,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         IF (TTIME <=5) THEN
+         IF (TTIME <=FANTIME) THEN
           BU(L,I,J,K) = 0.0
          ELSE
           BU(L,I,J,K) = UIN
@@ -1340,7 +1352,8 @@
 ************************************************************************
 *
       SUBROUTINE BNDCW(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,
+     C                 TTIME,FANTIME)
 *
 *     Subroutine to put the boundary condition information for W
 *     at each boundary node into the finite difference coefficients.
@@ -1357,6 +1370,7 @@
       REAL*8 AUT(N,N,ID,JD,KD),BU(N,ID,JD,KD)
       INTEGER IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
+      REAL*8 FANTIME,TTIME
 *
       L = 4
       IBM1 = IB - 1
@@ -1454,7 +1468,7 @@
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
          AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 1.0
+         AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
