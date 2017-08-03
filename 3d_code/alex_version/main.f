@@ -333,7 +333,8 @@
      C        0,CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)   
 
         CALL SRCTF(QTF,RTF, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
+     C             TTIME)
         CALL COEFFM(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C              ME,MN,MT,DEF,DNF,DTF,QTF,RTF,TFOLD,TF,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
@@ -348,7 +349,8 @@
      C              DIEP,DJNP,DKTP,DISE,DISN,DIST,SLDTY,
      C              0,CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL SRCTS(QTS,RTS, HSF,SPECSA,VOLP,
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
+     C             TTIME)
         CALL COEFFM(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C              ME,MN,MT,DES,DNS,DTS,QTS,RTS,TSOLD,TS,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
@@ -444,7 +446,7 @@
      C             XP,YP,ZP,GRDZ,FORCH,PERM,EPS,VISC,RHO,UIN,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,U)
         CALL BNDCV(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,UIN)
         CALL BNDCW(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
      C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
 *
@@ -562,6 +564,10 @@
      C             TF,TS,TIN,
      C             CONDFE,CONDSX)
 *
+*     Print to a TECplot formatted file tec.dat
+*
+       CALL TECPLT(XP,YP,ZP,IB,IE,JB,JE,KB,KE,ID,JD,KD,
+     C             U,V,W,P,TS,TF,KNTOUT)
        PRINT *, 'inside inner loop'
 *
 *----------------------------------
@@ -639,12 +645,7 @@
   64    CONTINUE
   327  FORMAT(5(2X,1PE12.5))
         CALL FLUSH(34)
-      CLOSE(UNIT=34)   
-*
-*     Print to a TECplot formatted file tec.dat
-*
-       CALL TECPLT(XP,YP,ZP,IB,IE,JB,JE,KB,KE,ID,JD,KD,
-     C             U,V,W,P,TS,TF)
+      CLOSE(UNIT=34)
 *
        CALL SGENC(SGENT,SGEN,SGENF,SGENS,RATIOT,RATIOS,RATIO,
      C           U,V,W,TF,TS,

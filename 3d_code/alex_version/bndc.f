@@ -33,7 +33,7 @@
       REAL*8 DES(ID,JD,KD),DNS(ID,JD,KD),DTS(ID,JD,KD)      
       REAL*8 DTMX,QWALL,QTOT,XNODE,TIN
       PARAMETER(QWALL = 10.0)
-      PARAMETER (TIN = 300.0)                                 !set inlet temperature
+      PARAMETER (TIN = 293.0)                                 !set inlet temperature
       INTEGER IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB
       INTEGER CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
@@ -53,7 +53,7 @@
         I = IBM1
 *
 *       Solid CV adjacent to boundary
-*        
+*
         IF(CVTYPE(I,J,K,3).EQ.3) THEN
          L = 1
          ATW(L,L,I,J,K) = 0.0
@@ -73,7 +73,7 @@
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
-         BT(L,I,J,K) = 0.0         
+         BT(L,I,J,K) = 0.0
 *
 *       Fluid CV adjacent to boundary
 *        
@@ -127,7 +127,7 @@
         I = IEP1
 *
 *       Solid CV adjacent to boundary
-*        
+*
         IF(CVTYPE(I,J,K,2).EQ.3) THEN
          L = 1
          ATW(L,L,I,J,K) = 0.0
@@ -150,7 +150,7 @@
          BT(L,I,J,K) = 0.0
 *
 *       Fluid CV adjacent to boundary
-*        
+*
         ELSEIF(CVTYPE(I,J,K,2).EQ.0) THEN
          L = 1
          ATW(L,L,I,J,K) = 1.0
@@ -173,7 +173,7 @@
          BT(L,I,J,K) = 0.0
 *
 *       Porous CV adjacent to boundary
-*                 
+*
         ELSE
          L = 1
          ATW(L,L,I,J,K) = 1.0
@@ -206,7 +206,7 @@
         J = JBM1
 *
 *       Solid CV adjacent to boundary
-*        
+*
         IF(CVTYPE(I,J,K,5).EQ.3) THEN
          L = 1
          ATW(L,L,I,J,K) = 0.0
@@ -229,7 +229,7 @@
          BT(L,I,J,K) = 0.0
 *
 *       Fluid CV adjacent to boundary
-*        
+*
         ELSEIF(CVTYPE(I,J,K,5).EQ.0) THEN
          L = 1
          ATW(L,L,I,J,K) = 0.0
@@ -247,12 +247,13 @@
          ATS(L,L,I,J,K) = 0.0
          ATN(L,L,I,J,K) = 1.0
          ATB(L,L,I,J,K) = 0.0
-         ATT(L,L,I,J,K) = 0.0         
+         ATT(L,L,I,J,K) = 0.0
+
          ATP(L,L,I,J,K) = 1.0
          BT(L,I,J,K) = 0.0
 *
 *       Porous CV adjacent to boundary
-*                 
+*
         ELSE
          L = 1
          ATW(L,L,I,J,K) = 0.0
@@ -262,9 +263,9 @@
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
-*----applying-heater-wall-temperature
+*
 *         BT(L,I,J,K) = TIN+DTMX      !No fitting
-         BT(L,I,J,K) = TIN
+         BT(L,I,J,K) = TIN !tin
 *         BT(L,I,J,K) = 400.0
 *
          L = 2
@@ -275,9 +276,9 @@
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
-*----applying-heater-wall-temperature         
+*
 *         BT(L,I,J,K) = TIN+DTMX
-         BT(L,I,J,K) = TIN
+         BT(L,I,J,K) = TIN !Tin
 *         BT(L,I,J,K) = 400.0
         ENDIF
 *
@@ -286,7 +287,7 @@
         J = JEP1
 *
 *       Solid CV adjacent to boundary
-*        
+*
         IF(CVTYPE(I,J,K,4).EQ.3) THEN
          L = 1
          ATW(L,L,I,J,K) = 0.0
@@ -332,27 +333,28 @@
          BT(L,I,J,K) = 0.0
 *
 *       Porous CV adjacent to boundary
-*                 
-        ELSE
-         L = 1
-         ATW(L,L,I,J,K) = 0.0
-         ATE(L,L,I,J,K) = 0.0
-         ATS(L,L,I,J,K) = 1.0
-         ATN(L,L,I,J,K) = 0.0
-         ATB(L,L,I,J,K) = 0.0
-         ATT(L,L,I,J,K) = 0.0         
-         ATP(L,L,I,J,K) = 1.0
-         BT(L,I,J,K) = 0.0    !robin condition, implement U overall coefficient
 *
-         L = 2
+        ELSE
+         L = 1    !Fluid
          ATW(L,L,I,J,K) = 0.0
          ATE(L,L,I,J,K) = 0.0
-         ATS(L,L,I,J,K) = 1.0
+         ATS(L,L,I,J,K) = DNF(I,JE,K)
          ATN(L,L,I,J,K) = 0.0
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
-         ATP(L,L,I,J,K) = 1.0
-         BT(L,I,J,K) = 0.0    !robin condition, implement U overall coefficient
+         ATP(L,L,I,J,K) = 1.7+DNF(I,JE,K)   !U = 1.7
+         BT(L,I,J,K) = 1.7*TIN    !robin condition, implement U=1.7 overall coefficient
+*
+         L = 2    !Solid
+         ATW(L,L,I,J,K) = 0.0
+         ATE(L,L,I,J,K) = 0.0
+         ATS(L,L,I,J,K) = DNS(I,JE,K)
+         ATN(L,L,I,J,K) = 0.0
+         ATB(L,L,I,J,K) = 0.0
+         ATT(L,L,I,J,K) = 0.0
+
+         ATP(L,L,I,J,K) = 1.7+DNS(I,JE,K) !U = 1.7
+         BT(L,I,J,K) = 1.7*TIN    !robin condition, implement U=1.7 overall coefficient
         ENDIF
  15    CONTINUE
  20   CONTINUE
@@ -365,7 +367,7 @@
         K = KBM1
 *
 *       Solid CV adjacent to boundary
-*        
+*
         IF(CVTYPE(I,J,K,7).EQ.3) THEN
          L = 1
          ATW(L,L,I,J,K) = 0.0
@@ -506,7 +508,7 @@
          ATS(L,L,I,J,K) = 0.0
          ATN(L,L,I,J,K) = 0.0
          ATB(L,L,I,J,K) = 1.0
-         ATT(L,L,I,J,K) = 0.0         
+         ATT(L,L,I,J,K) = 0.0 
          ATP(L,L,I,J,K) = 1.0
          BT(L,I,J,K) = 0.0
         ENDIF
@@ -614,7 +616,6 @@
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = DIEP(I)*(P(IB,J,K)-P(IB+1,J,K))/DIEP(IB) ! 0.5*RHO*UIN**2 ! !PP last case: dyanmic pressure
         ENDIF
-
 *
 *     East face boundary conditions
 *
@@ -900,7 +901,7 @@
 *          BU(L,I,J,K) = (6*UCAP*YP(J)/H)*(1-YP(J)/H)
 *         BU(L,I,J,K) = 0.563
 *         BU(L,I,J,K) = 0.508
-          BU(L,I,J,K)= UIN !6*UIN/H*YP(J)*(1-YP(J)/H) !PP BJ CM: UIN
+          BU(L,I,J,K)= 0.0 !6*UIN/H*YP(J)*(1-YP(J)/H) !PP BJ CM: UIN
 *          PRINT *, BU(L,I,J,K)
 *         BU(L,I,J,K) = UIN
         ENDIF
@@ -924,7 +925,7 @@
 *       Non-solid CV adjacent to boundary
 *        
         ELSE
-         AUW(L,L,I,J,K) = 1.0
+         AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
@@ -961,7 +962,7 @@
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
          AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 1.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
@@ -1090,7 +1091,8 @@
 ************************************************************************
 *
       SUBROUTINE BNDCV(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,UIN,
+     C                 TTIME)
 *
 *     Subroutine to put the boundary condition information for V
 *     at each boundary node into the finite difference coefficients.
@@ -1105,8 +1107,10 @@
       REAL*8 AUP(N,N,ID,JD,KD),AUW(N,N,ID,JD,KD),AUE(N,N,ID,JD,KD)
       REAL*8 AUS(N,N,ID,JD,KD),AUN(N,N,ID,JD,KD),AUB(N,N,ID,JD,KD)
       REAL*8 AUT(N,N,ID,JD,KD),BU(N,ID,JD,KD)
+      REAL*8 UIN
       INTEGER IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
+      REAL*8 TTIME
 *
       L = 3
       IBM1 = IB - 1
@@ -1167,7 +1171,7 @@
 *       Non-solid CV adjacent to boundary
 *        
         ELSE
-         AUW(L,L,I,J,K) = 1.0
+         AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
@@ -1208,7 +1212,11 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
+         IF (TTIME <=5) THEN
+          BU(L,I,J,K) = 0.0
+         ELSE
+          BU(L,I,J,K) = UIN
+         ENDIF 
         ENDIF
 *
 *     North face boundary conditions
@@ -1232,7 +1240,7 @@
         ELSE
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
+         AUS(L,L,I,J,K) = 1.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
@@ -1409,7 +1417,7 @@
 *       Non-solid CV adjacent to boundary
 *
         ELSE
-         AUW(L,L,I,J,K) = 1.0
+         AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
@@ -1446,7 +1454,7 @@
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
          AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
+         AUN(L,L,I,J,K) = 1.0
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
@@ -1541,7 +1549,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF        

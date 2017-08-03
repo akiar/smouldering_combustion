@@ -3,7 +3,7 @@
 *
 ************************************************************************
       SUBROUTINE SRCTF(QT,RT, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME)
 *
 *     Subroutine to calculate the net source of T in each interior
 *     control volume for the entire volume. Fluid-phase.
@@ -18,6 +18,7 @@
       REAL*8 QT(ID,JD,KD),RT(ID,JD,KD)
       REAL*8 DCCE(ID,JD,KD),DCCN(ID,JD,KD),DCCT(ID,JD,KD)
       REAL*8 HSF(ID,JD,KD),SPECSA(ID,JD,KD),VOLP(ID,JD,KD)
+      REAL*8 TTIME
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
       REAL*8 INTGEN
@@ -26,6 +27,9 @@
 *
       INTGEN = 25000  ! Zanoni et al Table 6
 *
+      IF (TTIME<=5) THEN 
+          PRINT *, "HEATING"
+      END IF
       DO 30 K=KB,KE
        DO 20 J=JB,JE
         DO 10 I=IB,IE
@@ -38,7 +42,7 @@
 *
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
 *
-         IF (J == 12) THEN
+         IF ((J == 14).AND.(TTIME<=5)) THEN
           QT(I,J,K) = QT(I,J,K) + INTGEN*VOLP(I,J,K)
          END IF
 *
@@ -57,7 +61,7 @@
 *
 ************************************************************************
       SUBROUTINE SRCTS(QT,RT, HSF,SPECSA,VOLP,
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME)
 *
 *     Subroutine to calculate the net source of T in each interior
 *     control volume for the entire volume.Solid-phase.
@@ -71,6 +75,7 @@
       IMPLICIT NONE
       REAL*8 QT(ID,JD,KD),RT(ID,JD,KD)
       REAL*8 HSF(ID,JD,KD),SPECSA(ID,JD,KD),VOLP(ID,JD,KD)
+      REAL*8 TTIME
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
       REAL*8 INTGEN
@@ -79,6 +84,10 @@
 *
       INTGEN = 25000  ! Zanoni et al Table 6
 *
+      IF (TTIME<=5) THEN 
+          PRINT *, "HEATING"
+      END IF
+*
       DO 30 K=KB,KE
        DO 20 J=JB,JE
         DO 10 I=IB,IE
@@ -86,7 +95,7 @@
 *
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
 *
-         IF (J == 12) THEN
+         IF ((J == 14).AND.(TTIME<=5)) THEN
           QT(I,J,K) = INTGEN*VOLP(I,J,K)
          END IF
 *
