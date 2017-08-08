@@ -18,7 +18,7 @@
       IMPLICIT NONE
       INTEGER ID,JD,KD,N,NT,NNB,ITER,A,B,C
       REAL*8 GEE,PI,BLEND,UREF,DBL1,DBL0,RLX,TIN
-      PARAMETER(ID=82,JD=72,KD=22)
+      PARAMETER(ID=82,JD=82,KD=22)
       PARAMETER(N=4)
       PARAMETER(NT=2)
       PARAMETER(NNB=6)
@@ -138,6 +138,7 @@
 *     New variables
 *
       REAL*8 HEATERTIME,FANTIME  !Time steps for heater and fan on/off
+      INTEGER HEATER
 *
 *============================
 *  Initialization and input
@@ -145,6 +146,7 @@
 *
       HEATERTIME = 2400.0 !Heater off time 
       FANTIME = 1800.0    !Fan on time
+      HEATER = 18         ! 60:14 80:18
 *
 *--Read input parameters
 *
@@ -340,7 +342,7 @@
         CALL SRCTF(QTF,RTF, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
      C             TTIME,
-     C             HEATERTIME)
+     C             HEATERTIME,HEATER)
         CALL COEFFM(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C              ME,MN,MT,DEF,DNF,DTF,QTF,RTF,TFOLD,TF,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
@@ -357,7 +359,7 @@
         CALL SRCTS(QTS,RTS, HSF,SPECSA,VOLP,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
      C             TTIME,
-     C             HEATERTIME)
+     C             HEATERTIME,HEATER)
         CALL COEFFM(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C              ME,MN,MT,DES,DNS,DTS,QTS,RTS,TSOLD,TS,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
@@ -581,6 +583,10 @@
        CALL PYPLOT(XP,YP,ZP,IB,IE,JB,JE,KB,KE,ID,JD,KD,
      C             U,V,W,P,TS,TF,KNTOUT)
        PRINT *, 'inside inner loop'
+*
+*     Update properties based on temperature
+*
+      
 *
 *----------------------------------
 *  End inner, linearization loop

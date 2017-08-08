@@ -4,10 +4,10 @@
 00021          IE3
 00021          IE
 00002          JB
-00061          JE1
-00061          JE2
-00061          JE3
-00061          JE
+00081          JE1
+00081          JE2
+00081          JE3
+00081          JE
 00002          KB
 00021          KE1
 00021          KE2
@@ -42,7 +42,7 @@
 +1.00402E+03   CP (J/kg K)
 +1.69470E-05   MU (visc) (N s/m)
 +0.00000E+00   BETA (K^-1) Expansion coefficient
-+0.00000E+02   T0 (C)
++0.00000E+00   T0 (C)
 +0.00000E+00   U0 (m/s)
 +0.00000E+00   V0 (m/s)
 +0.00000E+00   W0 (m/s)
@@ -53,7 +53,7 @@
 +0.00000E+00   ITIME (s) Initial real time
 +5.00000E+01   DTIME (s) Time step
 00001          PFTIME Frequency of printed output
-00060          KNTTM  Number of time steps- or outer iterations
+00108          KNTTM  Number of time steps- or outer iterations
 00001          KNTUVP Max inner iterations, (set < 10 for no res.)
 +1.00000E-06   CRIT   Stopping criterion for inner loop
 +1.00000E-06   TCRIT  Stopping criterion for time loop
@@ -66,10 +66,10 @@
 00000          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE
 +0.37000E+00   EPS Mean porosity of porous region
 +2.00000E-03   PD Pore diameter of porous region (m)
-+0.55000E-03   LD Ligament diameter of porous region (1 only) (m)   !
-+1.84600E-05   VISCB Brinkman viscosity in porous region (kg/m s)   !
-+0.08500E-00   FORCH Forchheimer coefficient (1) or constant (2)    !
-+1.80000E-07   PERM Darcy permeability (1) (m^2) or constant (2)    !
++3.00000E-04   LD Ligament diameter of porous region (1 only) (m)   !
++1.69470E-05   VISCB Brinkman viscosity in porous region (kg/m s)   
++0.63489E-00   FORCH Forchheimer coefficient (1) or constant (2)    
++0.00166E-00   PERM Darcy permeability (1) (m^2) or constant (2)    
 +2.68815E-02   CONDFE Conductivity of fluid in porous region (1 only) (W/m K)
 +0.26291E+00   CONDSX Conductivity of solid matrix in x (1 only) (W/m K)
 +0.26291E+00   CONDSY Conductivity of solid matrix in y (1 only) (W/m K)
@@ -82,13 +82,13 @@
 00002          IPB First index in i of first porous region
 00021          IPE Last index in i of first porous region
 00002          JPB First index in j of first porous region
-00061          JPE Last index in j of first porous region
+00081          JPE Last index in j of first porous region
 00002          KPB First index in k of first porous region
 00021          KPE Last index in k of first porous region
 00002          IPB2 First index in i of second porous region
 00021          IPE2 Last index in i of second porous region
 00002          JPB2 First index in j of second porous region
-00061          JPE2 Last index in j of second porous region
+00081          JPE2 Last index in j of second porous region
 00002          KPB2 First index in k of second porous region
 00021          KPE2 Last index in k of second porous region
 00000          SOLID  =0 no solid region, =1 solid region

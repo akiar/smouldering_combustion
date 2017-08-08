@@ -3,13 +3,32 @@ from astropy.table import Table
 from matplotlib import pyplot as plt
 '''Global variables'''
 # Set number of time steps
-time_steps = 60
-#
+time_steps = 108
+delta_t = 50.0
+
 # Set number of control volumes 
 x_cv = 21 - 2 + 1
-y_cv = 61 - 2 + 1
+y_cv = 81 - 2 + 1
 z_cv = 21 - 2 + 1 
 colours = ["b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
+           "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
+           "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
+           "b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
+           "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
+           "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
+           "y", "g", "m", "b", "k", "r", "y", "g", "m","b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
+           "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
+           "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
+           "b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
+           "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
+           "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
+           "y", "g", "m", "b", "k", "r", "y", "g", "m","b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
+           "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
+           "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
+           "b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
+           "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
+           "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
+           "y", "g", "m", "b", "k", "r", "y", "g", "m","b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
            "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
            "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
            "b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
@@ -22,17 +41,42 @@ markers = ["o", ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o",
            "o", ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o",
            ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".",
            "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".", "*",
+           ">", "^", "s", "o", ".", "*", ">", "^", "s","o", ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o",
+           ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".",
+           "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".", "*",
+           "o", ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o",
+           ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".",
+           "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".", "*",
+           ">", "^", "s", "o", ".", "*", ">", "^", "s","o", ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o",
+           ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".",
+           "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".", "*",
+           "o", ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o",
+           ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".",
+           "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".", "*",
+           ">", "^", "s", "o", ".", "*", ">", "^", "s","o", ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o",
+           ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".",
+           "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".", "*",
+           "o", ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o",
+           ".", "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".",
+           "*", ">", "^", "s", "o", ".", "*", ">", "^", "s", "o", ".", "*",
            ">", "^", "s", "o", ".", "*", ">", "^", "s"]
 '''========================================================================='''
+
+def plot_all():
+    print "y/T"
+    y_plot()
+    print "t/T"
+    time_plot()
+    return
 
 def y_plot(): 
     '''main routine for plotting transient results from alex_version.prj'''
     # Set up figure
-    fig = plt.figure(figsize=(8,15))
+    fig = plt.figure(figsize=(15,8))
     ax = fig.add_subplot(111)
 
     # Loop over all time steps. Set number in "Global variables" 
-    for i in range(1,time_steps+1,2):
+    for i in range(40,time_steps+1,10):
         # Load py_i.txt file
         transient = load_data(i)
 
@@ -42,25 +86,42 @@ def y_plot():
 
         # Make plot
         if i <= 5: 
-            ax.scatter(T, yp, color = colours[i], marker=markers[i-1],
+            ax.scatter(yp, T, color = colours[i], marker=markers[i-1],
                        label=i)
         else:
-            ax.plot(T, yp, color = colours[i-1], label=i)
+            ax.plot(yp, T, color = colours[i-1], label=i)
     # End of loop 
 
     # format plot
     ax.legend(loc='upper right', fontsize=11, scatterpoints=1)
-    ax.set_ylabel("y [m]", fontweight='bold', fontsize=14)
-    ax.set_xlabel("TF [K]", fontweight='bold', fontsize=14)
+    ax.set_ylabel("TF [K]", fontweight='bold', fontsize=14)
+    ax.set_xlabel("y [m]", fontweight='bold', fontsize=14)
     return
+
+def time_plot():
+    fig = plt.figure(figsize=(15,8))
+    ax = fig.add_subplot(111)
+
+    for i in range(40,time_steps+1,10):   # set desired looping
+        transient = load_data(i)
+        time = i*delta_t
+        T = transient['tf']
+        for j in range(0,y_cv,10):
+            ax.scatter(time, T[j], color = colours[j], marker=markers[j],
+                       label=i)
+#    ax.legend(loc='upper right', fontsize=11, scatterpoints=1)
+    ax.set_ylabel("TF [K]", fontweight='bold', fontsize=14)
+    ax.set_xlabel("Time [s]", fontweight='bold', fontsize=14)        
+    return
+
 
 def load_data(time_step):
     '''subroutine for loading data files. 
        Modify thermocouple location you are plotting by changing the 
-           center_data criteria'''
+           center_data criteria
+       plot    1: y/T 2: t/T'''
     data = Table.read('py_'+str(time_step)+'.txt',
                       format='ascii.commented_header', guess=False)
     # Select only data through the center of the column
     center_data = data[data["i"]==(x_cv/2)]
-
     return(center_data)

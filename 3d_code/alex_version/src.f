@@ -4,7 +4,7 @@
 ************************************************************************
       SUBROUTINE SRCTF(QT,RT, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME,
-     C                 HEATERTIME)
+     C                 HEATERTIME,HEATER)
 *
 *     Subroutine to calculate the net source of T in each interior
 *     control volume for the entire volume. Fluid-phase.
@@ -21,7 +21,7 @@
       REAL*8 HSF(ID,JD,KD),SPECSA(ID,JD,KD),VOLP(ID,JD,KD)
       REAL*8 TTIME
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
-      INTEGER I,J,K
+      INTEGER I,J,K,HEATER
       REAL*8 INTGEN,HEATERTIME
 *
       IF (TTIME<=HEATERTIME) THEN 
@@ -33,7 +33,7 @@
 *
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
 *
-         IF ((J == 14).AND.(TTIME<=HEATERTIME)) THEN
+         IF ((J == HEATER).AND.(TTIME<=HEATERTIME)) THEN
           INTGEN = 25000.0    ! Zanoni et al Table 6
          ELSE 
           INTGEN = 0.0
@@ -62,7 +62,7 @@
 ************************************************************************
       SUBROUTINE SRCTS(QT,RT, HSF,SPECSA,VOLP,
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME,
-     C                 HEATERTIME)
+     C                 HEATERTIME,HEATER)
 *
 *     Subroutine to calculate the net source of T in each interior
 *     control volume for the entire volume.Solid-phase.
@@ -78,7 +78,7 @@
       REAL*8 HSF(ID,JD,KD),SPECSA(ID,JD,KD),VOLP(ID,JD,KD)
       REAL*8 TTIME
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
-      INTEGER I,J,K
+      INTEGER I,J,K,HEATER
       REAL*8 INTGEN,HEATERTIME
 *
       DO 30 K=KB,KE
@@ -87,7 +87,7 @@
 *
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
 *
-         IF ((J == 14).AND.(TTIME<=HEATERTIME)) THEN
+         IF ((J == HEATER).AND.(TTIME<=HEATERTIME)) THEN
           INTGEN = 25000.0    ! Zanoni et al Table 6
          ELSE 
           INTGEN = 0.0

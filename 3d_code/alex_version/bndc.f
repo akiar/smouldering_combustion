@@ -24,13 +24,13 @@
       IMPLICIT NONE
       REAL*8 ATW(NT,NT,ID,JD,KD),ATE(NT,NT,ID,JD,KD)
       REAL*8 ATS(NT,NT,ID,JD,KD),ATN(NT,NT,ID,JD,KD)
-      REAL*8 ATB(NT,NT,ID,JD,KD),ATT(NT,NT,ID,JD,KD)      
+      REAL*8 ATB(NT,NT,ID,JD,KD),ATT(NT,NT,ID,JD,KD)
       REAL*8 ATP(NT,NT,ID,JD,KD),BT(NT,ID,JD,KD)
       REAL*8 TF(ID,JD,KD),TS(ID,JD,KD)
       REAL*8 XP(ID),YP(JD),ZP(KD),DIEP(ID),DJNP(JD),DKTP(KD)
       REAL*8 AREP(JD,KD),ARNP(ID,KD),ARTP(ID,JD)
       REAL*8 DEF(ID,JD,KD),DNF(ID,JD,KD),DTF(ID,JD,KD)
-      REAL*8 DES(ID,JD,KD),DNS(ID,JD,KD),DTS(ID,JD,KD)      
+      REAL*8 DES(ID,JD,KD),DNS(ID,JD,KD),DTS(ID,JD,KD)
       REAL*8 DTMX,QWALL,QTOT,XNODE,TIN
       PARAMETER(QWALL = 10.0)
       PARAMETER (TIN = 293.0)                                 !set inlet temperature
@@ -706,7 +706,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0 !DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)
+         BU(L,I,J,K) = 0.0 !101325.0 !ATMS P0 in Marco !DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)
         ENDIF
 *
  15    CONTINUE
@@ -732,7 +732,7 @@
          BU(L,I,J,K) = 0.0
 *
 *       Non-solid CV adjacent to boundary
-*        
+*
         ELSE
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
@@ -741,8 +741,8 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 1.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = DKTP(K)*(P(I,J,KB)-P(I,J,KB+1))/DKTP(KB)
-*         BU(L,I,J,K) = 0.0
+*         BU(L,I,J,K) = DKTP(K)*(P(I,J,KB)-P(I,J,KB+1))/DKTP(KB)
+         BU(L,I,J,K) = 0.0
         ENDIF
 *
 *     Top face boundary conditions
@@ -771,8 +771,8 @@
          AUB(L,L,I,J,K) = 1.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = DKTP(KE)*(P(I,J,KE)-P(I,J,KE-1))/DKTP(KE-1)
-*         BU(L,I,J,K) = 0.0
+*         BU(L,I,J,K) = DKTP(KE)*(P(I,J,KE)-P(I,J,KE-1))/DKTP(KE-1)
+         BU(L,I,J,K) = 0.0
         ENDIF
 *
  25    CONTINUE
