@@ -3,10 +3,14 @@ from astropy.table import Table
 from matplotlib import pyplot as plt
 '''Global variables'''
 # Set number of time steps
-time_steps = 108
+time_steps = 240
+start_step = 1
+num_steps_t = 5
+num_steps_y = 10
 delta_t = 50.0
 
-# Set number of control volumes 
+# Set number of control volumes
+temp = "ts"
 x_cv = 21 - 2 + 1
 y_cv = 81 - 2 + 1
 z_cv = 21 - 2 + 1 
@@ -76,13 +80,13 @@ def y_plot():
     ax = fig.add_subplot(111)
 
     # Loop over all time steps. Set number in "Global variables" 
-    for i in range(40,time_steps+1,10):
+    for i in range(start_step,time_steps+1,num_steps_y):
         # Load py_i.txt file
         transient = load_data(i)
 
         # assign variables
         yp = transient["yp"]
-        T = transient["tf"] # "tf" or "ts"
+        T = transient[temp] # "tf" or "ts"
 
         # Make plot
         if i <= 5: 
@@ -93,22 +97,23 @@ def y_plot():
     # End of loop 
 
     # format plot
-    ax.legend(loc='upper right', fontsize=11, scatterpoints=1)
+#    ax.legend(loc='upper right', fontsize=11, scatterpoints=1)
     ax.set_ylabel("TF [K]", fontweight='bold', fontsize=14)
     ax.set_xlabel("y [m]", fontweight='bold', fontsize=14)
     return
 
 def time_plot():
+    '''main routine for plotting transient results from alex_version.prj'''
     fig = plt.figure(figsize=(15,8))
     ax = fig.add_subplot(111)
 
-    for i in range(40,time_steps+1,10):   # set desired looping
+    for i in range(start_step,time_steps+1):   # set desired looping
         transient = load_data(i)
         time = i*delta_t
-        T = transient['tf']
-        for j in range(0,y_cv,10):
-            ax.scatter(time, T[j], color = colours[j], marker=markers[j],
-                       label=i)
+        T = transient[temp]
+        for j in range(0,y_cv,num_steps_t):
+            ax.plot(time, T[j], color = colours[j], marker=markers[j],
+                       label=j)
 #    ax.legend(loc='upper right', fontsize=11, scatterpoints=1)
     ax.set_ylabel("TF [K]", fontweight='bold', fontsize=14)
     ax.set_xlabel("Time [s]", fontweight='bold', fontsize=14)        

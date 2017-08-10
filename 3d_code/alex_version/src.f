@@ -25,7 +25,7 @@
       REAL*8 INTGEN,HEATERTIME
 *
       IF (TTIME<=HEATERTIME) THEN 
-          PRINT *, "HEATING"
+       PRINT *, "HEATING"
       END IF
       DO 30 K=KB,KE
        DO 20 J=JB,JE

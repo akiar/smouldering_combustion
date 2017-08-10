@@ -6,7 +6,8 @@
       SUBROUTINE BNDCT(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,TF,TS,
      C                 XP,YP,ZP,DIEP,DJNP,DKTP,AREP,ARNP,ARTP,
      C                 DEF,DNF,DTF,DES,DNS,DTS,DTMX,
-     C                 CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB)
+     C                 CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB,
+     C                 HEATER)
 *
 *     Subroutine to put the boundary condition information for each
 *     P at each boundary node into the finite difference coefficients.
@@ -37,6 +38,7 @@
       INTEGER IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB
       INTEGER CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,L,IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
+      INTEGER HEATER
 *
       IBM1 = IB - 1
       JBM1 = JB - 1
@@ -515,6 +517,24 @@
  25    CONTINUE
  30   CONTINUE
 *
+*     Set temperature at heater 
+*
+*      J = HEATER
+*      DO 49 L = 1,2
+*      DO 50 I = IB,IE
+*       DO 55 K = KB,KE
+*        ATW(L,L,I,J,K) = 0.0
+*        ATE(L,L,I,J,K) = 0.0
+*        ATS(L,L,I,J,K) = 0.0
+*        ATN(L,L,I,J,K) = 0.0
+*        ATB(L,L,I,J,K) = 0.0
+*        ATT(L,L,I,J,K) = 0.0
+*        ATP(L,L,I,J,K) = 1.0
+*        BT(L,I,J,K) = 293.0
+* 55    CONTINUE
+* 50   CONTINUE
+* 49   CONTINUE
+*
 *     Conditions in solid and fluid CVs
 *
       DO 45 I=IB,IE
@@ -706,7 +726,7 @@
          AUB(L,L,I,J,K) = 0.0
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0 !101325.0 !ATMS P0 in Marco !DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)
+         BU(L,I,J,K) = 101325.0 !ATMS P0 in Marco !DJNP(JE)*(P(I,JE,K)-P(I,JE-1,K))/DJNP(JE-1)
         ENDIF
 *
  15    CONTINUE
@@ -1034,7 +1054,7 @@
          BU(L,I,J,K) = 0.0
 *
 *       Non-solid CV adjacent to boundary
-*        
+*
         ELSE
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
@@ -1322,7 +1342,7 @@
          AUT(L,L,I,J,K) = 0.0         
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
-        ENDIF        
+        ENDIF
 *
  25    CONTINUE
  30   CONTINUE 
@@ -1465,14 +1485,25 @@
 *       Non-solid CV adjacent to boundary
 *        
         ELSE
-         AUW(L,L,I,J,K) = 0.0
-         AUE(L,L,I,J,K) = 0.0
-         AUS(L,L,I,J,K) = 0.0
-         AUN(L,L,I,J,K) = 0.0
-         AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
-         AUP(L,L,I,J,K) = 1.0
-         BU(L,I,J,K) = 0.0
+         IF (TTIME < FANTIME) THEN
+          AUW(L,L,I,J,K) = 0.0
+          AUE(L,L,I,J,K) = 0.0
+          AUS(L,L,I,J,K) = 0.0
+          AUN(L,L,I,J,K) = 0.0
+          AUB(L,L,I,J,K) = 0.0
+          AUT(L,L,I,J,K) = 0.0         
+          AUP(L,L,I,J,K) = 1.0
+          BU(L,I,J,K) = 0.0
+         ELSE
+          AUW(L,L,I,J,K) = 0.0
+          AUE(L,L,I,J,K) = 0.0
+          AUS(L,L,I,J,K) = 0.0
+          AUN(L,L,I,J,K) = 1.0
+          AUB(L,L,I,J,K) = 0.0
+          AUT(L,L,I,J,K) = 0.0         
+          AUP(L,L,I,J,K) = 1.0
+          BU(L,I,J,K) = 0.0
+         ENDIF
         ENDIF
 *
 *     North face boundary conditions
@@ -1534,7 +1565,7 @@
          AUS(L,L,I,J,K) = 0.0
          AUN(L,L,I,J,K) = 0.0
          AUB(L,L,I,J,K) = 0.0
-         AUT(L,L,I,J,K) = 0.0         
+         AUT(L,L,I,J,K) = 0.0
          AUP(L,L,I,J,K) = 1.0
          BU(L,I,J,K) = 0.0
         ENDIF

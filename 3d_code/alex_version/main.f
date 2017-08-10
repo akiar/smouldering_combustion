@@ -314,7 +314,11 @@
         CALL NULLMN(ATN,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD)        
         CALL NULLMN(ATB,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD)
         CALL NULLMN(ATT,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD)
-*        
+*
+*     Update material properties with old temperature fields 
+*
+*        CALL PROPUP(CPS,CPF,KS,KF,MUF, ID,JD,KD,IB,IE,JB,JE,KB,KE,TS,TF)
+*
 *--Compute coefficients for fluid phase energy equation
 *
         CALL CONV(HSF, U,V,W,PRSTY,PD,DEQ,
@@ -334,11 +338,10 @@
      C              DEF,DNF,DTF,CONTF,DIFTF,
      C              CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL HOCONV(DCCE,DCCN,DCCT, ALFAE,ALFAN,ALFAT,ME,MN,MT,
-     C        DEF,DNF,DTF,KEFF,XP,XNET,YP,YNET,ZP,ZNET,
-     C        DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
-     C        U,UHE,V,VHN,W,WHT,TF,CONTF,DIFTF,PRSTY,
-     C        0,CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)   
-
+     C              DEF,DNF,DTF,KEFF,XP,XNET,YP,YNET,ZP,ZNET,
+     C              DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
+     C              U,UHE,V,VHN,W,WHT,TF,CONTF,DIFTF,PRSTY,0,
+     C              CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL SRCTF(QTF,RTF, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
      C             TTIME,
@@ -351,7 +354,7 @@
 *        
 *--Compute coefficients for solid phase energy equation
 *
-        CALL PPTYS(DENST, RHO,RHOSP,RHOS, 
+        CALL PPTYS(DENST, RHO,RHOSP,RHOS,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)           
         CALL DIFPHI(DES,DNS,DTS, KEFFX,KEFFY,KEFFZ,AREP,ARNP,ARTP,
      C              DIEP,DJNP,DKTP,DISE,DISN,DIST,SLDTY,
@@ -364,20 +367,21 @@
      C              ME,MN,MT,DES,DNS,DTS,QTS,RTS,TSOLD,TS,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
      C              DENST,DTIME,UNSTS,CONTS,DIFTS,
-     C              2,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB)  
+     C              2,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB)
 *
 *--Add cross-terms in energy equations
 *
         CALL CRST(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C            HSF,SPECSA,VOLP,DEF,DNF,DTF,DES,DNS,DTS,
-     C            CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB)     
+     C            CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB) 
 *
 *--Set boundary conditions in T equation
 *
         CALL BNDCT(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,TF,TS,
      C             XP,YP,ZP,DIEP,DJNP,DKTP,AREP,ARNP,ARTP,
      C             DEF,DNF,DTF,DES,DNS,DTS,DTMX,
-     C             CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB)
+     C             CVTYPE,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD,NNB,
+     C             HEATER)
       ENDIF
 *
 *--Compute active coefficients for U & V momentum
@@ -400,28 +404,28 @@
      C              ACWB,ACWT,IB,IE,JB,JE,KB,KE,ID,JD,KD)
         CALL WEIGHT(ALFAE,ALFAN,ALFAT, ME,MN,MT,
      C              DE,DN,DT,CONU,DIFU,
-     C              CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)  
+     C              CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL HOCONV(DCCE,DCCN,DCCT, ALFAE,ALFAN,ALFAT,ME,MN,MT,
-     C      DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
-     C      DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
-     C      U,UHE,V,VHN,W,WHT,U,CONU,DIFU,PRSTY,
-     C      1,CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
+     C              DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
+     C              DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
+     C              U,UHE,V,VHN,W,WHT,U,CONU,DIFU,PRSTY,1,
+     C              CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL SRCU(QU,RU, DCCE,DCCN,DCCT,VOLP,
      C            VISC,KPERM,RHO,CFORCH,PRSTY,U,V,W,
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL HOCONV(DCCE,DCCN,DCCT, ALFAE,ALFAN,ALFAT,ME,MN,MT,
-     C      DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
-     C      DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
-     C      U,UHE,V,VHN,W,WHT,V,CONU,DIFU,PRSTY,
-     C      1,CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
+     C              DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
+     C              DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
+     C              U,UHE,V,VHN,W,WHT,V,CONU,DIFU,PRSTY,1,
+     C              CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
         CALL SRCV(QV,RV, DCCE,DCCN,DCCT,VOLP,
      C            VISC,KPERM,RHO,CFORCH,PRSTY,U,V,W,
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL HOCONV(DCCE,DCCN,DCCT, ALFAE,ALFAN,ALFAT,ME,MN,MT,
-     C      DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
-     C      DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
-     C      U,UHE,V,VHN,W,WHT,W,CONU,DIFU,PRSTY,
-     C      1,CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
+     C              DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
+     C              DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
+     C              U,UHE,V,VHN,W,WHT,W,CONU,DIFU,PRSTY,1,
+     C              CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
         CALL SRCW(QW,RW, DCCE,DCCN,DCCT,
      C            TF,RHO,VOLP,GEE,BETA,
      C            VISC,KPERM,CFORCH,PRSTY,U,V,W,
@@ -535,8 +539,8 @@
 *--Solve P,U,V,W as a coupled set using a direct solver
 * 
         CALL SOLUVP(P,U,V,W,UHE,VHN,WHT,RLX,
-     C        AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,WORK3,WORK4,
-     C        IB,IE,JB,JE,KB,KE,N,ID,JD,KD)
+     C              AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,WORK3,WORK4,
+     C              IB,IE,JB,JE,KB,KE,N,ID,JD,KD)
 *
 *--Update pressure gradient fieldand face velocities for 
 *  the mass fluxes
@@ -584,17 +588,12 @@
      C             U,V,W,P,TS,TF,KNTOUT)
        PRINT *, 'inside inner loop'
 *
-*     Update properties based on temperature
-*
-      
-*
 *----------------------------------
 *  End inner, linearization loop
 *----------------------------------
 *
  1700 CONTINUE
 *
-        
 *  Print solution for present time step
 *
  1800 CONTINUE 

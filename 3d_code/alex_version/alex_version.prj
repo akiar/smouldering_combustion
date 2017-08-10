@@ -91,6 +91,9 @@
         "filename":".\\pptys.f",
         "enabled":"1"
       },{
+        "filename":".\\propup.f",
+        "enabled":"1"
+      },{
         "filename":".\\relax.f",
         "enabled":"1"
       },{

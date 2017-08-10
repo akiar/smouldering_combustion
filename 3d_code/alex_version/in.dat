@@ -53,7 +53,7 @@
 +0.00000E+00   ITIME (s) Initial real time
 +5.00000E+01   DTIME (s) Time step
 00001          PFTIME Frequency of printed output
-00108          KNTTM  Number of time steps- or outer iterations
+00240          KNTTM  Number of time steps- or outer iterations
 00001          KNTUVP Max inner iterations, (set < 10 for no res.)
 +1.00000E-06   CRIT   Stopping criterion for inner loop
 +1.00000E-06   TCRIT  Stopping criterion for time loop
@@ -66,10 +66,10 @@
 00000          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE
 +0.37000E+00   EPS Mean porosity of porous region
 +2.00000E-03   PD Pore diameter of porous region (m)
-+3.00000E-04   LD Ligament diameter of porous region (1 only) (m)   !
++1.00000E-10   LD Ligament diameter of porous region (1 only) (m)   !
 +1.69470E-05   VISCB Brinkman viscosity in porous region (kg/m s)   
 +0.63489E-00   FORCH Forchheimer coefficient (1) or constant (2)    
-+0.00166E-00   PERM Darcy permeability (1) (m^2) or constant (2)    
++1.03000E-09    PERM Darcy permeability (1) (m^2) or constant (2)   
 +2.68815E-02   CONDFE Conductivity of fluid in porous region (1 only) (W/m K)
 +0.26291E+00   CONDSX Conductivity of solid matrix in x (1 only) (W/m K)
 +0.26291E+00   CONDSY Conductivity of solid matrix in y (1 only) (W/m K)

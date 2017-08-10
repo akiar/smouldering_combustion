@@ -36,7 +36,7 @@
       REAL*8 PR,RE,CT,VEL,MEXP,NEXP
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER PCONV,I,J,K
-*     
+*
 *     Set coefficients for specified correlation
 *
       IF(PCONV.EQ.0) THEN
