@@ -42,7 +42,7 @@
 +1.00402E+03   CP (J/kg K)
 +1.69470E-05   MU (visc) (N s/m)
 +0.00000E+00   BETA (K^-1) Expansion coefficient
-+0.00000E+00   T0 (C)
++293.000E+00   T0 (C)
 +0.00000E+00   U0 (m/s)
 +0.00000E+00   V0 (m/s)
 +0.00000E+00   W0 (m/s)
@@ -53,7 +53,7 @@
 +0.00000E+00   ITIME (s) Initial real time
 +5.00000E+01   DTIME (s) Time step
 00001          PFTIME Frequency of printed output
-00240          KNTTM  Number of time steps- or outer iterations
+00108          KNTTM  Number of time steps- or outer iterations
 00001          KNTUVP Max inner iterations, (set < 10 for no res.)
 +1.00000E-06   CRIT   Stopping criterion for inner loop
 +1.00000E-06   TCRIT  Stopping criterion for time loop
@@ -69,11 +69,11 @@
 +1.00000E-10   LD Ligament diameter of porous region (1 only) (m)   !
 +1.69470E-05   VISCB Brinkman viscosity in porous region (kg/m s)   
 +0.63489E-00   FORCH Forchheimer coefficient (1) or constant (2)    
-+1.03000E-09    PERM Darcy permeability (1) (m^2) or constant (2)   
++1.03000E-09   PERM Darcy permeability (1) (m^2) or constant (2)   
 +2.68815E-02   CONDFE Conductivity of fluid in porous region (1 only) (W/m K)
-+0.26291E+00   CONDSX Conductivity of solid matrix in x (1 only) (W/m K)
-+0.26291E+00   CONDSY Conductivity of solid matrix in y (1 only) (W/m K)
-+0.26291E+00   CONDSZ Conductivity of solid matrix in z (1 only) (W/m K)
++0.26291E-00   CONDSX Conductivity of solid matrix in x (1 only) (W/m K)
++0.26291E-00   CONDSY Conductivity of solid matrix in y (1 only) (W/m K)
++0.26291E-00   CONDSZ Conductivity of solid matrix in z (1 only) (W/m K)
 +7.68630E+02   CSP Specific heat capacity of solid in porous region (J/kg K)
 +2.65000E+03   RHOSP Density of solid in porous region (kg/m^3)
 +1.98020E+00   ASF Surface area to volume ratio (1 only) (m^2/m^3)

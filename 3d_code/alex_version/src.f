@@ -24,21 +24,18 @@
       INTEGER I,J,K,HEATER
       REAL*8 INTGEN,HEATERTIME
 *
-      IF (TTIME<=HEATERTIME) THEN 
-       PRINT *, "HEATING"
-      END IF
       DO 30 K=KB,KE
        DO 20 J=JB,JE
         DO 10 I=IB,IE
 *
-*        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
+*        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES
 *
          IF ((J == HEATER).AND.(TTIME<=HEATERTIME)) THEN
           INTGEN = 25000.0    ! Zanoni et al Table 6
          ELSE 
           INTGEN = 0.0
          END IF
-*
+*        
 *        Deferred corrections
 *
          QT(I,J,K) = -1.0*DCCE(I,J,K)+DCCE(I-1,J,K)

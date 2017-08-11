@@ -3,10 +3,10 @@ from astropy.table import Table
 from matplotlib import pyplot as plt
 '''Global variables'''
 # Set number of time steps
-time_steps = 240
+time_steps = 108
 start_step = 1
 num_steps_t = 5
-num_steps_y = 10
+num_steps_y = 5
 delta_t = 50.0
 
 # Set number of control volumes

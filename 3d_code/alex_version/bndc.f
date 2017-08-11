@@ -520,7 +520,7 @@
 *     Set temperature at heater 
 *
 *      J = HEATER
-*      DO 49 L = 1,2
+*      L = 2
 *      DO 50 I = IB,IE
 *       DO 55 K = KB,KE
 *        ATW(L,L,I,J,K) = 0.0
@@ -533,7 +533,21 @@
 *        BT(L,I,J,K) = 293.0
 * 55    CONTINUE
 * 50   CONTINUE
-* 49   CONTINUE
+*      I = IE/2 + 1
+*      J = JE/2 + 1
+*      K = KE/2 + 1
+*      DO 50 M = 1,4
+*        AUW(L,M,I,J,K) = 0.0
+*        AUE(L,M,I,J,K) = 0.0
+*        AUS(L,M,I,J,K) = 0.0
+*        AUN(L,M,I,J,K) = 0.0
+*        AUB(L,M,I,J,K) = 0.0
+*        AUT(L,M,I,J,K) = 0.0
+*        AUP(L,M,I,J,K) = 0.0
+*        BU(L,I,J,K) = 0.0
+* 50   CONTINUE
+*      AUP(L,L,I,J,K) = 1.0
+*      BU(L,I,J,K) = 0.0
 *
 *     Conditions in solid and fluid CVs
 *
@@ -966,7 +980,7 @@
         J = JBM1
 *
 *       Solid CV adjacent to boundary
-*        
+*
         IF(CVTYPE(I,J,K,5).EQ.3) THEN
          AUW(L,L,I,J,K) = 0.0
          AUE(L,L,I,J,K) = 0.0
@@ -978,7 +992,7 @@
          BU(L,I,J,K) = 0.0
 *
 *       Non-solid CV adjacent to boundary
-*        
+*
         ELSE
          IF (TTIME<=FANTIME) THEN
           AUW(L,L,I,J,K) = 0.0
