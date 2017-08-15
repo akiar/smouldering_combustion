@@ -157,7 +157,8 @@
 ************************************************************************
       SUBROUTINE SRCV(QV,RV, DCCE,DCCN,DCCT,VOLP,
      C                VISC,KPERM,RHO,CFORCH,PRSTY,U,V,W,
-     C                CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C                CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
+     C                TF,BETA)
 *
 *     Subroutine to calculate the net source of V in each interior
 *     control volume for the entire volume.
@@ -176,24 +177,29 @@
       REAL*8 VISC,RHO,VEL      
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
-*     
+*
+      REAL*8 TF(ID,JD,KD),TREF,GEY,BETA
+      PARAMETER(TREF=293.0)
+      PARAMETER(GEY=-9.81)
+*
       DO 30 K=KB,KE  
        DO 20 J=JB,JE
         DO 10 I=IB,IE
 *
 *        Deferred corrections
-*                
+*
          QV(I,J,K) = -1.0*DCCE(I,J,K)+DCCE(I-1,J,K)
      C               -DCCN(I,J,K)+DCCN(I,J-1,K)
-     C               -DCCT(I,J,K)+DCCT(I,J,K-1)     
+     C               -DCCT(I,J,K)+DCCT(I,J,K-1)
+     C               -RHO*BETA*GEY*(TF(I,J,K)-TREF)*VOLP(I,J,K)   !Buoyant source term
 *
 *        Darcy and Forchheimer terms
-*                  
+*
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
           VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
           RV(I,J,K) = PRSTY(I,J,K)*VOLP(I,J,K)
      C                *(-1.0*VISC/KPERM(I,J,K)-RHO
-     C                *CFORCH(I,J,K)*VEL/((KPERM(I,J,K))**0.5))     
+     C                *CFORCH(I,J,K)*VEL/((KPERM(I,J,K))**0.5))
          ELSE
           RV(I,J,K) = 0.0
          ENDIF
@@ -239,7 +245,7 @@
      C               -DCCT(I,J,K)+DCCT(I,J,K-1)     
 *
 *        Darcy and Forchheimer terms
-*                  
+*
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
           VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
           RW(I,J,K) = PRSTY(I,J,K)*VOLP(I,J,K)

@@ -274,13 +274,13 @@
          ATW(L,L,I,J,K) = 0.0
          ATE(L,L,I,J,K) = 0.0
          ATS(L,L,I,J,K) = 0.0
-         ATN(L,L,I,J,K) = 1.0 !0.0
+         ATN(L,L,I,J,K) = 0.0 !0.0
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0
 *
 *         BT(L,I,J,K) = TIN+DTMX
-         BT(L,I,J,K) = 0.0 !TIN
+         BT(L,I,J,K) = TIN
 *         BT(L,I,J,K) = 400.0
         ENDIF
 *
@@ -340,12 +340,12 @@
          L = 1    !Fluid
          ATW(L,L,I,J,K) = 0.0
          ATE(L,L,I,J,K) = 0.0
-         ATS(L,L,I,J,K) = 1.0 !DNF(I,JE,K)
+         ATS(L,L,I,J,K) = 0.0 !DNF(I,JE,K) 1.0
          ATN(L,L,I,J,K) = 0.0
          ATB(L,L,I,J,K) = 0.0
          ATT(L,L,I,J,K) = 0.0         
          ATP(L,L,I,J,K) = 1.0!1.7+DNF(I,JE,K)   !U = 1.7
-         BT(L,I,J,K) = 0.0 !1.7*TIN    !robin condition, implement U=1.7 overall coefficient
+         BT(L,I,J,K) = TIN !1.7*TIN    !robin condition, implement U=1.7 overall coefficient
 *
          L = 2    !Solid
          ATW(L,L,I,J,K) = 0.0

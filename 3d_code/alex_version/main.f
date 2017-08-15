@@ -420,7 +420,8 @@
      C              CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
         CALL SRCV(QV,RV, DCCE,DCCN,DCCT,VOLP,
      C            VISC,KPERM,RHO,CFORCH,PRSTY,U,V,W,
-     C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
+     C            TF,BETA)
         CALL HOCONV(DCCE,DCCN,DCCT, ALFAE,ALFAN,ALFAT,ME,MN,MT,
      C              DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
      C              DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
@@ -576,9 +577,9 @@
 *
 *     Calculate heat transfer characteristics
 *
-       CALL HTCHAR(ID,JD,KD,IB,IE,JB,JE,KB,KE,GRDX,YP,
-     C             TF,TS,TIN,
-     C             CONDFE,CONDSX)
+*       CALL HTCHAR(ID,JD,KD,IB,IE,JB,JE,KB,KE,GRDX,YP,
+*     C             TF,TS,TIN,
+*     C             CONDFE,CONDSX)
 *
 *     Print to a TECplot formatted file tec.dat, python file py.txt
 *

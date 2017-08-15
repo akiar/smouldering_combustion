@@ -1,19 +1,24 @@
 import numpy as np 
 from astropy.table import Table
 from matplotlib import pyplot as plt
+import pylab
+import os
 '''Global variables'''
 # Set number of time steps
-time_steps = 108
+time_steps = 100
 start_step = 1
 num_steps_t = 5
+start_t = 1
 num_steps_y = 5
+start_y = 1
 delta_t = 50.0
+T_init = '293_newTbc'
 
 # Set number of control volumes
 temp = "ts"
-x_cv = 21 - 2 + 1
+x_cv = 4 - 2 + 1
 y_cv = 81 - 2 + 1
-z_cv = 21 - 2 + 1 
+z_cv = 4 - 2 + 1 
 colours = ["b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
            "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
            "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
@@ -80,7 +85,7 @@ def y_plot():
     ax = fig.add_subplot(111)
 
     # Loop over all time steps. Set number in "Global variables" 
-    for i in range(start_step,time_steps+1,num_steps_y):
+    for i in range(start_y,time_steps+1,num_steps_y):
         # Load py_i.txt file
         transient = load_data(i)
 
@@ -100,6 +105,8 @@ def y_plot():
 #    ax.legend(loc='upper right', fontsize=11, scatterpoints=1)
     ax.set_ylabel("TF [K]", fontweight='bold', fontsize=14)
     ax.set_xlabel("y [m]", fontweight='bold', fontsize=14)
+    filename = 'position_{}.png'.format(T_init)
+    pylab.savefig(os.path.join('C:\\Users\\Alex\\Documents\\GitHub\\smouldering_combustion\\3d_code\\alex_version\\results', filename))
     return
 
 def time_plot():
@@ -111,12 +118,15 @@ def time_plot():
         transient = load_data(i)
         time = i*delta_t
         T = transient[temp]
-        for j in range(0,y_cv,num_steps_t):
+        for j in range(start_t,y_cv,num_steps_t):
             ax.plot(time, T[j], color = colours[j], marker=markers[j],
                        label=j)
 #    ax.legend(loc='upper right', fontsize=11, scatterpoints=1)
     ax.set_ylabel("TF [K]", fontweight='bold', fontsize=14)
-    ax.set_xlabel("Time [s]", fontweight='bold', fontsize=14)        
+    ax.set_xlabel("Time [s]", fontweight='bold', fontsize=14)
+    filename = 'transient_{}.png'.format(T_init)
+    pylab.savefig(os.path.join('C:\\Users\\Alex\\Documents\\GitHub\\smouldering_combustion\\3d_code\\alex_version\\results', filename))
+            
     return
 
 

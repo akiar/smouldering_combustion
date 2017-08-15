@@ -55,6 +55,10 @@
        CT = 1000.0
        MEXP = 0.0
        NEXP = 0.0
+      ELSEIF(PCONV.EQ.4) THEN
+       CT = 0.97
+       MEXP = 0.6
+       NEXP = 0.0
       ENDIF
 *
       DO 30 K=KB,KE
