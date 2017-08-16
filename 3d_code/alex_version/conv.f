@@ -32,10 +32,12 @@
       IMPLICIT NONE
       REAL*8 HSF(ID,JD,KD)
       REAL*8 U(ID,JD,KD),V(ID,JD,KD),W(ID,JD,KD)
-      REAL*8 PRSTY(ID,JD,KD),PD,DEQ(ID,JD,KD),RHO,CP,COND,VISC
+      REAL*8 PRSTY(ID,JD,KD),PD,DEQ(ID,JD,KD)
       REAL*8 PR,RE,CT,VEL,MEXP,NEXP
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER PCONV,I,J,K
+*
+      REAL*8 RHO(ID,JD,KD),CP(ID,JD,KD),COND(ID,JD,KD),VISC(ID,JD,KD)
 *
 *     Set coefficients for specified correlation
 *
@@ -66,13 +68,13 @@
         DO 10 I=IB,IE
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
            VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-           PR = CP*VISC/COND
+           PR = CP(I,J,K)*VISC(I,J,K)/COND(I,J,K)                         !
            IF(PCONV.EQ.0) THEN
-            RE = RHO*VEL*DEQ(I,J,K)/(VISC*PRSTY(I,J,K))
+            RE = RHO(I,J,K)*VEL*DEQ(I,J,K)/(VISC(I,J,K)*PRSTY(I,J,K))     !
            ELSE
-            RE = RHO*VEL*DEQ(I,J,K)/VISC
+            RE = RHO(I,J,K)*VEL*DEQ(I,J,K)/VISC(I,J,K)                    !
            ENDIF
-           HSF(I,J,K) = COND*CT*(RE**MEXP)*(PR**NEXP)/DEQ(I,J,K)
+           HSF(I,J,K) = COND(I,J,K)*CT*(RE**MEXP)*(PR**NEXP)/DEQ(I,J,K)   !
          ENDIF
  10     CONTINUE
  20    CONTINUE

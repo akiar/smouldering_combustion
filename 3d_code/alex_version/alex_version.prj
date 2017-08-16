@@ -73,6 +73,9 @@
         "filename":".\\input.f",
         "enabled":"1"
       },{
+        "filename":".\\interp.f",
+        "enabled":"1"
+      },{
         "filename":".\\main.f",
         "enabled":"1"
       },{

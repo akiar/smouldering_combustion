@@ -5,7 +5,9 @@
       SUBROUTINE INITAL(TF,TS,P,U,V,W,UHE,VHN,WHT,
      C                  T0,P0,U0,V0,W0,
      C                  CVTYPE,IRSTRT,IRSI,
-     C                  IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C                  IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
+     C                  RHO,COND,VISC,BETA,CONDFE,          !
+     C                  RHO0,COND0,VISC0,BETA0,CONDFE0)     ! 
 *
 *     Subroutine to set initial fields by either fixing values at 
 *     0 (IRSTRT=0) or by reading in values from a restart file
@@ -34,7 +36,26 @@
       INTEGER IRSTRT,IRSI,CVTYPE(ID,JD,KD,NNB+1),IB,IE,JB,JE,KB,KE
       INTEGER I,J,K,ID,JD,KD,NNB
       INTEGER IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
+*
+      REAL*8 RHO(ID,JD,KD),COND(ID,JD,KD),VISC(ID,JD,KD),BETA(ID,JD,KD)
+      REAL*8 CONDFE(ID,JD,KD)
+      REAL*8 RHO0,COND0,VISC0,BETA0,CONDFE0
 *     
+*
+*     Initialize fluid air properties arrays to inputs in in.dat file
+*
+      DO 9500 I=IB-1,IE+1
+      DO 9400 J=JB-1,JE+1
+      DO 9300 K=KB-1,KE+1
+       RHO(I,J,K)    = RHO0
+       COND(I,J,K)   = COND0
+       VISC(I,J,K)   = VISC0
+       BETA(I,J,K)   = BETA0
+       CONDFE(I,J,K) = CONDFE0
+ 9300 CONTINUE
+ 9400 CONTINUE
+ 9500 CONTINUE
+*
       IBM1=IB-1
       IEP1=IE+1
       JBM1=JB-1

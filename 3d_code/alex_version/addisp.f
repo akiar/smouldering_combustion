@@ -31,21 +31,23 @@
       IMPLICIT NONE
       REAL*8 KEFF(ID,JD,KD),KEFF0(ID,JD,KD)
       REAL*8 U(ID,JD,KD),V(ID,JD,KD),W(ID,JD,KD)
-      REAL*8 PRSTY(ID,JD,KD),KPERM(ID,JD,KD),PD,LD,RHO,CP,COND,VISC
+      REAL*8 PRSTY(ID,JD,KD),KPERM(ID,JD,KD),PD,LD
       REAL*8 VEL,REK,PREKE,CD,KDISP
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
 *
+      REAL*8 RHO(ID,JD,KD),CP(ID,JD,KD),COND(ID,JD,KD),VISC(ID,JD,KD)
+*
 *     Interior volumes
 *
       CD = 0.06
-      PREKE = VISC*CP
       DO 20 I=IB,IE      
        DO 10 J=JB,JE
         DO 5 K=KB,KE
+        PREKE = VISC(I,J,K)*CP(I,J,K)                             !
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
           VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-          REK = RHO*VEL*(KPERM(I,J,K)**0.5)/VISC
+          REK = RHO(I,J,K)*VEL*(KPERM(I,J,K)**0.5)/VISC(I,J,K)    !
           KDISP = CD*REK*PREKE
           KEFF(I,J,K) = KEFF0(I,J,K) + KDISP
          ELSE
@@ -62,7 +64,7 @@
         J = JB-1
         IF(CVTYPE(I,J,K,5).EQ.2) THEN
          VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-         REK = RHO*VEL*(KPERM(I,J,K)**0.5)/VISC
+         REK = RHO(I,J,K)*VEL*(KPERM(I,J,K)**0.5)/VISC(I,J,K)     !
          KDISP = CD*REK*PREKE
          KEFF(I,J,K) = KEFF0(I,J,K) + KDISP
         ELSE
@@ -72,7 +74,7 @@
         J = JE+1        
         IF(CVTYPE(I,J,K,4).EQ.2) THEN
          VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-         REK = RHO*VEL*(KPERM(I,J,K)**0.5)/VISC
+         REK = RHO(I,J,K)*VEL*(KPERM(I,J,K)**0.5)/VISC(I,J,K)     !
          KDISP = CD*REK*PREKE
          KEFF(I,J,K) = KEFF0(I,J,K) + KDISP
         ELSE
@@ -85,7 +87,7 @@
         I = IB-1
         IF(CVTYPE(I,J,K,3).EQ.2) THEN
          VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-         REK = RHO*VEL*(KPERM(I,J,K)**0.5)/VISC
+         REK = RHO(I,J,K)*VEL*(KPERM(I,J,K)**0.5)/VISC(I,J,K)     !
          KDISP = CD*REK*PREKE
          KEFF(I,J,K) = KEFF0(I,J,K) + KDISP
         ELSE
@@ -95,7 +97,7 @@
         I = IE+1        
         IF(CVTYPE(I,J,K,2).EQ.2) THEN
          VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-         REK = RHO*VEL*(KPERM(I,J,K)**0.5)/VISC
+         REK = RHO(I,J,K)*VEL*(KPERM(I,J,K)**0.5)/VISC(I,J,K)     !
          KDISP = CD*REK*PREKE
          KEFF(I,J,K) = KEFF0(I,J,K) + KDISP
         ELSE
@@ -108,7 +110,7 @@
         K = KB-1
         IF(CVTYPE(I,J,K,7).EQ.2) THEN
          VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-         REK = RHO*VEL*(KPERM(I,J,K)**0.5)/VISC
+         REK = RHO(I,J,K)*VEL*(KPERM(I,J,K)**0.5)/VISC(I,J,K)     !
          KDISP = CD*REK*PREKE
          KEFF(I,J,K) = KEFF0(I,J,K) + KDISP
         ELSE
@@ -118,7 +120,7 @@
         K = KE+1        
         IF(CVTYPE(I,J,K,6).EQ.2) THEN
          VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-         REK = RHO*VEL*(KPERM(I,J,K)**0.5)/VISC
+         REK = RHO(I,J,K)*VEL*(KPERM(I,J,K)**0.5)/VISC(I,J,K)     !
          KDISP = CD*REK*PREKE
          KEFF(I,J,K) = KEFF0(I,J,K) + KDISP
         ELSE

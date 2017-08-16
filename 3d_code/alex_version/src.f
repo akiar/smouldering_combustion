@@ -31,7 +31,7 @@
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES
 *
          IF ((J == HEATER).AND.(TTIME<=HEATERTIME)) THEN
-          INTGEN = 25000.0    ! Zanoni et al Table 6
+          INTGEN = 750000.0 !30341.59695    ! Zanoni et al Table 6
          ELSE 
           INTGEN = 0.0
          END IF
@@ -85,7 +85,7 @@
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
 *
          IF ((J == HEATER).AND.(TTIME<=HEATERTIME)) THEN
-          INTGEN = 25000.0    ! Zanoni et al Table 6
+          INTGEN = 750000.0 !30341.59695    ! Zanoni et al Table 6
          ELSE 
           INTGEN = 0.0
          END IF
@@ -124,9 +124,11 @@
       REAL*8 DCCE(ID,JD,KD),DCCN(ID,JD,KD),DCCT(ID,JD,KD)
       REAL*8 VOLP(ID,JD,KD),U(ID,JD,KD),V(ID,JD,KD),W(ID,JD,KD)
       REAL*8 KPERM(ID,JD,KD),CFORCH(ID,JD,KD),PRSTY(ID,JD,KD)
-      REAL*8 VISC,RHO,VEL
+      REAL*8 VEL
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
+*
+      REAL*8 VISC(ID,JD,KD),RHO(ID,JD,KD)
 *   
       DO 30 K=KB,KE  
        DO 20 J=JB,JE
@@ -143,7 +145,7 @@
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
           VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
           RU(I,J,K) = PRSTY(I,J,K)*VOLP(I,J,K)
-     C                *(-1.0*VISC/KPERM(I,J,K)-RHO
+     C                *(-1.0*VISC(I,J,K)/KPERM(I,J,K)-RHO(I,J,K)
      C                *CFORCH(I,J,K)*VEL/((KPERM(I,J,K))**0.5))
          ELSE
           RU(I,J,K) = 0.0
@@ -174,11 +176,12 @@
       REAL*8 DCCE(ID,JD,KD),DCCN(ID,JD,KD),DCCT(ID,JD,KD)
       REAL*8 VOLP(ID,JD,KD),U(ID,JD,KD),V(ID,JD,KD),W(ID,JD,KD)
       REAL*8 KPERM(ID,JD,KD),CFORCH(ID,JD,KD),PRSTY(ID,JD,KD)
-      REAL*8 VISC,RHO,VEL      
+      REAL*8 VEL      
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
 *
-      REAL*8 TF(ID,JD,KD),TREF,GEY,BETA
+      REAL*8 VISC(ID,JD,KD),RHO(ID,JD,KD),BETA(ID,JD,KD)
+      REAL*8 TF(ID,JD,KD),TREF,GEY
       PARAMETER(TREF=293.0)
       PARAMETER(GEY=-9.81)
 *
@@ -191,14 +194,14 @@
          QV(I,J,K) = -1.0*DCCE(I,J,K)+DCCE(I-1,J,K)
      C               -DCCN(I,J,K)+DCCN(I,J-1,K)
      C               -DCCT(I,J,K)+DCCT(I,J,K-1)
-     C               -RHO*BETA*GEY*(TF(I,J,K)-TREF)*VOLP(I,J,K)   !Buoyant source term
+     C          -RHO(I,J,K)*BETA(I,J,K)*GEY*(TF(I,J,K)-TREF)*VOLP(I,J,K)   !Buoyant source term
 *
 *        Darcy and Forchheimer terms
 *
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
           VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
           RV(I,J,K) = PRSTY(I,J,K)*VOLP(I,J,K)
-     C                *(-1.0*VISC/KPERM(I,J,K)-RHO
+     C                *(-1.0*VISC(I,J,K)/KPERM(I,J,K)-RHO(I,J,K)
      C                *CFORCH(I,J,K)*VEL/((KPERM(I,J,K))**0.5))
          ELSE
           RV(I,J,K) = 0.0
@@ -227,13 +230,15 @@
       IMPLICIT NONE
       REAL*8 QW(ID,JD,KD),RW(ID,JD,KD)
       REAL*8 DCCE(ID,JD,KD),DCCN(ID,JD,KD),DCCT(ID,JD,KD)
-      REAL*8 TF(ID,JD,KD),VOLP(ID,JD,KD),RHO,GEE,BETA
+      REAL*8 TF(ID,JD,KD),VOLP(ID,JD,KD),GEE,BETA
       REAL*8 U(ID,JD,KD),V(ID,JD,KD),W(ID,JD,KD)
       REAL*8 KPERM(ID,JD,KD),CFORCH(ID,JD,KD),PRSTY(ID,JD,KD)
-      REAL*8 VISC,VEL
+      REAL*8 VEL
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
 *     
+      REAL*8 RHO(ID,JD,KD),VISC(ID,JD,KD)
+*
       DO 30 K=KB,KE  
        DO 20 J=JB,JE
         DO 10 I=IB,IE
@@ -249,7 +254,7 @@
          IF(CVTYPE(I,J,K,1).EQ.2) THEN
           VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
           RW(I,J,K) = PRSTY(I,J,K)*VOLP(I,J,K)
-     C                *(-1.0*VISC/KPERM(I,J,K)-RHO
+     C                *(-1.0*VISC(I,J,K)/KPERM(I,J,K)-RHO(I,J,K)
      C                *CFORCH(I,J,K)*VEL/((KPERM(I,J,K))**0.5))      
          ELSE
           RW(I,J,K) = 0.0

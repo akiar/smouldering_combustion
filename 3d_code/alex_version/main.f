@@ -18,7 +18,7 @@
       IMPLICIT NONE
       INTEGER ID,JD,KD,N,NT,NNB,ITER,A,B,C
       REAL*8 GEE,PI,BLEND,UREF,DBL1,DBL0,RLX,TIN
-      PARAMETER(ID=82,JD=82,KD=22)
+      PARAMETER(ID=13,JD=82,KD=13)
       PARAMETER(N=4)
       PARAMETER(NT=2)
       PARAMETER(NNB=6)
@@ -27,7 +27,7 @@
       PARAMETER(PI=3.14159265)
       PARAMETER(UREF=1.0)
       PARAMETER(BLEND=1.0)
-      PARAMETER(DBL1=1.0,DBL0=0.0)      
+      PARAMETER(DBL1=1.0,DBL0=0.0)
       PARAMETER(RLX=0.0)
       PARAMETER(TIN=293.0) 
 *  
@@ -103,20 +103,31 @@
       REAL*8 IRATX1,IRATX2,IRATX3,IRATX4
       REAL*8 IRATY1,IRATY2,IRATY3,IRATY4
       REAL*8 IRATZ1,IRATZ2,IRATZ3,IRATZ4
-      REAL*8 RHO,COND,CP,VISC,BETA
+*      REAL*8 RHO,COND,CP,VISC,BETA
       REAL*8 ITIME,TTIME,DTIME
       REAL*8 WORK3(N,N),WORK4(N),WORK5(NT,NT),WORK6(NT)
       CHARACTER*8 CHTIME
       CHARACTER*5 FNAPP     
+*
+*	  Variables changed for updated temperature
+*
+      REAL*8 RHO(ID,JD,KD),COND(ID,JD,KD),CP(ID,JD,KD),VISC(ID,JD,KD)
+      REAL*8 BETA(ID,JD,KD)
+      REAL*8 RHO0,COND0,CP0,VISC0,BETA0
 *
       INTEGER POROUS,PCONV,IPB,IPE,JPB,JPE,KPB,KPE
       INTEGER IPB2,IPE2,JPB2,JPE2,KPB2,KPE2
       INTEGER SOLID,ISB,ISE,JSB,JSE,KSB,KSE
       INTEGER ISB2,ISE2,JSB2,JSE2,KSB2,KSE2
       REAL*8 EPS,PD,LD,VISCB,FORCH,PERM
-      REAL*8 CONDFE,CONDSX,CONDSY,CONDSZ,CSP,RHOSP,ASF
+      REAL*8 CONDSX,CONDSY,CONDSZ,CSP,RHOSP,ASF !CONDFE,
       REAL*8 DEPSDZ,KS
       REAL*8 CONDS,CS,RHOS
+*
+*	  Variables changed for updated temperature
+* 
+      REAL*8 CONDFE(ID,JD,KD)
+      REAL*8 CONDFE0
 *
       INTEGER CVTYPE(ID,JD,KD,NNB+1)
       REAL*8 MUEFF(ID,JD,KD),PRSTY(ID,JD,KD),KEFF(ID,JD,KD)
@@ -155,10 +166,10 @@
      C     KB,KE1,KE2,KE3,KE,GRDX1,GRDX2,GRDX3,GRDX,
      C     GRDY1,GRDY2,GRDY3,GRDY,GRDZ1,GRDZ2,GRDZ3,GRDZ,
      C     IRATX1,IRATX2,IRATX3,IRATX4,IRATY1,IRATY2,IRATY3,IRATY4,
-     C     IRATZ1,IRATZ2,IRATZ3,IRATZ4,RHO,COND,CP,VISC,BETA,
+     C     IRATZ1,IRATZ2,IRATZ3,IRATZ4,RHO0,COND0,CP0,VISC0,BETA0,    !
      C     T0,U0,V0,W0,P0,UIN,DTMX,IRSTRT,ITIME,DTIME,PFTIME,KNTTM,
      C     KNTUVP,CRIT,TCRIT,LVLGEO,LVLCOF,LVLMGD,ADVSCM,ISOTHM,
-     C     POROUS,PCONV,EPS,PD,LD,VISCB,FORCH,PERM,CONDFE,CONDSX,
+     C     POROUS,PCONV,EPS,PD,LD,VISCB,FORCH,PERM,CONDFE0,CONDSX,    !
      C     CONDSY,CONDSZ,CSP,RHOSP,ASF,DEPSDZ,KS,IPB,IPE,JPB,JPE,
      C     KPB,KPE,IPB2,IPE2,JPB2,JPE2,KPB2,KPE2,SOLID,CONDS,CS,
      C     RHOS,ISB,ISE,JSB,JSE,KSB,KSE,ISB2,ISE2,JSB2,JSE2,
@@ -181,14 +192,15 @@
      C            ISB2,ISE2,JSB2,JSE2,KSB2,KSE2,
      C            CVTYPE,IB,IE1,IE2,IE3,IE,JB,JE1,JE2,JE3,JE,
      C            KB,KE1,KE2,KE3,KE,ID,JD,KD,NNB)
-*      PRINT *, XP(21),YP(11),ZP(11)
 *
 *--Initialize field variables
 *
       CALL INITAL(TF,TS,P,U,V,W,UHE,VHN,WHT,
      C            T0,P0,U0,V0,W0,
      C            CVTYPE,IRSTRT,IRSI,
-     C            IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C            IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
+     C            RHO,COND,VISC,BETA,CONDFE,          !
+     C            RHO0,COND0,VISC0,BETA0,CONDFE0)     !Initialize updating properties with in.dat values
 *
 *--Initialize residuals (for RATE calculations)
 *
@@ -212,13 +224,13 @@
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)   
        CALL PPTYS(SLDTY, DBL0,(DBL1-EPS),DBL1, 
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)     
-       CALL PPTYS(KEFF0, COND,CONDFE,CONDS, 
+       CALL PPTYS(KEFF0, COND0,CONDFE0,CONDS,             ! 
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
-       CALL PPTYS(KEFFX, COND,CONDSX,CONDS, 
+       CALL PPTYS(KEFFX, COND0,CONDSX,CONDS,              !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
-       CALL PPTYS(KEFFY, COND,CONDSY,CONDS, 
+       CALL PPTYS(KEFFY, COND0,CONDSY,CONDS,              !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
-       CALL PPTYS(KEFFZ, COND,CONDSZ,CONDS, 
+       CALL PPTYS(KEFFZ, COND0,CONDSZ,CONDS,              !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
        CALL PPTYS(DEQ, DBL0,LD,DBL0, 
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
@@ -228,13 +240,13 @@
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
        CALL PPTYS(SPECSA, DBL0,ASF,DBL0, 
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
-       CALL PPTYS(MUEFF, VISC,VISCB/EPS,DBL0, 
+       CALL PPTYS(MUEFF, VISC0,VISCB/EPS,DBL0,            !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
       ENDIF
 *
-      CALL PPTYS(CFLUID, CP,CP,CS, 
+      CALL PPTYS(CFLUID, CP0,CP0,CS,                      !
      C           CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)            
-      CALL PPTYS(CSOLID, CP,CSP,CS, 
+      CALL PPTYS(CSOLID, CP0,CSP,CS,                      !
      C           CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)   
 *
 *--Create arrays of factors for unsteady, advective, and diffusive
@@ -243,7 +255,7 @@
       CALL FACTR(UNSTF,CONTF,DIFTF,
      C           UNSTS,CONTS,DIFTS,
      C           UNSU,CONU,DIFU,     
-     C           PRSTY,CP,CSP,CS,MUEFF,VISCB,
+     C           PRSTY,CP0,CSP,CS,MUEFF,VISCB,            !
      C           DISE,DIEP,DISN,DJNP,DIST,DKTP,
      C           CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)     
 *
@@ -251,7 +263,7 @@
 *  for fixed-grid, incompressible flow)
 *
       CALL COEFCN(ACUW,ACUE,ACVS,ACVN,ACWB,ACWT,BC,
-     C            RHO,AREP,ARNP,ARTP,CVTYPE,
+     C            RHO0,AREP,ARNP,ARTP,CVTYPE,             !
      C            IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
 *
 *--Compute pressure gradient field from initial conditions
@@ -315,19 +327,31 @@
         CALL NULLMN(ATB,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD)
         CALL NULLMN(ATT,IB,IE,JB,JE,KB,KE,NT,ID,JD,KD)
 *
-*     Update material properties with old temperature fields 
+*     Update material properties with old fluid temperature field
 *
-*        CALL PROPUP(CPS,CPF,KS,KF,MUF, ID,JD,KD,IB,IE,JB,JE,KB,KE,TS,TF)
+        CALL INTERP(RHO, 1,TF,ID,JD,KD,IE,IB,JB,JE,KB,KE)
+*        CALL INTERP(CP, 2,TF,ID,JD,KD,IE,IB,JB,JE,KB,KE) 
+*        CALL INTERP(VISC, 3,TF,ID,JD,KD,IE,IB,JB,JE,KB,KE) 
+*        CALL INTERP(COND, 4,STF,ID,JD,KD,IE,IB,JB,JE,KB,KE) 
+        CALL INTERP(CONDFE, 4,TF,ID,JD,KD,IE,IB,JB,JE,KB,KE) 
+        ! Update BETA based on temperature 
+        DO 9000 I=IB,IE
+        DO 9001 J=JB,JE
+        DO 9002 K=KB,KE 
+         BETA(I,J,K) = 1/TF(I,J,K)
+ 9002   CONTINUE    
+ 9001   CONTINUE
+ 9000   CONTINUE
 *
 *--Compute coefficients for fluid phase energy equation
 *
-        CALL CONV(HSF, U,V,W,PRSTY,PD,DEQ,
-     C            RHO,CP,COND,VISC,
+        CALL CONV(HSF, U,V,W,PRSTY,PD,DEQ,                    
+     C            RHO,CP,COND,VISC,                           !
      C            PCONV,CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
-        CALL PPTYS(DENST, RHO,RHO,RHOS, 
+        CALL PPTYS(DENST, RHO0,RHO0,RHOS,                     ! change from RHO0 to RHO somehow
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)      
-        CALL ADDISP(KEFF, KEFF0,U,V,W,PRSTY,KPERM,PD,LD,
-     C              RHO,CP,COND,VISC,
+        CALL ADDISP(KEFF, KEFF0,U,V,W,PRSTY,KPERM,PD,LD,      
+     C              RHO,CP,COND,VISC,                         !
      C              CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL DIFPHI(DEF,DNF,DTF, KEFF,KEFF,KEFF,AREP,ARNP,ARTP,
      C              DIEP,DJNP,DKTP,DISE,DISN,DIST,PRSTY,
@@ -354,7 +378,7 @@
 *        
 *--Compute coefficients for solid phase energy equation
 *
-        CALL PPTYS(DENST, RHO,RHOSP,RHOS,
+        CALL PPTYS(DENST, RHO0,RHOSP,RHOS,                ! Change from RHO0 to RHO array somehow
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)           
         CALL DIFPHI(DES,DNS,DTS, KEFFX,KEFFY,KEFFZ,AREP,ARNP,ARTP,
      C              DIEP,DJNP,DKTP,DISE,DISN,DIST,SLDTY,
@@ -395,7 +419,7 @@
         CALL NULLMN(AUB,IB,IE,JB,JE,KB,KE,N,ID,JD,KD)
         CALL NULLMN(AUT,IB,IE,JB,JE,KB,KE,N,ID,JD,KD)
 *
-        CALL PPTYS(DENST, RHO,RHO,RHOS, 
+        CALL PPTYS(DENST, RHO0,RHO0,RHOS,                 ! Change from RHO0 to RHO array somehow
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL DIFPHI(DE,DN,DT, MUEFF,MUEFF,MUEFF,AREP,ARNP,ARTP,
      C              DIEP,DJNP,DKTP,DISE,DISN,DIST,PRSTY,
@@ -411,7 +435,7 @@
      C              U,UHE,V,VHN,W,WHT,U,CONU,DIFU,PRSTY,1,
      C              CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL SRCU(QU,RU, DCCE,DCCN,DCCT,VOLP,
-     C            VISC,KPERM,RHO,CFORCH,PRSTY,U,V,W,
+     C            VISC,KPERM,RHO,CFORCH,PRSTY,U,V,W,          !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL HOCONV(DCCE,DCCN,DCCT, ALFAE,ALFAN,ALFAT,ME,MN,MT,
      C              DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
@@ -419,28 +443,28 @@
      C              U,UHE,V,VHN,W,WHT,V,CONU,DIFU,PRSTY,1,
      C              CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
         CALL SRCV(QV,RV, DCCE,DCCN,DCCT,VOLP,
-     C            VISC,KPERM,RHO,CFORCH,PRSTY,U,V,W,
+     C            VISC,KPERM,RHO,CFORCH,PRSTY,U,V,W,          !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
-     C            TF,BETA)
+     C            TF,BETA)                                    !
         CALL HOCONV(DCCE,DCCN,DCCT, ALFAE,ALFAN,ALFAT,ME,MN,MT,
      C              DE,DN,DT,MUEFF,XP,XNET,YP,YNET,ZP,ZNET,
      C              DISE,DIEP,DISN,DJNP,DIST,DKTP,AREP,ARNP,ARTP,
      C              U,UHE,V,VHN,W,WHT,W,CONU,DIFU,PRSTY,1,
      C              CVTYPE,ADVSCM,BLEND,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
         CALL SRCW(QW,RW, DCCE,DCCN,DCCT,
-     C            TF,RHO,VOLP,GEE,BETA,
-     C            VISC,KPERM,CFORCH,PRSTY,U,V,W,
+     C            TF,RHO,VOLP,GEE,BETA,                       !
+     C            VISC,KPERM,CFORCH,PRSTY,U,V,W,              !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
         CALL COEFFM(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,
      C              ME,MN,MT,DE,DN,DT,QU,RU,UOLD,U,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
      C              DENST,DTIME,UNSU,CONU,DIFU,
-     C              2,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)      
+     C              2,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
         CALL COEFFM(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,
      C              ME,MN,MT,DE,DN,DT,QV,RV,VOLD,V,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
      C              DENST,DTIME,UNSU,CONU,DIFU,
-     C              3,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)      
+     C              3,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
         CALL COEFFM(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,
      C              ME,MN,MT,DE,DN,DT,QW,RW,WOLD,W,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
@@ -457,7 +481,7 @@
 *--Set the boundary conditions in the momentum equations
 *
         CALL BNDCU(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
-     C             XP,YP,ZP,GRDZ,FORCH,PERM,EPS,VISC,RHO,UIN,
+     C             XP,YP,ZP,GRDZ,FORCH,PERM,EPS,VISC,RHO,UIN,     !
      C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,U,
      C             TTIME,FANTIME)
         CALL BNDCV(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU, 
@@ -470,7 +494,7 @@
 *--Compute terms required to couple mass-momentum
 *
         CALL DHAT(DHUE,DHVN,DHWT,VOLE,VOLN,VOLT,
-     C            AEAST,ANORTH,ATOP, AUP,VOLP,PRSTY,RHO,
+     C            AEAST,ANORTH,ATOP, AUP,VOLP,PRSTY,RHO,      !
      C            DIEP,DISE,DJNP,DISN,DKTP,DIST,
      C            CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
 *
@@ -480,7 +504,7 @@
      C              ACUW,ACUE,ACVS,ACVN,ACWB,ACWT,
      C              AEAST,ANORTH,ATOP,DHUE,DHVN,DHWT,
      C              DPDXP,DPDXM,DPDYP,DPDYM,DPDZP,DPDZM,
-     C              P,PEAST,PNORTH,PTOP,RHO,
+     C              P,PEAST,PNORTH,PTOP,RHO,                  !
      C              VOLP,VOLE,VOLN,VOLT,PRSTY,
      C              DIEP,DISE,DJNP,DISN,DKTP,DIST,
      C              CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
@@ -490,7 +514,7 @@
         CALL BNDCP(AUP,AUW,AUE,AUS,AUN,AUB,AUT,BU,
      C             P,DIEP,DJNP,DKTP,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB,
-     C             RHO,UIN)
+     C             RHO,UIN)                                   !
 *
 *--Compute and report normalized residuals for energy, mass and momentum
 *
@@ -558,15 +582,15 @@
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
        CALL UHAT(UHE, U,P,PEAST,DHUE,VOLE,VOLP,
      C           DPDXP,DPDXM,AEAST,AUP,PRSTY,
-     C           RHO,DIEP,DISE,
+     C           RHO,DIEP,DISE,                           !
      C           CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
        CALL VHAT(VHN, V,P,PNORTH,DHVN,VOLN,VOLP,
      C           DPDYP,DPDYM,ANORTH,AUP,PRSTY,
-     C           RHO,DJNP,DISN,
+     C           RHO,DJNP,DISN,                           !
      C           CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)
        CALL WHAT(WHT, W,P,PTOP,DHWT,VOLT,VOLP,
      C           DPDZP,DPDZM,ATOP,AUP,PRSTY,
-     C           RHO,DKTP,DIST,
+     C           RHO,DKTP,DIST,                           !
      C           CVTYPE,IB,IE,JB,JE,KB,KE,N,ID,JD,KD,NNB)     
        CALL MASFLX(ME,MN,MT, UHE,VHN,WHT,ACUW,ACUE,ACVS,ACVN,
      C             ACWB,ACWT,IB,IE,JB,JE,KB,KE,ID,JD,KD)
@@ -603,7 +627,7 @@
        CALL SGENC(SGENT,SGEN,SGENF,SGENS,RATIOT,RATIOS,RATIO,
      C            U,V,W,TF,TS,
      C            DE,DN,DT,DEF,DNF,DTF,DES,DNS,DTS,
-     C            PRSTY,VISC,RHO,KPERM,CFORCH,MUEFF,
+     C            PRSTY,VISC,RHO,KPERM,CFORCH,MUEFF,              !
      C            KEFF,KEFFX,KEFFY,KEFFZ,HSF,SPECSA,
      C            DIEP,DJNP,DKTP,DISE,DISN,DIST,
      C            AREP,ARNP,ARTP,VOLP,

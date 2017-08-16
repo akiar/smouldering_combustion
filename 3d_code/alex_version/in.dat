@@ -9,10 +9,10 @@
 00081          JE3
 00081          JE
 00002          KB
-00010          KE1
-00010          KE2
-00010          KE3
-00010          KE
+00011          KE1
+00011          KE2
+00011          KE3
+00011          KE
 +0.28350E-00   GRDX1 (m)  dimension of 1st part domain in 'x' direction
 +0.00000E-00   GRDX2 (m)  dimension of 2nd part domain in 'x' direction
 +0.00000E-00   GRDX3 (m)  dimension of 3rd part domain in 'x' direction
@@ -37,11 +37,11 @@
 +1.00000E+00   IRATZ2  ratio of first to last c.v. in part 2 (z)
 +1.00000E+00   IRATZ3  ratio of first to last c.v. in part 3 (z)
 +1.00000E+00   IRATZ4  ratio of first to last c.v. in part 4 (z)
-+1.16100E+00   RHO (kg/m^3)
-+2.68815E-02   COND (W/m K)
-+1.00402E+03   CP (J/kg K)
-+1.69470E-05   MU (visc) (N s/m)
-+0.00341E+00   BETA (K^-1) Expansion coefficient
++1.16100E+00   RHO0 (kg/m^3)
++2.68815E-02   COND0 (W/m K)
++1.00402E+03   CP0 (J/kg K)
++1.69470E-05   MU0 (visc) (N s/m)
++0.00341E+00   BETA0 (K^-1) Expansion coefficient
 +293.000E+00   T0 (C)
 +0.00000E+00   U0 (m/s)
 +0.00000E+00   V0 (m/s)
@@ -63,14 +63,14 @@
 00001          ADVSCM  =1 I-UDS, =2 I-CDS, =3 I-TVD-MUSCL
 00001          ISOTHM  =0 isothermal, =1 solve energy eqn + mass fraction.
 00001          POROUS  =0 no porous region, =1 constant pptys, =2 carbon foam
-00000          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE
+00004          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE
 +0.37000E+00   EPS Mean porosity of porous region
 +2.00000E-03   PD Pore diameter of porous region (m)
 +1.00000E-10   LD Ligament diameter of porous region (1 only) (m)   !
 +1.69470E-05   VISCB Brinkman viscosity in porous region (kg/m s)   
 +0.63489E-00   FORCH Forchheimer coefficient (1) or constant (2)    
 +1.03000E-09   PERM Darcy permeability (1) (m^2) or constant (2)   
-+2.68815E-02   CONDFE Conductivity of fluid in porous region (1 only) (W/m K)
++2.68815E-02   CONDFE0 Conductivity of fluid in porous region (1 only) (W/m K)
 +0.26291E-00   CONDSX Conductivity of solid matrix in x (1 only) (W/m K)
 +0.26291E-00   CONDSY Conductivity of solid matrix in y (1 only) (W/m K)
 +0.26291E-00   CONDSZ Conductivity of solid matrix in z (1 only) (W/m K)
@@ -84,13 +84,13 @@
 00002          JPB First index in j of first porous region
 00081          JPE Last index in j of first porous region
 00002          KPB First index in k of first porous region
-00008          KPE Last index in k of first porous region
-00010          IPB2 First index in i of second porous region
+00011          KPE Last index in k of first porous region
+00002          IPB2 First index in i of second porous region
 00011          IPE2 Last index in i of second porous region
 00002          JPB2 First index in j of second porous region
 00081          JPE2 Last index in j of second porous region
 00002          KPB2 First index in k of second porous region
-00010          KPE2 Last index in k of second porous region
+00011          KPE2 Last index in k of second porous region
 00000          SOLID  =0 no solid region, =1 solid region
 +2.37000E+02   CONDS Thermal conductivity of solid (W/m K)
 +9.03000E+02   CS Specific heat capacity of solid (J/kg K)

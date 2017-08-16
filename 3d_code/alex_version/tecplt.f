@@ -31,7 +31,7 @@
 *
       WRITE(20,320)
       WRITE(20,322) 0,0,1,(JE-JB+3),(IE-IB+3)!,(KE-KB+3)
-      K=10
+      K=5
       DO I=IB-1,IE+1
        DO J=JB-1,JE+1
         !DO K=KB-1,KE+1
@@ -79,7 +79,7 @@
 *  Write output in python format for postprocessing
 *
       WRITE(FILEUNIT,320)
-      K=10
+      K=5
       DO I=IB-1,IE+1
        DO J=JB-1,JE+1
         !DO K=KB-1,KE+1

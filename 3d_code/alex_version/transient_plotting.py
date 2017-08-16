@@ -16,9 +16,9 @@ T_init = '293_newTbc'
 
 # Set number of control volumes
 temp = "ts"
-x_cv = 4 - 2 + 1
+x_cv = 11 - 2 + 1
 y_cv = 81 - 2 + 1
-z_cv = 4 - 2 + 1 
+z_cv = 11 - 2 + 1
 colours = ["b", "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b",
            "k", "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k",
            "r", "y", "g", "m", "b", "k", "r", "y", "g", "m", "b", "k", "r", 
@@ -91,7 +91,7 @@ def y_plot():
 
         # assign variables
         yp = transient["yp"]
-        T = transient[temp] # "tf" or "ts"
+        T = transient[temp] - 273.0 # "tf" or "ts"
 
         # Make plot
         if i <= 5: 
@@ -117,7 +117,7 @@ def time_plot():
     for i in range(start_step,time_steps+1):   # set desired looping
         transient = load_data(i)
         time = i*delta_t
-        T = transient[temp]
+        T = transient[temp] - 273.0
         for j in range(start_t,y_cv,num_steps_t):
             ax.plot(time, T[j], color = colours[j], marker=markers[j],
                        label=j)

@@ -35,7 +35,7 @@
       REAL*8 DE(ID,JD,KD),DN(ID,JD,KD),DT(ID,JD,KD)
       REAL*8 DEF(ID,JD,KD),DNF(ID,JD,KD),DTF(ID,JD,KD)
       REAL*8 DES(ID,JD,KD),DNS(ID,JD,KD),DTS(ID,JD,KD)
-      REAL*8 PRSTY(ID,JD,KD),VISC,RHO
+      REAL*8 PRSTY(ID,JD,KD)
       REAL*8 KPERM(ID,JD,KD),CFORCH(ID,JD,KD)
       REAL*8 MUEFF(ID,JD,KD),KEFF(ID,JD,KD)
       REAL*8 KEFFX(ID,JD,KD),KEFFY(ID,JD,KD),KEFFZ(ID,JD,KD)
@@ -47,6 +47,8 @@
       REAL*8 VEL,DISS,RATIOB
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
+*
+      REAL*8 VISC(ID,JD,KD),RHO(ID,JD,KD)
 *
       SGENT = 0.0
       RATIOT = 0.0
@@ -405,7 +407,7 @@
 *        Calculation of entropy generation
 *
          IF(CVTYPE(I,J,K,1).EQ.0) THEN
-          DISS = VISC*(2.0*(DUDX**2+DVDY**2+DWDZ**2)
+          DISS = VISC(I,J,K)*(2.0*(DUDX**2+DVDY**2+DWDZ**2)
      C           +(DVDX+DUDY)**2+(DWDY+DVDZ)**2+(DUDZ+DWDX)**2)
           SGENF(I,J,K) = KEFF(I,J,K)*(DTFDX**2+DTFDY**2+DTFDZ**2)
      C                   /(TF(I,J,K)**2+10.0**(-20))
@@ -413,10 +415,10 @@
           SGENS(I,J,K) = 0.0
          ELSEIF(CVTYPE(I,J,K,1).EQ.2) THEN
           VEL = (U(I,J,K)**2+V(I,J,K)**2+W(I,J,K)**2)**0.5
-          DISS = VISC*(2.0*(DUDX**2+DVDY**2+DWDZ**2)
+          DISS = VISC(I,J,K)*(2.0*(DUDX**2+DVDY**2+DWDZ**2)
      C           +(DVDX+DUDY)**2+(DWDY+DVDZ)**2
-     C           +(DUDZ+DWDX)**2)/PRSTY(I,J,K)+(VISC/KPERM(I,J,K)
-     C           +RHO*CFORCH(I,J,K)*VEL/(KPERM(I,J,K)**0.5))*VEL**2
+     C           +(DUDZ+DWDX)**2)/PRSTY(I,J,K)+(VISC(I,J,K)/KPERM(I,J,K)
+     C         +RHO(I,J,K)*CFORCH(I,J,K)*VEL/(KPERM(I,J,K)**0.5))*VEL**2
           SGENF(I,J,K) = KEFF(I,J,K)*(DTFDX**2+DTFDY**2+DTFDZ**2)
      C                   /(TF(I,J,K)**2+10.0**(-20))
      C                   +DISS/(TF(I,J,K)+10.0**(-20))
