@@ -150,6 +150,7 @@
 *
       REAL*8 HEATERTIME,FANTIME  !Time steps for heater and fan on/off
       INTEGER HEATER
+      INTEGER INTER
 *
 *============================
 *  Initialization and input
@@ -173,7 +174,7 @@
      C     CONDSY,CONDSZ,CSP,RHOSP,ASF,DEPSDZ,KS,IPB,IPE,JPB,JPE,
      C     KPB,KPE,IPB2,IPE2,JPB2,JPE2,KPB2,KPE2,SOLID,CONDS,CS,
      C     RHOS,ISB,ISE,JSB,JSE,KSB,KSE,ISB2,ISE2,JSB2,JSE2,
-     C     KSB2,KSE2,FNAPP,IDATI)
+     C     KSB2,KSE2,FNAPP,IDATI,INTER)
       CALL FLDFOT(IRSO, FNAPP)
 *
 *--Create grid
@@ -199,8 +200,8 @@
      C            T0,P0,U0,V0,W0,
      C            CVTYPE,IRSTRT,IRSI,
      C            IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
-     C            RHO,COND,VISC,BETA,CONDFE,          !
-     C            RHO0,COND0,VISC0,BETA0,CONDFE0)     !Initialize updating properties with in.dat values
+     C            RHO,COND,VISC,BETA,CONDFE,CP,          !
+     C            RHO0,COND0,VISC0,BETA0,CONDFE0,CP0)    !Initialize updating properties with in.dat values
 *
 *--Initialize residuals (for RATE calculations)
 *
@@ -287,6 +288,8 @@
 *
       DO 2000 KNTOUT=1,KNTTM
 *
+      PRINT*, CP(IB,JB,KB),COND(IB,JB,KB),CONDFE(IB,JB,KB),RHO(IB,JB,KB)
+      PRINT*, VISC(IB,JB,KB)
       PF=PF+1
       TTIME= TTIME+DTIME
 *
@@ -329,19 +332,24 @@
 *
 *     Update material properties with old fluid temperature field
 *
-        CALL INTERP(RHO, 1,TF,ID,JD,KD,IE,IB,JB,JE,KB,KE)
-*        CALL INTERP(CP, 2,TF,ID,JD,KD,IE,IB,JB,JE,KB,KE) 
-*        CALL INTERP(VISC, 3,TF,ID,JD,KD,IE,IB,JB,JE,KB,KE) 
-*        CALL INTERP(COND, 4,STF,ID,JD,KD,IE,IB,JB,JE,KB,KE) 
-        CALL INTERP(CONDFE, 4,TF,ID,JD,KD,IE,IB,JB,JE,KB,KE) 
-        ! Update BETA based on temperature 
-        DO 9000 I=IB,IE
-        DO 9001 J=JB,JE
-        DO 9002 K=KB,KE 
-         BETA(I,J,K) = 1/TF(I,J,K)
- 9002   CONTINUE    
- 9001   CONTINUE
- 9000   CONTINUE
+        IF (INTER==1) THEN
+*         CALL INTERP(RHO, 1,TF,ID,JD,KD,IB,IE,JB,JE,KB,KE)
+         CALL INTERP(CP, 2,TF,ID,JD,KD,IB,IE,JB,JE,KB,KE) 
+         CALL INTERP(VISC, 3,TF,ID,JD,KD,IB,IE,JB,JE,KB,KE) 
+         CALL INTERP(COND, 4,TF,ID,JD,KD,IB,IE,JB,JE,KB,KE) 
+         CALL INTERP(CONDFE, 4,TF,ID,JD,KD,IB,IE,JB,JE,KB,KE) 
+         ! Update BETA based on temperature 
+         DO 9000 I=IB,IE
+         DO 9001 J=JB,JE
+         DO 9002 K=KB,KE 
+          BETA(I,J,K) = 1/TF(I,J,K)
+ 9002    CONTINUE    
+ 9001    CONTINUE
+ 9000    CONTINUE
+         PRINT *, "Interpolating Air"
+        ELSE
+         PRINT *, "No interpolation"
+        ENDIF
 *
 *--Compute coefficients for fluid phase energy equation
 *

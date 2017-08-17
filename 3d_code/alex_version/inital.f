@@ -6,8 +6,8 @@
      C                  T0,P0,U0,V0,W0,
      C                  CVTYPE,IRSTRT,IRSI,
      C                  IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
-     C                  RHO,COND,VISC,BETA,CONDFE,          !
-     C                  RHO0,COND0,VISC0,BETA0,CONDFE0)     ! 
+     C                  RHO,COND,VISC,BETA,CONDFE,CP,          !
+     C                  RHO0,COND0,VISC0,BETA0,CONDFE0,CP0)     ! 
 *
 *     Subroutine to set initial fields by either fixing values at 
 *     0 (IRSTRT=0) or by reading in values from a restart file
@@ -38,8 +38,8 @@
       INTEGER IBM1,IEP1,JBM1,JEP1,KBM1,KEP1
 *
       REAL*8 RHO(ID,JD,KD),COND(ID,JD,KD),VISC(ID,JD,KD),BETA(ID,JD,KD)
-      REAL*8 CONDFE(ID,JD,KD)
-      REAL*8 RHO0,COND0,VISC0,BETA0,CONDFE0
+      REAL*8 CONDFE(ID,JD,KD),CP(ID,JD,KD)
+      REAL*8 RHO0,COND0,VISC0,BETA0,CONDFE0,CP0
 *     
 *
 *     Initialize fluid air properties arrays to inputs in in.dat file
@@ -52,6 +52,7 @@
        VISC(I,J,K)   = VISC0
        BETA(I,J,K)   = BETA0
        CONDFE(I,J,K) = CONDFE0
+       CP(I,J,K)     = CP0 
  9300 CONTINUE
  9400 CONTINUE
  9500 CONTINUE

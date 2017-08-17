@@ -93,7 +93,7 @@
      C     CONDSY,CONDSZ,CSP,RHOSP,ASF,DEPSDZ,KS,IPB,IPE,JPB,JPE,
      C     KPB,KPE,IPB2,IPE2,JPB2,JPE2,KPB2,KPE2,SOLID,CONDS,CS,
      C     RHOS,ISB,ISE,JSB,JSE,KSB,KSE,ISB2,ISE2,JSB2,JSE2,
-     C     KSB2,KSE2,FNAPP,IDATI)
+     C     KSB2,KSE2,FNAPP,IDATI,INTER)
 *
 *     Subroutine to read in input variables from a data file.
 *
@@ -161,6 +161,7 @@
 *     FNAPP          text to be appended to output filenames to 
 *                    identify case; output
 *     IDATI          unit number for file with input data; input
+*     INTER          interpolate air properites =0 no =1 yes 
 *
 ************************************************************************
 *
@@ -180,6 +181,7 @@
       REAL*8 U0,V0,W0,P0,T0,UIN,DTMX
       REAL*8 EPS,PD,LD,VISCB,FORCH,PERM,CONDFE0,CONDSX,CONDSY,CONDSZ  !
       REAL*8 CSP,RHOSP,ASF,CONDS,CS,RHOS,DEPSDZ,KS
+      INTEGER INTER
       CHARACTER*5 FNAPP
 *
       READ(IDATI,5000) IB,IE1,IE2,IE3,IE,JB,JE1,JE2,JE3,JE,
@@ -202,7 +204,8 @@
       READ(IDATI,5090) SOLID,CONDS,CS,RHOS
       READ(IDATI,5080) ISB,ISE,JSB,JSE,KSB,KSE
       READ(IDATI,5080) ISB2,ISE2,JSB2,JSE2,KSB2,KSE2
-      READ(IDATI,5100) FNAPP      
+      READ(IDATI,5100) FNAPP
+      READ(IDATI,5110) INTER
 *      
  5000 FORMAT(I5/I5/I5/I5/I5/I5/I5/I5/I5/I5/I5/I5/I5/I5/I5)
  5010 FORMAT(E12.5/E12.5/E12.5/E12.5/E12.5/E12.5/E12.5/E12.5
@@ -217,5 +220,6 @@
  5080 FORMAT(I5/I5/I5/I5/I5/I5)
  5090 FORMAT(I5/E12.5/E12.5/E12.5)
  5100 FORMAT(A5) 
+ 5110 FORMAT(I5)
       RETURN
       END

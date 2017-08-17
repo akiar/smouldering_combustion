@@ -20,6 +20,8 @@
 *            all flow domains.  In enclosures, a position inside the
 *            domain must be selected.
 *
+*     L = 1 Fluid, L = 2 Solid
+*
 ************************************************************************
 *
       IMPLICIT NONE
@@ -520,7 +522,7 @@
 *     Set temperature at heater 
 *
 *      J = HEATER
-*      L = 2
+*      L = 1
 *      DO 50 I = IB,IE
 *       DO 55 K = KB,KE
 *        ATW(L,L,I,J,K) = 0.0

@@ -85,7 +85,7 @@
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
 *
          IF ((J == HEATER).AND.(TTIME<=HEATERTIME)) THEN
-          INTGEN = 750000.0 !30341.59695    ! Zanoni et al Table 6
+          INTGEN = 750000.0 !30341.59695 ! Zanoni et al Table 6
          ELSE 
           INTGEN = 0.0
          END IF
@@ -236,7 +236,7 @@
       REAL*8 VEL
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K
-*     
+*
       REAL*8 RHO(ID,JD,KD),VISC(ID,JD,KD)
 *
       DO 30 K=KB,KE  
@@ -247,7 +247,7 @@
 *        
          QW(I,J,K) = -1.0*DCCE(I,J,K)+DCCE(I-1,J,K)
      C               -DCCN(I,J,K)+DCCN(I,J-1,K)
-     C               -DCCT(I,J,K)+DCCT(I,J,K-1)     
+     C               -DCCT(I,J,K)+DCCT(I,J,K-1)
 *
 *        Darcy and Forchheimer terms
 *

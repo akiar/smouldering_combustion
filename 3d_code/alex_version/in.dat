@@ -63,7 +63,7 @@
 00001          ADVSCM  =1 I-UDS, =2 I-CDS, =3 I-TVD-MUSCL
 00001          ISOTHM  =0 isothermal, =1 solve energy eqn + mass fraction.
 00001          POROUS  =0 no porous region, =1 constant pptys, =2 carbon foam
-00004          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE
+00004          PCONV Sets correlation, =0 AL, =1 POCO, =2 218, =3 LTE =4 ASHRAF =5 MARCO
 +0.37000E+00   EPS Mean porosity of porous region
 +2.00000E-03   PD Pore diameter of porous region (m)
 +1.00000E-10   LD Ligament diameter of porous region (1 only) (m)   !
@@ -108,3 +108,4 @@
 00000          KSB2 First index in k of second solid region
 00000          KSE2 Last index in k of second solid region
 VENK2          FNAPP text to be appended to file names
+00001          INTER Interpolate air properties =0 NO =1 YES 
