@@ -20,13 +20,6 @@
 *
        CALL TRANGE(TMAX,TMIN,PMAX,PMIN, PROPERTY,TF(I,J,K))
        PHI(I,J,K) = (TF(I,J,K)-TMIN)/(TMAX-TMIN)*(PMAX-PMIN)+PMIN
-       IF (I==IB .AND. J==JB .AND. K==KB) THEN
-        PRINT*, PHI(IB,JB,KB)
-        PRINT*, TF(I,J,K)
-        PRINT*, TMAX,TMIN
-        PRINT*, PMAX,PMIN
-       ENDIF 
-*
  10   CONTINUE
  20   CONTINUE
  30   CONTINUE

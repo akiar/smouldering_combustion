@@ -158,7 +158,7 @@
 *
       HEATERTIME = 2400.0 !Heater off time 
       FANTIME = 1800.0    !Fan on time
-      HEATER = 18         ! 60:14 80:18
+      HEATER = 16         ! 60:14 80:16
 *
 *--Read input parameters
 *
@@ -215,11 +215,17 @@
 *  LD is used in DEQ array
 *
       IF(POROUS.EQ.2) THEN
-       CALL CFPPTY(PRSTY,SLDTY,DEQ,CFORCH,KPERM,MUEFF,
+*
+*     CARBON FOAM - NOT USED IN THESIS
+*      
+       CALL CFPPTY(PRSTY,SLDTY,DEQ,CFORCH,KPERM,MUEFF,    ! DEQ USED
      C             KEFF0,KEFFX,KEFFY,KEFFZ,SPECSA, 
      C             EPS,PD,DEPSDZ,VISC,VISCB,
      C             PERM,FORCH,KS,COND,CONDS,ZP,GRDZ,PI,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+*
+*     POROUS PROPERTIES
+*
       ELSE
        CALL PPTYS(PRSTY, DBL1,EPS,DBL0, 
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)   
@@ -233,13 +239,13 @@
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
        CALL PPTYS(KEFFZ, COND0,CONDSZ,CONDS,              !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
-       CALL PPTYS(DEQ, DBL0,LD,DBL0, 
+       CALL PPTYS(DEQ, DBL0,LD,DBL0,                      ! LD USED
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
        CALL PPTYS(CFORCH, DBL0,FORCH,DBL0, 
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
        CALL PPTYS(KPERM, DBL0,PERM,DBL0, 
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
-       CALL PPTYS(SPECSA, DBL0,ASF,DBL0, 
+       CALL PPTYS(SPECSA, DBL0,ASF,DBL0,                  ! ASF USED
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)    
        CALL PPTYS(MUEFF, VISC0,VISCB/EPS,DBL0,            !
      C            CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
@@ -353,12 +359,13 @@
 *
 *--Compute coefficients for fluid phase energy equation
 *
-        CALL CONV(HSF, U,V,W,PRSTY,PD,DEQ,                    
+        CALL CONV(HSF, U,V,W,PRSTY,PD,DEQ,                    ! DEQ USED
      C            RHO,CP,COND,VISC,                           !
-     C            PCONV,CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C            PCONV,CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
+     C            COND0,RHO0,VISC0,CP0)
         CALL PPTYS(DENST, RHO0,RHO0,RHOS,                     ! change from RHO0 to RHO somehow
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)      
-        CALL ADDISP(KEFF, KEFF0,U,V,W,PRSTY,KPERM,PD,LD,      
+        CALL ADDISP(KEFF, KEFF0,U,V,W,PRSTY,KPERM,PD,
      C              RHO,CP,COND,VISC,                         !
      C              CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
         CALL DIFPHI(DEF,DNF,DTF, KEFF,KEFF,KEFF,AREP,ARNP,ARTP,
@@ -377,7 +384,8 @@
         CALL SRCTF(QTF,RTF, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
      C             TTIME,
-     C             HEATERTIME,HEATER)
+     C             HEATERTIME,HEATER,
+     C             DTIME,GRDY)
         CALL COEFFM(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C              ME,MN,MT,DEF,DNF,DTF,QTF,RTF,TFOLD,TF,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,
@@ -394,7 +402,8 @@
         CALL SRCTS(QTS,RTS, HSF,SPECSA,VOLP,
      C             CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
      C             TTIME,
-     C             HEATERTIME,HEATER)
+     C             HEATERTIME,HEATER,
+     C             DTIME,GRDY)
         CALL COEFFM(ATP,ATW,ATE,ATS,ATN,ATB,ATT,BT,
      C              ME,MN,MT,DES,DNS,DTS,QTS,RTS,TSOLD,TS,VOLP,
      C              ALFAE,ALFAN,ALFAT,DIEP,DJNP,DKTP,

@@ -4,7 +4,8 @@
 ************************************************************************
       SUBROUTINE SRCTF(QT,RT, DCCE,DCCN,DCCT,HSF,SPECSA,VOLP,
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME,
-     C                 HEATERTIME,HEATER)
+     C                 HEATERTIME,HEATER,
+     C                 DTIME,GRDY)
 *
 *     Subroutine to calculate the net source of T in each interior
 *     control volume for the entire volume. Fluid-phase.
@@ -22,7 +23,7 @@
       REAL*8 TTIME
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,HEATER
-      REAL*8 INTGEN,HEATERTIME
+      REAL*8 INTGEN,HEATERTIME,DTIME,GRDY
 *
       DO 30 K=KB,KE
        DO 20 J=JB,JE
@@ -31,7 +32,8 @@
 *        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES
 *
          IF ((J == HEATER).AND.(TTIME<=HEATERTIME)) THEN
-          INTGEN = 750000.0 !30341.59695    ! Zanoni et al Table 6
+          !INTGEN IS PER CONTROL VOLUME - divided by total I and K CVs
+          INTGEN = 25000*DTIME/(GRDY/(JE-JB+2))/(IE-IB+2)/(KE-KB+2) ! Zanoni et al Table 6
          ELSE 
           INTGEN = 0.0
          END IF
@@ -59,7 +61,8 @@
 ************************************************************************
       SUBROUTINE SRCTS(QT,RT, HSF,SPECSA,VOLP,
      C                 CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,TTIME,
-     C                 HEATERTIME,HEATER)
+     C                 HEATERTIME,HEATER,
+     C                 DTIME,GRDY)
 *
 *     Subroutine to calculate the net source of T in each interior
 *     control volume for the entire volume.Solid-phase.
@@ -76,16 +79,16 @@
       REAL*8 TTIME
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K,HEATER
-      REAL*8 INTGEN,HEATERTIME
+      REAL*8 INTGEN,HEATERTIME,DTIME,GRDY
 *
       DO 30 K=KB,KE
        DO 20 J=JB,JE
         DO 10 I=IB,IE
 *
-*        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES 
+*        Set where the internal source acts - CHANGE WITH NUMBER OF Y CONTROL VOLUMES
 *
          IF ((J == HEATER).AND.(TTIME<=HEATERTIME)) THEN
-          INTGEN = 750000.0 !30341.59695 ! Zanoni et al Table 6
+          INTGEN = 25000*DTIME/(GRDY/(JE-JB+2))/(IE-IB+2)/(KE-KB+2) !750000.0 !39603.95 ! Zanoni et al Table 6
          ELSE 
           INTGEN = 0.0
          END IF
@@ -103,7 +106,7 @@
  20    CONTINUE
  30   CONTINUE
       RETURN
-      END    
+      END
 *
 ************************************************************************
       SUBROUTINE SRCU(QU,RU, DCCE,DCCN,DCCT,VOLP,

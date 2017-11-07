@@ -1,7 +1,7 @@
 *     file addisp.f
 ***********************************************************************
 *
-      SUBROUTINE ADDISP(KEFF, KEFF0,U,V,W,PRSTY,KPERM,PD,LD,
+      SUBROUTINE ADDISP(KEFF, KEFF0,U,V,W,PRSTY,KPERM,PD,
      C                  RHO,CP,COND,VISC,
      C                  CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
 *
@@ -14,7 +14,6 @@
 *     PRSTY(ID,JD,KD) porosity array; input
 *     KPERM(ID,JD,KD) permeability array; input
 *     PD pore diameter of porous medium; input
-*     LD ligament diameter of porous medium; input
 *     RHO  fluid density; input
 *     CP  fluid specific heat capacity; input
 *     COND  fluid thermal conductivity; input
@@ -31,7 +30,7 @@
       IMPLICIT NONE
       REAL*8 KEFF(ID,JD,KD),KEFF0(ID,JD,KD)
       REAL*8 U(ID,JD,KD),V(ID,JD,KD),W(ID,JD,KD)
-      REAL*8 PRSTY(ID,JD,KD),KPERM(ID,JD,KD),PD,LD
+      REAL*8 PRSTY(ID,JD,KD),KPERM(ID,JD,KD),PD
       REAL*8 VEL,REK,PREKE,CD,KDISP
       INTEGER IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,CVTYPE(ID,JD,KD,NNB+1)
       INTEGER I,J,K

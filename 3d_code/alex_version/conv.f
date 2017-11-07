@@ -3,7 +3,8 @@
 ************************************************************************
       SUBROUTINE CONV(HSF, U,V,W,PRSTY,PD,DEQ,
      C                RHO,CP,COND,VISC,
-     C                PCONV,CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB)
+     C                PCONV,CVTYPE,IB,IE,JB,JE,KB,KE,ID,JD,KD,NNB,
+     C                COND0,RHO0,VISC0,CP0)
 *
 *     Subroutine to calculate the interface exchange coefficient for
 *     the non-equilibrium heat transfer model in porous volumes using 
@@ -38,6 +39,7 @@
       INTEGER PCONV,I,J,K
 *
       REAL*8 RHO(ID,JD,KD),CP(ID,JD,KD),COND(ID,JD,KD),VISC(ID,JD,KD)
+      REAL*8 COND0,RHO0,VISC0,CP0
 *
 *     Set coefficients for specified correlation
 *
@@ -78,7 +80,14 @@
            ELSE
             RE = RHO(I,J,K)*VEL*DEQ(I,J,K)/VISC(I,J,K)                    !
            ENDIF
-           HSF(I,J,K) = COND(I,J,K)*CT*(RE**MEXP)*(PR**NEXP)/DEQ(I,J,K)   !
+           IF (PCONV.EQ.6) THEN    !FULL ASHRAF CORRELATION - constants found from his thesis
+            HSF(I,J,K) = COND(I,JB,K)/COND0 + 0.82*(PR**(1.0/3.0))*
+     C                   (RE**0.5)*
+     C                   ((RHO0*VISC0/RHO(I,JB,K)/VISC(I,JB,K))**0.149)*
+     C                   ((CP0/CP(I,JB,K))**1.424)
+           ELSE
+            HSF(I,J,K) = COND(I,J,K)*CT*(RE**MEXP)*(PR**NEXP)/DEQ(I,J,K)   !
+           ENDIF 
          ENDIF
  10     CONTINUE
  20    CONTINUE
